@@ -1,31 +1,17 @@
 __author__ = "Richard Nguyen"
-__doc__ = "For submission purpose only"
 
 from typing import Deque, List, Set, Tuple
 from collections import deque
 
 
-def read_words_from(filename: str) -> List[str]:
-    word_list: List[str] = []
-    with open(filename, "r") as f:
-        for line in f:
-            word_list.append(line.strip())
-
-    return word_list
-
-
-def read_pairs_from(filename: str) -> List[Tuple[str, str]]:
-    pair_list: List[Tuple[str, str]] = []
-    with open(filename, "r") as f:
-        for line in f:
-
-            pair = tuple(line.strip().split(' '))
-            pair_list.append(pair)
-
-    return pair_list
-
-
 def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
+    """
+    Word ladder is to find the shortest path of word transformantion from SRC
+    to DEST by changing one letter each step.
+
+    """
+
+    # Remove all possible dups
     word_set: Set[str] = set(word_list)
     if dest not in word_set:
         return []
@@ -36,7 +22,16 @@ def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
     visited_word_set: List[str] = list()
     visited_word_set.append(src)
 
+    # word_ladder() is a two-step process. First, it builds the word ladder
+    # tree that contains all possible transformation starting from SRC
+    #
+    # Then, when there is a word matched with DEST, it performs a simple
+    # shortest path algorithm to find all the steps
     visited_word_tree: List[Tuple[int, str]] = list()
+
+    # Each node on the tree contains 1. an index of its parent
+    # and 2. the content of itself. The SRC will have an index
+    # of -1 to indicate it's the root
     word_index: Tuple[int, str] = (-1, src)
     visited_word_tree.append(word_index)
 
@@ -48,9 +43,10 @@ def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
         word: str = word_queue.popleft()
         count += 1
 
-        if word == dest:
+        if word == dest:    # building the tree is done
             word_set_index = visited_word_set.index(word)
 
+            # Traverse to get all the word transformation
             while word_set_index != -1:
                 parent_index, current_word = visited_word_tree[word_set_index]
                 return_word_ladder.append(current_word)
@@ -69,29 +65,8 @@ def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
                     word_queue.append(new_string)
                     visited_word_set.append(new_string)
 
+                    # build the word_ladder graph
                     word_index = (count, new_string)
                     visited_word_tree.append(word_index)
 
     return []
-
-
-def main():
-    word_list = read_words_from("data/words.txt")
-    pair_list = read_pairs_from("data/pairs.txt")
-
-    for begin, end in pair_list:
-        print(f"** Looking for ladder from {begin} to {end}")
-        ladder = word_ladder(begin, end, word_list)
-
-        if (ladder):
-            print("The ladder is:", end=" ")
-            print(" -> ".join(ladder))
-            print(f"Changes: {len(ladder)}")
-        else:
-            print(f"No ladder found from {begin} to {end}")
-
-        print()
-
-
-if __name__ == '__main__':
-    main()
