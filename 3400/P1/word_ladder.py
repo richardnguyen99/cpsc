@@ -1,7 +1,3 @@
-"""
-word_ladder.py: From a given starting word, find the shortest "ladder" of single letter changes which leads to some final word, where each intermediate state is also a word.
-"""
-
 __author__ = "Richard Nguyen"
 
 from typing import Deque, List, Set, Tuple
@@ -44,35 +40,33 @@ def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
     count = -1
 
     while word_queue:
-        length: int = len(word_queue)
+        word: str = word_queue.popleft()
+        count += 1
 
-        for i in range(0, length):
-            word: str = word_queue.popleft()
-            count += 1
+        if word == dest:    # building the tree is done
+            word_set_index = visited_word_set.index(word)
 
-            if word == dest:    # building the tree is done
-                word_set_index = visited_word_set.index(word)
+            # Traverse to get all the word transformation
+            while word_set_index != -1:
+                parent_index, current_word = visited_word_tree[word_set_index]
+                return_word_ladder.append(current_word)
+                word_set_index = parent_index
 
-                while word_set_index != -1:
-                    parent_index, current_word = visited_word_tree[word_set_index]
-                    return_word_ladder.append(current_word)
-                    word_set_index = parent_index
+            return_word_ladder.reverse()
+            return (return_word_ladder)
 
-                return_word_ladder.reverse()
-                return (return_word_ladder)
+        for j in range(len(word)):
+            for k in range(ord('a'), ord('z') + 1):
+                char_list = [char for char in word]
+                char_list[j] = chr(k)
 
-            for j in range(len(word)):
-                for k in range(ord('a'), ord('z') + 1):
-                    char_list = [char for char in word]
-                    char_list[j] = chr(k)
+                new_string: str = "".join(char_list)
+                if (new_string in word_set) and (new_string not in visited_word_set):
+                    word_queue.append(new_string)
+                    visited_word_set.append(new_string)
 
-                    new_string: str = "".join(char_list)
-                    if (new_string in word_set) and (new_string not in visited_word_set):
-                        word_queue.append(new_string)
-                        visited_word_set.append(new_string)
-
-                        # build
-                        word_index = (count, new_string)
-                        visited_word_tree.append(word_index)
+                    # build the word_ladder graph
+                    word_index = (count, new_string)
+                    visited_word_tree.append(word_index)
 
     return []
