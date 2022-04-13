@@ -76,8 +76,8 @@ def word_ladder(src: str, dest: str, word_list: List[str]) -> List[str]:
 
 
 def main():
-    word_list = read_words_from("data/words.txt")
-    pair_list = read_pairs_from("data/pairs.txt")
+    word_list = read_words_from("words.txt")
+    pair_list = read_pairs_from("pairs.txt")
 
     for begin, end in pair_list:
         print(f"** Looking for ladder from {begin} to {end}")
