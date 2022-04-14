@@ -6,9 +6,10 @@ InFest::InFest(size_t x, size_t y, size_t gridflea_size, size_t gridflea_num) : 
 {
     this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
 
-    for (int i = 0; i < this->_num; i++)
+    int step = 10;
+    for (size_t i = 0; i < this->_num; i++, step += 10)
     {
-        this->_gridfleas[i] = GridFlea(x, y++, gridflea_size);
+        this->_gridfleas[i] = GridFlea(x, y + step, gridflea_size);
     }
 }
 
@@ -16,7 +17,7 @@ InFest::InFest(const InFest &inFest) : _num(inFest._num)
 {
     this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
 
-    for (int i = 0; i < this->_num; i++)
+    for (size_t i = 0; i < this->_num; i++)
     {
         this->_gridfleas[i] = GridFlea(inFest._gridfleas[i]);
     }
@@ -33,12 +34,13 @@ InFest &InFest::operator=(const InFest &inFest)
     if (this == &inFest)
         return *this;
 
-    delete[] this->_gridfleas;
+    if (this->_gridfleas != nullptr)
+        delete[] this->_gridfleas;
 
     this->_num = inFest._num;
 
     this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
-    for (int i = 0; i < this->_num; i++)
+    for (size_t i = 0; i < this->_num; i++)
     {
         this->_gridfleas[i] = GridFlea(inFest._gridfleas[i]);
     }
@@ -56,11 +58,8 @@ InFest &InFest::operator=(InFest &&inFest)
 
     this->_num = inFest._num;
 
-    this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
-    for (int i = 0; i < this->_num; i++)
-    {
-        this->_gridfleas[i] = std::move(inFest._gridfleas[i]);
-    }
+    this->_gridfleas = inFest._gridfleas;
+    inFest._gridfleas = nullptr;
 
     return *this;
 }
@@ -82,7 +81,7 @@ int InFest::value()
         return -1;
 
     int sum = 0;
-    for (int i = 0; i < this->_num; i++)
+    for (size_t i = 0; i < this->_num; i++)
     {
         sum += this->_gridfleas[i].value();
     }
@@ -95,8 +94,44 @@ void InFest::move(int p)
     if (this->_gridfleas == nullptr)
         return;
 
-    for (int i = 0; i < this->_num; i++)
+    for (size_t i = 0; i < this->_num; i++)
     {
         this->_gridfleas[i].move(p);
     }
+}
+
+int InFest::min()
+{
+    if (this->_num == 0)
+        return -1;
+
+    if (this->_num == 1)
+        return this->_gridfleas[0].value();
+
+    int min = this->_gridfleas[0].value();
+    for (size_t i = 1; i < this->_num; i++)
+    {
+        if (min > this->_gridfleas[i].value())
+            min = this->_gridfleas[i].value();
+    }
+
+    return min;
+}
+
+int InFest::max()
+{
+    if (this->_num == 0)
+        return -1;
+
+    if (this->_num == 1)
+        return this->_gridfleas[0].value();
+
+    int max = this->_gridfleas[0].value();
+    for (size_t i = 1; i < this->_num; i++)
+    {
+        if (max < this->_gridfleas[i].value())
+            max = this->_gridfleas[i].value();
+    }
+
+    return max;
 }

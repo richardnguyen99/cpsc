@@ -29,6 +29,7 @@ private:
     bool _is_outside_grid();
 
 public:
+    GridFlea();
     GridFlea(size_t x, size_t y, size_t size);
     GridFlea(const GridFlea &gridFlea);
 

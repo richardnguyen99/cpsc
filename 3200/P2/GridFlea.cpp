@@ -3,6 +3,11 @@
 
 #include "GridFlea.h"
 
+GridFlea::GridFlea() : _size(5)
+{
+    _initialize_gridflea(0, 0);
+}
+
 GridFlea::GridFlea(size_t x, size_t y, size_t size) : _size(size)
 {
     _initialize_gridflea(x, y);
@@ -62,7 +67,7 @@ void GridFlea::reset()
 
 bool GridFlea::_is_outside_grid()
 {
-    return this->_current_x < 0 || this->_current_x > XGRID || this->_current_y < 0 || this->_current_y > YGRID;
+    return this->_current_x < 0 || this->_current_x > (int)XGRID || this->_current_y < 0 || this->_current_y > (int)YGRID;
 }
 
 void GridFlea::_initialize_gridflea(size_t x, size_t y)

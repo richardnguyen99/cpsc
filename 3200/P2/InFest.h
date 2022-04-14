@@ -24,6 +24,8 @@ public:
 
     int value();
     void move(int p);
+    int min();
+    int max();
 };
 
 #endif // __INFREST_H
