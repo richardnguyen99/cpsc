@@ -14,5 +14,8 @@ main: $(OBJ)
 %.o: %.cpp $(HDR)
 	$(CXX) $(FLAGS) -c -o $@ $<
 
+tar:
+	tar -cvf p2.tar *.cpp *.h Makefile
+
 clean:
-	rm -rf main *.o
+	rm -rf main *.o *.tar
