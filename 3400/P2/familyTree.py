@@ -86,20 +86,44 @@ class Person():
         for fam in self._asSpouse:
             families[fam].printFamily(self._id, prefix)
 
+    def printAncestors(self, height=0) -> None:
+        """
+        Print info for this Person and the ancestors in families to which
+        this Person is a descendant.
+        """
+
+        indentSize: str = "  " * height
+
+        if self._asChild is None:
+            print(f"{indentSize}{height} {self.name()}")
+            return
+
+        parents = families[self._asChild]
+
+        if parents is None:
+            return
+
+        # The idea behind this function is to use in-order traversal in binary
+        # tree so we don't need to put extra functions to support this method.
+        Person.getPerson(parents._spouse1.personRef).printAncestors(height + 1)
+
+        print(f"{indentSize}{height} {self.name()}")
+
+        Person.getPerson(parents._spouse2.personRef).printAncestors(height + 1)
+
     def name(self) -> str:
         """
         Return a representation of this Person's name
         """
 
-        return self._given + ' ' + self._surname.upper() + ' ' + self._suffix
+        return f"{self._given} {self._surname.upper()} {self._suffix}"
 
     def treeInfo(self) -> str:
         """
         Return a string representation of the structure in which the Person is included
         """
-        childString = ' | asChild: ' + self._asChild if self._asChild else ' '
-        spouseString = ' | asSpouse: ' + \
-            ','.join(self._asSpouse) if self._asSpouse else ' '
+        childString = f" | asChild: {self._asChild if self._asChild else ' '}"
+        spouseString = f" | asSpouse: {','.join(self._asSpouse) if self._asSpouse else ' '}"
 
         return childString + spouseString
 
@@ -149,7 +173,7 @@ class Person():
         """
         Return a string representation of the Person's information such as name, event and family tree
         """
-        return self.name() + self.eventInfo() + self.treeInfo()
+        return f"{self.name()}{self.eventInfo()}{self.treeInfo()}"
 
 
 Spouse = namedtuple('Spouse', ['personRef', 'tag'])
@@ -324,12 +348,13 @@ def main():
 
     printAllFamilyInfo()
 
-    person = "I46"  # Default selection to work with Kennedy.ged file
+    person = "I55"  # Default selection to work with Kennedy.ged file
 # Uncomment the next line to make the program interactive
 ##    person = input("Enter person ID for descendants chart:")
 
-    getPerson(person).printDescendants()
+    # getPerson(person).printDescendants()
     # print(getPerson(person).isDescendant("I45"))
+    getPerson(person).printAncestors()
 
 
 if __name__ == '__main__':
