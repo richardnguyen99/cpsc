@@ -28,10 +28,75 @@ Testing to show the data structures:
 """
 
 from __future__ import annotations
+import readline
 from typing import Dict, List, Tuple
 from collections import namedtuple
 __author__ = "Richard Nguyen"
-__version__ = "0.1"
+__version__ = "0.2"
+
+
+class Event():
+    """
+    An Event instance is associated with one Person by referencing Person ID.
+    """
+
+    def __init__(self, personRef):
+        self._id = personRef
+        self._birthDate = ''
+        self._birthPlace = ''
+        self._deathDate = ''
+        self._deathPlace = ''
+        self._burriedAt = ''
+        self._marriedTo = ''
+        self._marriedDate = ''
+        self._marriedPlace = ''
+
+    def addMarriageInfo(self, marriageInfo: List[str, str]) -> None:
+        self._marriedDate = marriageInfo[1]
+        self._marriedPlace = marriageInfo[2]
+
+    def addMarriageDate(self, marriageDate: str) -> None:
+        self._marriedDate = marriageDate
+
+    def addMarriagePlace(self, marriagePlace: str) -> None:
+        self._marriedPlace = marriagePlace
+
+    def addBirthDate(self, birthInfo):
+        self._birthDate = birthInfo[0]
+        self._birthPlace = birthInfo[1]
+
+    def addBirthDate(self, birthDate: str) -> None:
+        self._birthDate = birthDate
+
+    def addBirthPlace(self, birthPlace: str) -> None:
+        self._birthPlace = birthPlace
+
+    def addDeathDate(self, deathDate: str) -> None:
+        self._deathDate = deathDate
+
+    def addDeathPlace(self, deathPlace: str) -> None:
+        self._deathPlace = deathPlace
+
+    # def addDeathDate(self, deathInfo):
+        # self._deathDate = deathInfo[0]
+        # self._deathPlace = deathInfo[1]
+        # self._burriedAt = deathInfo[2]
+
+    def birth(self) -> str:
+        return f"n {self._birthDate} {self._birthPlace}"
+
+    def death(self) -> str:
+        return f"d {self._deathDate} {self._deathPlace}"
+
+    def marriage(self) -> str:
+        return f"m {self._marriedDate} {self._marriedPlace}"
+
+    def __str__(self) -> str:
+        return ", ".join([self.birth(), self.marriage(), self.death()])
+
+    @staticmethod
+    def getEvent(personRef: str) -> Event:
+        return events[personRef]
 
 
 class Person():
@@ -132,7 +197,7 @@ class Person():
         """
         Return a string representation of events once they are recognized
         """
-        return ''
+        return Event.getEvent(self._id).__str__()
 
     @staticmethod
     def getPerson(personRef: str) -> Person:
@@ -173,7 +238,7 @@ class Person():
         """
         Return a string representation of the Person's information such as name, event and family tree
         """
-        return f"{self.name()}{self.eventInfo()}{self.treeInfo()}"
+        return f"{self.name()}, {self.eventInfo()}{self.treeInfo()}"
 
 
 Spouse = namedtuple('Spouse', ['personRef', 'tag'])
@@ -249,6 +314,7 @@ class Family:
 
 persons: Dict[str, Person] = dict()
 families: Dict[str, Family] = dict()
+events: Dict[str, Event] = dict()
 
 
 def getPerson(personID):
@@ -278,9 +344,36 @@ def processGEDCOM(file) -> None:
     def getPointer(line: str) -> str:
         return line[8:].split('@')[0]
 
+    def processEvent(newEvent: Event) -> None:
+        nonlocal line
+        line = f.readline()
+
+        while line[0] != '0':
+            tag = line[2:6]
+
+            line = f.readline()
+
     def processPerson(newPerson: Person) -> None:
         nonlocal line
         line = f.readline()
+        option = ''
+
+        newEvent = events[newPerson._id]
+
+        methods = {
+            "BIRT": {
+                "DATE": newEvent.addBirthDate,
+                "PLAC": newEvent.addBirthPlace
+            },
+            "DEAT": {
+                "DATE": newEvent.addDeathDate,
+                "PLAC": newEvent.addDeathPlace
+            },
+            "MARR": {
+                "DATE": newEvent.addMarriageDate,
+                "PLAC": newEvent.addMarriagePlace
+            }
+        }
         while line[0] != '0':
             tag = line[2:6]
 
@@ -290,7 +383,10 @@ def processGEDCOM(file) -> None:
                 names[0] = names[0].strip()
                 names[2] = names[2].strip()
                 newPerson.addName(names)
-
+            elif tag == 'BIRT' or tag == 'DEAT':
+                option = tag
+            elif (tag == 'DATE' or tag == 'PLAC') and (option == 'BIRT' or option == 'DEAT'):
+                methods[option][tag](line[6:].strip())
             elif tag == 'FAMS':
                 newPerson.addIsSpouse(getPointer(line))
             elif tag == 'FAMC':
@@ -324,6 +420,7 @@ def processGEDCOM(file) -> None:
             if (fields[2] == 'INDI'):
                 ref = fields[1].strip('@')
                 persons[ref] = Person(ref)
+                events[ref] = Event(ref)
                 processPerson(persons[ref])
 
             elif (fields[2] == 'FAM'):
@@ -340,7 +437,7 @@ def processGEDCOM(file) -> None:
 def main():
     filename = "gedcom/Kennedy.ged"  # Set a default name for the file to be processed
 # Uncomment the next line to make the program interactive
-##    filename = input("Type the name of the GEDCOM file:")
+# filename = input("Type the name of the GEDCOM file:")
 
     processGEDCOM(filename)
 
@@ -350,7 +447,7 @@ def main():
 
     person = "I55"  # Default selection to work with Kennedy.ged file
 # Uncomment the next line to make the program interactive
-##    person = input("Enter person ID for descendants chart:")
+# person = input("Enter person ID for descendants chart:")
 
     # getPerson(person).printDescendants()
     # print(getPerson(person).isDescendant("I45"))
