@@ -28,9 +28,8 @@ Testing to show the data structures:
 """
 
 from __future__ import annotations
-import readline
-from typing import Dict, List, Tuple
-from collections import namedtuple
+from typing import Deque, Dict, List
+from collections import deque, namedtuple
 __author__ = "Richard Nguyen"
 __version__ = "0.2"
 
@@ -83,16 +82,25 @@ class Event():
         # self._burriedAt = deathInfo[2]
 
     def birth(self) -> str:
-        return f"n {self._birthDate} {self._birthPlace}"
+        if self._birthDate or self._birthPlace:
+            return f"n {self._birthDate} {self._birthPlace}"
+
+        return ''
 
     def death(self) -> str:
-        return f"d {self._deathDate} {self._deathPlace}"
+        if self._deathDate or self._deathPlace:
+            return f"d {self._deathDate} {self._deathPlace}"
+
+        return ''
 
     def marriage(self) -> str:
-        return f"m {self._marriedDate} {self._marriedPlace}"
+        if self._marriedDate or self._marriedPlace:
+            return f"m {self._marriedDate} {self._marriedPlace}"
+
+        return ''
 
     def __str__(self) -> str:
-        return ", ".join([self.birth(), self.marriage(), self.death()])
+        return ', '.join(filter(None, [self.birth(), self.marriage(), self.death()]))
 
     @staticmethod
     def getEvent(personRef: str) -> Event:
@@ -146,7 +154,7 @@ class Person():
         this Person is spouse to
         """
 
-        print(prefix + self.name())
+        print(prefix + str(self))
 
         for fam in self._asSpouse:
             families[fam].printFamily(self._id, prefix)
@@ -176,12 +184,104 @@ class Person():
 
         Person.getPerson(parents._spouse2.personRef).printAncestors(height + 1)
 
+    def printCousins(self, nth: int) -> None:
+        """
+        Print out all the nth cousins of the Person.
+
+        Nth cousins are considered as grandchildren of Nth (great) grandparents
+        """
+
+        # wrong user input
+        if nth < 1:
+            print("No cousins")
+            return
+
+        # Everything after 3 should be replace with th suffix
+        ordinalString = ("First", "Second", "Third")
+        print(
+            f"{ordinalString[nth] if nth < 4 else f'{nth}th'} counsins for {self.name()}")
+
+        # If the Person is the root of the family tree
+        if self._asChild is None:
+            print("\tNo cousins")
+            return
+
+        # 1 represents the height between the Person and the parent
+        # while nth is the height to the nth grandparent
+        height = nth + 1
+        familyQueue: Deque[Family] = deque()
+
+        # Ignore presenting family refs.
+        # I.e. First grandparent ignores the Person family since there is no cousin
+        ignoreFamilyRefs: Deque[str] = deque()
+
+        family = families[self._asChild]
+        ignoreFamilyRefs.append(self._asChild)
+
+        # Parents' side
+        spouse1 = Person.getPerson(family._spouse1.personRef)
+        spouse2 = Person.getPerson(family._spouse2.personRef)
+
+        # Parents' families
+        if spouse1._asChild is not None:
+            familyQueue.append(families[spouse1._asChild])
+        if spouse2._asChild is not None:
+            familyQueue.append(families[spouse2._asChild])
+
+        if familyQueue is None:
+            print("\tNo cousins")
+
+        heightCount = 2
+        while heightCount < height:  # have not reached the desired grandparents
+            length = len(familyQueue)
+
+            for _ in range(length):
+                family = familyQueue.popleft()
+                spouse1 = Person.getPerson(family._spouse1.personRef)
+                spouse2 = Person.getPerson(family._spouse2.personRef)
+
+                familyQueue.append(families[spouse1._asChild])
+                familyQueue.append(families[spouse2._asChild])
+                ignoreFamilyRefs.append(spouse1._asChild)
+                ignoreFamilyRefs.append(spouse2._asChild)
+
+            heightCount += 1
+
+        while heightCount > 1:
+            length = len(familyQueue)
+
+            for _ in range(length):
+                family = familyQueue.popleft()
+
+                for i in range(len(family._children)):
+                    childRef = family._children[i]
+                    child = Person.getPerson(childRef)
+
+                    for fam in child._asSpouse:
+                        familyQueue.append(families[fam])
+
+            heightCount -= 1
+
+        hasCousins = False
+        while familyQueue:
+            family = familyQueue.popleft()
+            if family._id in ignoreFamilyRefs:
+                continue
+
+            for children in family._children:
+                hasCousins = True
+                child = Person.getPerson(children)
+                print(f"\t{child}")
+
+        if not hasCousins:
+            print("\tNo cousins")
+
     def name(self) -> str:
         """
         Return a representation of this Person's name
         """
 
-        return f"{self._given} {self._surname.upper()} {self._suffix}"
+        return " ".join(filter(None, [self._given, self._surname.upper(), self._suffix]))
 
     def treeInfo(self) -> str:
         """
@@ -218,15 +318,17 @@ class Person():
         if (self._id == personID):
             return True
 
-        if self._asChild is None:
+        person = Person.getPerson(personID)
+
+        if person._asChild is None:
             return False
 
-        parents = families[self._asChild]
+        parents = families[person._asChild]
 
         if parents is None:
             return False
 
-        if parents._spouse1.personRef == personID or parents._spouse2.personRef == personID:
+        if parents._spouse1.personRef == self._id or parents._spouse2.personRef == self._id:
             return True
 
         if Person.getPerson(parents._spouse1.personRef).isDescendant(personID) or Person.getPerson(parents._spouse2.personRef).isDescendant(personID):
@@ -289,7 +391,7 @@ class Family:
             else:
                 secondSpouse = self._spouse1.personRef
 
-            print(prefix + '+' + persons[secondSpouse].name())
+            print(prefix + '+' + str(persons[secondSpouse]))
 
         for child in self._children:
             persons[child].printDescendants(prefix+'|--')
@@ -344,15 +446,6 @@ def processGEDCOM(file) -> None:
     def getPointer(line: str) -> str:
         return line[8:].split('@')[0]
 
-    def processEvent(newEvent: Event) -> None:
-        nonlocal line
-        line = f.readline()
-
-        while line[0] != '0':
-            tag = line[2:6]
-
-            line = f.readline()
-
     def processPerson(newPerson: Person) -> None:
         nonlocal line
         line = f.readline()
@@ -377,14 +470,15 @@ def processGEDCOM(file) -> None:
         while line[0] != '0':
             tag = line[2:6]
 
+            if line[0] == '1':
+                option = tag
+
             if tag == 'NAME':
                 names = line[6:].split('/')
 
                 names[0] = names[0].strip()
                 names[2] = names[2].strip()
                 newPerson.addName(names)
-            elif tag == 'BIRT' or tag == 'DEAT':
-                option = tag
             elif (tag == 'DATE' or tag == 'PLAC') and (option == 'BIRT' or option == 'DEAT'):
                 methods[option][tag](line[6:].strip())
             elif tag == 'FAMS':
@@ -397,16 +491,33 @@ def processGEDCOM(file) -> None:
     def processFamily(newFamily: Family) -> None:
         nonlocal line
         line = f.readline()
-
+        husbandRef = ''
+        wifeRef = ''
         while line[0] != '0':
             tag = line[2:6]
 
+            if line[0] == '1':
+                option = tag
+
             if tag == 'HUSB':
                 newFamily.addSpouse(getPointer(line), 'HUSB')
+                husbandRef = getPointer(line)
             elif tag == 'WIFE':
                 newFamily.addSpouse(getPointer(line), 'WIFE')
+                wifeRef = getPointer(line)
             elif tag == 'CHIL':
                 newFamily.addChild(getPointer(line))
+            elif option == 'MARR' and (tag == 'DATE' or tag == 'PLAC'):
+                if tag == 'DATE':
+                    if husbandRef:
+                        events[husbandRef].addMarriageDate(line[6:].strip())
+                    if wifeRef:
+                        events[wifeRef].addMarriageDate(line[6:].strip())
+                elif tag == 'PLAC':
+                    if husbandRef:
+                        events[husbandRef].addMarriagePlace(line[6:].strip())
+                    if wifeRef:
+                        events[wifeRef].addMarriagePlace(line[6:].strip())
 
             line = f.readline()
 
@@ -449,9 +560,12 @@ def main():
 # Uncomment the next line to make the program interactive
 # person = input("Enter person ID for descendants chart:")
 
-    # getPerson(person).printDescendants()
+    # getPerson('I1').printDescendants()
     # print(getPerson(person).isDescendant("I45"))
-    getPerson(person).printAncestors()
+    # getPerson("I54").printAncestors()
+    print()
+
+    getPerson('I81').printCousins(2)
 
 
 if __name__ == '__main__':
