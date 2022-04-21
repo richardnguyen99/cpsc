@@ -318,21 +318,11 @@ class Person():
         if (self._id == personID):
             return True
 
-        person = Person.getPerson(personID)
-
-        if person._asChild is None:
-            return False
-
-        parents = families[person._asChild]
-
-        if parents is None:
-            return False
-
-        if parents._spouse1.personRef == self._id or parents._spouse2.personRef == self._id:
-            return True
-
-        if Person.getPerson(parents._spouse1.personRef).isDescendant(personID) or Person.getPerson(parents._spouse2.personRef).isDescendant(personID):
-            return True
+        for family in self._asSpouse:
+            for childRef in families[family]._children:
+                child = Person.getPerson(childRef)
+                if child.isDescendant(personID):
+                    return True
 
         return False
 
