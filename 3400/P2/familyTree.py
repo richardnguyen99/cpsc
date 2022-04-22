@@ -168,7 +168,7 @@ class Person():
         indentSize: str = "  " * height
 
         if self._asChild is None:
-            print(f"{indentSize}{height} {self.name()}")
+            print(f"{indentSize}{height} {str(self)}")
             return
 
         parents = families[self._asChild]
@@ -180,7 +180,7 @@ class Person():
         # tree so we don't need to put extra functions to support this method.
         Person.getPerson(parents._spouse1.personRef).printAncestors(height + 1)
 
-        print(f"{indentSize}{height} {self.name()}")
+        print(f"{indentSize}{height} {str(self)}")
 
         Person.getPerson(parents._spouse2.personRef).printAncestors(height + 1)
 
