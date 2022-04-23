@@ -25,13 +25,15 @@ Testing to show the data structures:
     Print info from the collections of Person and Family objects
     Print descendant chart after all lines are processed
 
+
+
 """
 
 from __future__ import annotations
 from typing import Deque, Dict, List
 from collections import deque, namedtuple
 __author__ = "Richard Nguyen"
-__version__ = "0.2"
+__version__ = "0.5"
 
 
 class Event():
@@ -50,60 +52,91 @@ class Event():
         self._marriedDate = ''
         self._marriedPlace = ''
 
-    def addMarriageInfo(self, marriageInfo: List[str, str]) -> None:
-        self._marriedDate = marriageInfo[1]
-        self._marriedPlace = marriageInfo[2]
-
     def addMarriageDate(self, marriageDate: str) -> None:
+        """
+        Set marriage date Event of Person according to Person ID
+        """
+
         self._marriedDate = marriageDate
 
     def addMarriagePlace(self, marriagePlace: str) -> None:
+        """
+        Set marriage place Event of Person according to Person ID
+        """
+
         self._marriedPlace = marriagePlace
 
-    def addBirthDate(self, birthInfo):
-        self._birthDate = birthInfo[0]
-        self._birthPlace = birthInfo[1]
-
     def addBirthDate(self, birthDate: str) -> None:
+        """
+        Set birth date Event of Person according to Person ID
+        """
+
         self._birthDate = birthDate
 
     def addBirthPlace(self, birthPlace: str) -> None:
+        """
+        Set birth place Event of Person according to Person ID
+        """
+
         self._birthPlace = birthPlace
 
     def addDeathDate(self, deathDate: str) -> None:
+        """
+        Set death place Event of Person according to Person ID
+        """
+
         self._deathDate = deathDate
 
     def addDeathPlace(self, deathPlace: str) -> None:
+        """
+        Set death place Event of Person according to Person ID
+        """
+
         self._deathPlace = deathPlace
 
-    # def addDeathDate(self, deathInfo):
-        # self._deathDate = deathInfo[0]
-        # self._deathPlace = deathInfo[1]
-        # self._burriedAt = deathInfo[2]
-
     def birth(self) -> str:
+        """
+        Print string representation for birth event of a Person
+        """
+
         if self._birthDate or self._birthPlace:
             return f"n {self._birthDate} {self._birthPlace}"
 
         return ''
 
     def death(self) -> str:
+        """
+        Print string representation for death event of a Person
+        """
+
         if self._deathDate or self._deathPlace:
             return f"d {self._deathDate} {self._deathPlace}"
 
         return ''
 
     def marriage(self) -> str:
+        """
+        Print string representation for marriage event of a Person
+        """
+
         if self._marriedDate or self._marriedPlace:
             return f"m {self._marriedDate} {self._marriedPlace}"
 
         return ''
 
     def __str__(self) -> str:
+        """
+        Return string representation for all events of a Person
+        """
+
         return ', '.join(filter(None, [self.birth(), self.marriage(), self.death()]))
 
     @staticmethod
     def getEvent(personRef: str) -> Event:
+        """
+        Get an Event for a person from global list of events
+        """
+
         return events[personRef]
 
 
@@ -168,7 +201,7 @@ class Person():
         indentSize: str = "  " * height
 
         if self._asChild is None:
-            print(f"{indentSize}{height} {str(self)}")
+            print(f"{indentSize}{height} {self.name()}{self.eventInfo()}")
             return
 
         parents = families[self._asChild]
@@ -178,13 +211,17 @@ class Person():
 
         # The idea behind this function is to use in-order traversal in binary
         # tree so we don't need to put extra functions to support this method.
+
+        # Print out ancestors from one parent's side
         Person.getPerson(parents._spouse1.personRef).printAncestors(height + 1)
 
-        print(f"{indentSize}{height} {str(self)}")
+        # Print out self
+        print(f"{indentSize}{height} {self.name()}{self.eventInfo()}")
 
+        # Print out ancestors from the other parent's side
         Person.getPerson(parents._spouse2.personRef).printAncestors(height + 1)
 
-    def printCousins(self, nth: int) -> None:
+    def printCousins(self, nth=1) -> None:
         """
         Print out all the nth cousins of the Person.
 
@@ -193,7 +230,8 @@ class Person():
 
         # wrong user input
         if nth < 1:
-            print("No cousins")
+            print(f"Wrong ordinal number: {nth}")
+            print("\tNo cousins")
             return
 
         # Everything after 3 should be replace with th suffix
@@ -231,8 +269,13 @@ class Person():
         if familyQueue is None:
             print("\tNo cousins")
 
+        # At this point there are two families, each is where
+        # one parent is from. if n > 1, go up to the families
+        # where families in familyQueue are belonged to.
+        # Those existing families in familyQueue will be put
+        # in a blacklist so no wrong order of cousin is printed
         heightCount = 2
-        while heightCount < height:  # have not reached the desired grandparents
+        while heightCount < height:
             length = len(familyQueue)
 
             for _ in range(length):
@@ -247,7 +290,12 @@ class Person():
 
             heightCount += 1
 
+        # At the point, familyQueue contains the families where the correct nth
+        # grandparents are spoused to. Continue on append more sub-families to
+        # familyQueue, according to the current family in familyQueue.
         while heightCount > 1:
+            # Breadth-first search where heightCount maintains the height of the tree
+            # Length represents how many families there are in the same height.
             length = len(familyQueue)
 
             for _ in range(length):
@@ -262,6 +310,8 @@ class Person():
 
             heightCount -= 1
 
+        # Here, familyQueue should contain only nth cousins. `hasCounsins` is a flag
+        # to check if the Person has at least one nth cousin.
         hasCousins = False
         while familyQueue:
             family = familyQueue.popleft()
@@ -536,7 +586,7 @@ def processGEDCOM(file) -> None:
 
 
 def main():
-    filename = "gedcom/Kennedy.ged"  # Set a default name for the file to be processed
+    filename = "Kennedy.ged"  # Set a default name for the file to be processed
 # Uncomment the next line to make the program interactive
 # filename = input("Type the name of the GEDCOM file:")
 
