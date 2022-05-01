@@ -138,6 +138,6 @@ def _main(filename: str) -> None:
 
 
 if __name__ == '__main__':
-    filename = "sample.txt"
+    filename = "sample2.txt"
 
     _main(filename)
