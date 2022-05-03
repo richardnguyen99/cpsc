@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CPSC3400P4", "CPSC3400P4.fsproj", "{506F5C45-E4C2-4651-89B2-7B7C31E5452E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDA911FD-A455-423D-A408-ECF958FBAB67}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{506F5C45-E4C2-4651-89B2-7B7C31E5452E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506F5C45-E4C2-4651-89B2-7B7C31E5452E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506F5C45-E4C2-4651-89B2-7B7C31E5452E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506F5C45-E4C2-4651-89B2-7B7C31E5452E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F7BB287-CEAE-4237-A795-541FE12F0A02}
+	EndGlobalSection
+EndGlobal
