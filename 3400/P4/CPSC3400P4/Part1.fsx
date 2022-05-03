@@ -6,8 +6,6 @@
 //
 // author: Minh-Hieu Nguyen
 
-open System
-
 let maxCubeVolume cubes : float =
     // function to compute volume
     let volume cube : float =
@@ -27,12 +25,7 @@ let maxCubeVolume cubes : float =
 
     maxFloat _volumes
 
-[<EntryPoint>]
-let main argv =
-    printfn "Hello World from F#!"
+printfn "Hello World from F#!"
 
-    printfn "%f." (maxCubeVolume [(2.1, 3.4, 1.8); (4.7, 2.8, 3.2); (0.9, 6.1, 1.0); (3.2, 5.4, 9.9)])
-
-    0 // return an integer exit code
-
-        
+printfn "maxCubeVolume [(2.1, 3.4, 1.8); (4.7, 2.8, 3.2); (0.9, 6.1, 1.0); (3.2, 5.4, 9.9)]"
+printfn "%f." (maxCubeVolume [(2.1, 3.4, 1.8); (4.7, 2.8, 3.2); (0.9, 6.1, 1.0); (3.2, 5.4, 9.9)])

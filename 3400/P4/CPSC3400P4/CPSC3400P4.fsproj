@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Part1.fs" />
+    <None Include="Part2.fsx" />
+    <None Include="Part1.fsx" />
   </ItemGroup>
+
+  <ItemGroup />
 
 </Project>
