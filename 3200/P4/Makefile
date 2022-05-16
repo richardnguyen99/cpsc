@@ -2,13 +2,13 @@
 CXX=g++
 FLAGS=-g -Wall -Werror -std=c++17
 
-SRC := main.cpp GridFlea.cpp InFest.cpp
+SRC := driver.cpp GridFlea.cpp InFest.cpp
 HDR := GridFlea.h InFest.h
 OBJ := $(patsubst %.cpp, %.o, $(SRC))
 
-all: main
+all: driver
 
-main: $(OBJ)
+driver: $(OBJ)
 	$(CXX) -o $@ $(OBJ)
 
 %.o: %.cpp $(HDR)
@@ -18,4 +18,4 @@ tar:
 	tar -cvf p2.tar *.cpp *.h Makefile
 
 clean:
-	rm -rf main *.o *.tar
+	rm -rf driver *.o *.tar

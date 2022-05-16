@@ -32,6 +32,8 @@
 *.app
 
 
+main.cpp
 main
+driver
 *.tar
 tar/

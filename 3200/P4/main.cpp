@@ -3,7 +3,7 @@
 #include "GridFlea.h"
 #include "InFest.h"
 
-int main(int argc, char** argv)
+int _main(int argc, char** argv)
 {
     GridFlea flea1 = GridFlea(8, 8, 8);
     GridFlea flea2;
@@ -16,7 +16,7 @@ int main(int argc, char** argv)
     flea3 = ++flea2;
     flea4 = flea3++;
 
-    bool res1 = flea4 == flea2;
+    //bool res1 = flea4 == flea2;
 
     InFest inFest1 = InFest(8, 8, 8, 10);
     InFest inFest2 = inFest1;
