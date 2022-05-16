@@ -155,6 +155,15 @@ InFest InFest::operator+(const GridFlea& gridFlea)
     return newInFest;
 }
 
+InFest& InFest::operator+=(const GridFlea& gridFlea)
+{
+    this->_num++;
+    this->_gridfleas = (GridFlea *)realloc(this->_gridfleas, sizeof(GridFlea) * this->_num);
+    this->_gridfleas[this->_num-1] = gridFlea;
+
+    return *this;
+}
+
 InFest::~InFest()
 {
     if (this->_gridfleas == nullptr)

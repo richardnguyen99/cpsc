@@ -87,6 +87,7 @@ public:
     InFest &operator=(const InFest &inFest);
     InFest &operator=(InFest &&inFest);
     InFest operator+(const GridFlea& gridFlea);
+    InFest& operator+=(const GridFlea& gridFlea);
 
     void move(int p);
     size_type size();

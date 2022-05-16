@@ -20,6 +20,7 @@ int main(int argc, char** argv)
 
     InFest inFest = InFest(8, 8, 8, 10);
     inFest = inFest + flea2;
+    inFest += flea3;
 
     return 0;
 }
