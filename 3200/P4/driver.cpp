@@ -2,6 +2,9 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <thread>
+#include <chrono>
+#include <mutex>
 
 #include "InFest.h"
 
@@ -34,7 +37,7 @@ void initialialize_args(std::size_t initialialize_args[][10])
     }
 }
 
-void test_initialize(InFestCollection& infest_ptrs, std::size_t initial_args[][10])
+void test_initialize(InFestCollection &infest_ptrs, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest initialization" << endl;
 
@@ -53,7 +56,7 @@ void test_initialize(InFestCollection& infest_ptrs, std::size_t initial_args[][1
     cout << "Tested InFest initialization\t\t\t" << format_msg(status) << endl;
 }
 
-void test_min(InFestCollection& infest_ptrs)
+void test_min(InFestCollection &infest_ptrs)
 {
     cout << "\nTesting InFest::min()" << endl;
 
@@ -66,7 +69,7 @@ void test_min(InFestCollection& infest_ptrs)
     cout << "Tested InFest::min()\t\t\t\t" << format_msg(status) << endl;
 }
 
-void test_max(InFestCollection& infest_ptrs)
+void test_max(InFestCollection &infest_ptrs)
 {
     cout << "\nTesting InFest::max()" << endl;
 
@@ -79,7 +82,7 @@ void test_max(InFestCollection& infest_ptrs)
     cout << "Tested InFest::max()\t\t\t\t" << format_msg(status) << endl;
 }
 
-void test_move(InFestCollection& infest_ptrs)
+void test_move(InFestCollection &infest_ptrs)
 {
     std::random_device dev;
     std::mt19937 generator{dev()};
@@ -98,7 +101,7 @@ void test_move(InFestCollection& infest_ptrs)
     cout << "Tested InFest::move()\t\t\t\t" << format_msg(status) << endl;
 }
 
-void test_copy(const InFestCollection& src, InFestCollection& dest, std::size_t initial_args[][10])
+void test_copy(const InFestCollection &src, InFestCollection &dest, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest copy constructor" << endl;
 
@@ -117,7 +120,7 @@ void test_copy(const InFestCollection& src, InFestCollection& dest, std::size_t 
     cout << "Tested InFest copy constructor\t\t\t" << format_msg(status) << endl;
 }
 
-void test_copy2(const InFestCollection& src, InFestCollection& dest)
+void test_copy2(const InFestCollection &src, InFestCollection &dest)
 {
     cout << "\nTesting InFest copy constructor" << endl;
 
@@ -128,7 +131,7 @@ void test_copy2(const InFestCollection& src, InFestCollection& dest)
     cout << "Tested InFest copy constructor\t\t\t" << format_msg(status) << endl;
 }
 
-void test_move_semantic(const InFestCollection& src, InFestCollection& dest, std::size_t initial_args[][10])
+void test_move_semantic(const InFestCollection &src, InFestCollection &dest, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest move constructor" << endl;
 
@@ -147,7 +150,7 @@ void test_move_semantic(const InFestCollection& src, InFestCollection& dest, std
     cout << "Tested InFest move constructor\t\t\t" << format_msg(status) << endl;
 }
 
-void test_copy_assignment(const InFestCollection& src, InFestCollection& dest)
+void test_copy_assignment(const InFestCollection &src, InFestCollection &dest)
 {
     cout << "\nTesting InFest::operator=" << endl;
 
@@ -158,10 +161,10 @@ void test_copy_assignment(const InFestCollection& src, InFestCollection& dest)
         dest[i] = std::make_unique<InFest>(*(src[i]));
     }
 
-    cout << "Tested InFes::operator=\t\t\t\t" << format_msg(status) << endl;
+    cout << "Tested InFest::operator=\t\t\t\t" << format_msg(status) << endl;
 }
 
-void test_move_copy_assignment(InFestCollection& src, InFestCollection& dest)
+void test_move_copy_assignment(InFestCollection &src, InFestCollection &dest)
 {
     cout << "\nTesting InFest::operator=(&&)" << endl;
 
@@ -172,7 +175,106 @@ void test_move_copy_assignment(InFestCollection& src, InFestCollection& dest)
         dest[i] = std::make_unique<InFest>(std::move(*(src[i])));
     }
 
-    cout << "Tested InFes::operator=(&&)\t\t\t\t" << format_msg(status) << endl;
+    cout << "Tested InFest::operator=(&&)\t\t\t\t" << format_msg(status) << endl;
+}
+
+void _thread_helper(int thread_id, std::shared_ptr<InFest> ptr)
+{
+}
+
+void test_shared_ptr()
+{
+    cout << "\nTesting shared_ptr\n";
+
+    bool status = true;
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> grid_range(0, 320);
+    std::uniform_int_distribution<std::size_t> size_range(0, 15);
+    std::uniform_int_distribution<std::size_t> num_range(1, 10);
+
+    std::size_t x = grid_range(generator);
+    std::size_t y = grid_range(generator);
+    std::size_t size = size_range(generator);
+    std::size_t num = num_range(generator);
+
+    std::shared_ptr<InFest> shared_infest = std::make_shared<InFest>(x, y, size, num);
+
+    cout << "Created a shared InFest pointer\n"
+         << "\tActual object address: " << shared_infest.get() << "\n"
+         << "\tReference count: " << shared_infest.use_count() << "\n";
+
+    {
+        std::vector<std::shared_ptr<InFest>> shares(5);
+        for (std::size_t i = 0; i < shares.size(); i++)
+        {
+            shares[i] = shared_infest;
+            cout << "- Shared InFest ID " << (i + 1) << ":\n"
+                 << "\tActual object address: " << shares[i].get() << "\n"
+                 << "\tReference count: " << shares[i].use_count() << "\n";
+        }
+
+        cout << "\n- Exited sharing section\n";
+    }
+
+    cout << "\nAfter shared: \n"
+         << "\tActual object address: " << shared_infest.get() << "\n"
+         << "\tReference count: " << shared_infest.use_count() << "\n";
+
+    cout << "Tested shared InFest pointer\t\t\t\t" << format_msg(status) << endl;
+}
+
+void test_shared_ptr_with_reset()
+{
+    cout << "\nTesting shared_ptr with reset()\n";
+
+    bool status = true;
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> grid_range(0, 320);
+    std::uniform_int_distribution<std::size_t> size_range(0, 15);
+    std::uniform_int_distribution<std::size_t> num_range(1, 10);
+
+    std::size_t x = grid_range(generator);
+    std::size_t y = grid_range(generator);
+    std::size_t size = size_range(generator);
+    std::size_t num = num_range(generator);
+
+    std::shared_ptr<InFest> shared_infest = std::make_shared<InFest>(x, y, size, num);
+
+    cout << "Created a shared InFest pointer\n"
+         << "\tActual object address: " << shared_infest.get() << "\n"
+         << "\tReference count: " << shared_infest.use_count() << "\n";
+
+    {
+        std::vector<std::shared_ptr<InFest>> shares(5);
+        for (std::size_t i = 0; i < shares.size(); i++)
+        {
+            shares[i] = shared_infest;
+            cout << "- Shared InFest ID " << (i + 1) << ":\n"
+                 << "\tActual object address: " << shares[i].get() << "\n"
+                 << "\tReference count: " << shares[i].use_count() << "\n";
+        }
+
+        cout << "\n- Reset the original shared pointer\n\n";
+        shared_infest.reset();
+
+        for (std::size_t i = 0; i < shares.size(); i++)
+        {
+            cout << "- Shared InFest ID " << (i + 1) << ":\n"
+                 << "\tActual object address: " << shares[i].get() << "\n"
+                 << "\tReference count: " << shares[i].use_count() << "\n";
+                shares[i].reset();
+        }
+
+        cout << "\n- Exited sharing section\n";
+    }
+
+    cout << "\nAfter shared and reset: \n"
+         << "\tActual object address: " << shared_infest.get() << "\n"
+         << "\tReference count: " << shared_infest.use_count() << "\n";
+
+    cout << "Tested shared InFest pointer\t\t\t\t" << format_msg(status) << endl;
 }
 
 int main(int argc, char **argv)
@@ -216,6 +318,9 @@ int main(int argc, char **argv)
     test_move_copy_assignment(new_infest_ptrs2, new_infest_ptrs3);
     test_min(new_infest_ptrs2);
     test_min(new_infest_ptrs3);
+
+    test_shared_ptr();
+    test_shared_ptr_with_reset();
 
     return 0;
 }

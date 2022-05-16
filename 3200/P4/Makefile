@@ -9,7 +9,7 @@ OBJ := $(patsubst %.cpp, %.o, $(SRC))
 all: driver
 
 driver: $(OBJ)
-	$(CXX) -o $@ $(OBJ)
+	$(CXX) -o $@ $(OBJ) -pthread
 
 %.o: %.cpp $(HDR)
 	$(CXX) $(FLAGS) -c -o $@ $<
