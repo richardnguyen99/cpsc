@@ -164,6 +164,36 @@ InFest& InFest::operator+=(const GridFlea& gridFlea)
     return *this;
 }
 
+bool InFest::operator==(const InFest& other) const
+{
+    return this->max() == other.max();
+}
+
+bool InFest::operator<(const InFest& other) const
+{
+    return this->max() < other.max();
+}
+
+bool InFest::operator!=(const InFest& other) const
+{
+    return !(*this == other);
+}
+
+bool InFest::operator>(const InFest& other) const
+{
+    return other < *this;
+}
+
+bool InFest::operator>=(const InFest& other) const
+{
+    return !(*this < other);
+}
+
+bool InFest::operator<=(const InFest& other) const
+{
+    return !(*this > other);
+}
+
 InFest::~InFest()
 {
     if (this->_gridfleas == nullptr)
@@ -201,7 +231,7 @@ void InFest::move(int p)
     }
 }
 
-int InFest::min()
+int InFest::min() const
 {
     if (this->_num == 0 || !this->_gridfleas)
         return -2;
@@ -219,7 +249,7 @@ int InFest::min()
     return min;
 }
 
-int InFest::max()
+int InFest::max() const
 {
     if (this->_num == 0 || !this->_gridfleas)
         return -2;

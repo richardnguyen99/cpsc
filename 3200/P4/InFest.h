@@ -89,10 +89,16 @@ public:
     InFest operator+(const GridFlea& gridFlea);
     InFest& operator+=(const GridFlea& gridFlea);
 
+    bool operator==(const InFest& other) const;
+    bool operator!=(const InFest& other) const;
+    bool operator>(const InFest& other) const;
+    bool operator<(const InFest& other) const;
+    bool operator>=(const InFest& other) const;
+    bool operator<=(const InFest& other) const;
+
     void move(int p);
-    size_type size();
-    int min();
-    int max();
+    int min() const;
+    int max() const;
 };
 
 #endif // __INFREST_H

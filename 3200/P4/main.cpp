@@ -18,9 +18,12 @@ int main(int argc, char** argv)
 
     bool res1 = flea4 == flea2;
 
-    InFest inFest = InFest(8, 8, 8, 10);
-    inFest = inFest + flea2;
-    inFest += flea3;
+    InFest inFest1 = InFest(8, 8, 8, 10);
+    InFest inFest2 = inFest1;
+    inFest1 = inFest1 + flea2;
+    inFest1 += flea3;
+
+    inFest2 += flea4;
 
     return 0;
 }
