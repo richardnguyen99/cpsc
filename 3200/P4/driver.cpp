@@ -34,7 +34,6 @@ void initialialize_args(std::size_t initialialize_args[][10])
     }
 }
 
-//void test_initialize(InFest **&infests, std::size_t initial_args[][10])
 void test_initialize(InFestCollection& infest_ptrs, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest initialization" << endl;
@@ -54,7 +53,6 @@ void test_initialize(InFestCollection& infest_ptrs, std::size_t initial_args[][1
     cout << "Tested InFest initialization\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_min(InFest **&infests)
 void test_min(InFestCollection& infest_ptrs)
 {
     cout << "\nTesting InFest::min()" << endl;
@@ -68,7 +66,6 @@ void test_min(InFestCollection& infest_ptrs)
     cout << "Tested InFest::min()\t\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_max(InFest **&infests)
 void test_max(InFestCollection& infest_ptrs)
 {
     cout << "\nTesting InFest::max()" << endl;
@@ -82,7 +79,6 @@ void test_max(InFestCollection& infest_ptrs)
     cout << "Tested InFest::max()\t\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_move(InFest **&infests)
 void test_move(InFestCollection& infest_ptrs)
 {
     std::random_device dev;
@@ -102,7 +98,6 @@ void test_move(InFestCollection& infest_ptrs)
     cout << "Tested InFest::move()\t\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_copy(InFest **&src, InFest **&dest, std::size_t initial_args[][10])
 void test_copy(const InFestCollection& src, InFestCollection& dest, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest copy constructor" << endl;
@@ -122,7 +117,6 @@ void test_copy(const InFestCollection& src, InFestCollection& dest, std::size_t 
     cout << "Tested InFest copy constructor\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_copy2(InFest **&src, InFest **&dest)
 void test_copy2(const InFestCollection& src, InFestCollection& dest)
 {
     cout << "\nTesting InFest copy constructor" << endl;
@@ -134,7 +128,6 @@ void test_copy2(const InFestCollection& src, InFestCollection& dest)
     cout << "Tested InFest copy constructor\t\t\t" << format_msg(status) << endl;
 }
 
-// void test_move_semantic(InFest **&src, InFest **&dest, std::size_t initial_args[][10])
 void test_move_semantic(const InFestCollection& src, InFestCollection& dest, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest move constructor" << endl;
@@ -154,7 +147,6 @@ void test_move_semantic(const InFestCollection& src, InFestCollection& dest, std
     cout << "Tested InFest move constructor\t\t\t" << format_msg(status) << endl;
 }
 
-// void test_copy_assignment(InFest **&src, InFest **&dest)
 void test_copy_assignment(const InFestCollection& src, InFestCollection& dest)
 {
     cout << "\nTesting InFest::operator=" << endl;
@@ -169,7 +161,6 @@ void test_copy_assignment(const InFestCollection& src, InFestCollection& dest)
     cout << "Tested InFes::operator=\t\t\t\t" << format_msg(status) << endl;
 }
 
-//void test_move_copy_assignment(InFest **&src, InFest **&dest)
 void test_move_copy_assignment(InFestCollection& src, InFestCollection& dest)
 {
     cout << "\nTesting InFest::operator=(&&)" << endl;
@@ -177,7 +168,6 @@ void test_move_copy_assignment(InFestCollection& src, InFestCollection& dest)
     bool status = true;
     for (int i = 0; i < SAMPLE; i++)
     {
-        //*dest[i] = std::move(*src[i]);
         dest[i].reset(nullptr);
         dest[i] = std::make_unique<InFest>(std::move(*(src[i])));
     }
@@ -191,79 +181,41 @@ int main(int argc, char **argv)
     std::size_t initial_args[4][10];
     initialialize_args(initial_args);
 
-    //InFestPtr *infests = new InFestPtr[SAMPLE];
     InFestCollection infest_ptrs(SAMPLE);
 
-    //test_initialize(infests, initial_args);
     test_initialize(infest_ptrs, initial_args);
-    //test_min(infests);
     test_min(infest_ptrs);
-    //test_max(infests);
     test_max(infest_ptrs);
 
-    // InFestPtr *new_infests1 = new InFestPtr[SAMPLE];
     InFestCollection new_infest_ptrs1(SAMPLE);
-    //InFestPtr *new_infests2 = new InFestPtr[SAMPLE];
     InFestCollection new_infest_ptrs2(SAMPLE);
-    //InFestPtr *new_infests3 = new InFestPtr[SAMPLE];
     InFestCollection new_infest_ptrs3(SAMPLE);
 
-    //test_copy(infests, new_infests1, initial_args);
     test_copy(infest_ptrs, new_infest_ptrs1, initial_args);
-    //test_min(new_infests1);
     test_min(new_infest_ptrs1);
-    //test_max(new_infests1);
     test_max(new_infest_ptrs1);
 
-    //test_move(infests);
     test_move(infest_ptrs);
-    //test_min(new_infests1);
     test_min(infest_ptrs);
-    //test_max(new_infests1);
     test_max(infest_ptrs);
 
-    // test_move_semantic(new_infests1, new_infests2, initial_args);
     test_move_semantic(new_infest_ptrs1, new_infest_ptrs2, initial_args);
-    // test_min(new_infests2);
     test_min(new_infest_ptrs2);
-    //test_max(new_infests1);
     test_max(new_infest_ptrs1); // -2 means no elements
 
     test_move(new_infest_ptrs2);
-    //test_min(new_infests2);
     test_min(new_infest_ptrs2);
-    //test_min(new_infests2);
     test_max(new_infest_ptrs2);
 
-    //test_copy2(new_infests2, new_infests3);
     test_copy2(new_infest_ptrs2, new_infest_ptrs3);
-    // test_min(new_infests3);
     test_min(new_infest_ptrs3); // should match with new_infest2
 
-    //test_copy_assignment(infests, new_infests3);
     test_copy_assignment(infest_ptrs, new_infest_ptrs3);
-    //test_min(new_infests3);
     test_min(new_infest_ptrs3);
 
-    //test_move_copy_assignment(new_infests2, new_infests3);
     test_move_copy_assignment(new_infest_ptrs2, new_infest_ptrs3);
-    // test_min(new_infests2);
     test_min(new_infest_ptrs2);
-    // test_min(new_infests3);
     test_min(new_infest_ptrs3);
-
-    //for (int i = 0; i < SAMPLE; i++)
-    //{
-        //delete infests[i];
-        //delete new_infests1[i];
-        //delete new_infests2[i];
-        //delete new_infests3[i];
-    //}
-
-    //delete[] infests;
-    //delete[] new_infests1;
-    //delete[] new_infests2;
-    //delete[] new_infests3;
 
     return 0;
 }
