@@ -66,6 +66,58 @@ GridFlea::GridFlea(size_t x, size_t y, size_t size) : _size(std::max((int)size, 
     _initialize_max_move();
 }
 
+GridFlea GridFlea::operator+(int p)
+{
+    GridFlea tmp = *this;
+    tmp.move(p);
+    return tmp;
+}
+
+GridFlea& GridFlea::operator+=(int p)
+{
+    this->move(p);
+    return *this;
+}
+
+GridFlea GridFlea::operator-(int p)
+{
+    GridFlea tmp = *this;
+    tmp.move(-p);
+    return tmp;
+}
+
+GridFlea& GridFlea::operator-=(int p)
+{
+    this->move(-p);
+    return *this;
+}
+
+GridFlea& GridFlea::operator++()
+{
+    this->move(1);
+    return *this;
+}
+
+GridFlea GridFlea::operator++(int)
+{
+    GridFlea tmp = *this;
+    this->move(1);
+    return tmp;
+}
+
+GridFlea& GridFlea::operator--()
+{
+    this->move(-1);
+    return *this;
+}
+
+GridFlea GridFlea::operator--(int)
+{
+    GridFlea tmp = *this;
+    this->move(-1);
+    return tmp;
+}
+
 /**
  * Pre-conditions:
  *
@@ -93,7 +145,8 @@ void GridFlea::move(int p)
     this->_used_move += static_cast<size_t>(distance);
 
     this->_energetic = this->_used_move <= this->_max_energetic_move;
-    this->_active = this->_used_move <= this->_max_active_move && (!_is_outside_grid() || !_is_outside_jump_exhaustive());
+    this->_active = this->_used_move <= this->_max_active_move && !_is_outside_grid() && !this->_hasJumpedOutside;
+    this->_hasJumpedOutside = !this->_hasJumpedOutside && _is_outside_jump_exhaustive();
 }
 
 /**
@@ -149,7 +202,7 @@ bool GridFlea::_is_outside_grid()
 
 bool GridFlea::_is_outside_jump_exhaustive()
 {
-    return this->_
+    return this->_current_x < (int)(-EXTRAJUMP) || this->_current_x > (int)(XGRID + EXTRAJUMP) || this->_current_y < (int)(-EXTRAJUMP) || this->_current_y > (int)(YGRID + EXTRAJUMP);
 }
 
 void GridFlea::_initialize_gridflea(size_t x, size_t y)

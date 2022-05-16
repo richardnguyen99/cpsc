@@ -99,6 +99,15 @@ public:
     GridFlea();
     GridFlea(size_t x, size_t y, size_t size);
 
+    GridFlea operator+(int p);
+    GridFlea& operator+=(int p);
+    GridFlea operator-(int p);
+    GridFlea& operator-=(int p);
+    GridFlea& operator++();
+    GridFlea operator++(int);
+    GridFlea& operator--();
+    GridFlea operator--(int);
+
     void move(int p);
     int value();
     void revive();
