@@ -144,6 +144,17 @@ InFest &InFest::operator=(InFest &&inFest)
     return *this;
 }
 
+InFest InFest::operator+(const GridFlea& gridFlea)
+{
+    InFest newInFest = InFest(*this);
+    newInFest._num++;
+
+    newInFest._gridfleas = (GridFlea *)realloc(newInFest._gridfleas, sizeof(GridFlea) * newInFest._num);
+    newInFest._gridfleas[newInFest._num-1] = gridFlea;
+
+    return newInFest;
+}
+
 InFest::~InFest()
 {
     if (this->_gridfleas == nullptr)

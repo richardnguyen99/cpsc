@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GridFlea.h"
+#include "InFest.h"
 
 int main(int argc, char** argv)
 {
@@ -14,6 +15,9 @@ int main(int argc, char** argv)
 
     flea3 = ++flea2;
     flea4 = flea3++;
+
+    InFest inFest = InFest(8, 8, 8, 10);
+    inFest = inFest + flea2;
 
     return 0;
 }
