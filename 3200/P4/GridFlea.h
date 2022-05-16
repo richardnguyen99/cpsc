@@ -108,8 +108,15 @@ public:
     GridFlea& operator--();
     GridFlea operator--(int);
 
+    bool operator==(const GridFlea& other) const;
+    bool operator!=(const GridFlea& other) const;
+    bool operator>(const GridFlea& other) const;
+    bool operator<(const GridFlea& other) const;
+    bool operator>=(const GridFlea& other) const;
+    bool operator<=(const GridFlea& other) const;
+
     void move(int p);
-    int value();
+    int value() const;
     void revive();
     void reset();
 };

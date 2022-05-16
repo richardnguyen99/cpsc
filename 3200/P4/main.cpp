@@ -16,6 +16,8 @@ int main(int argc, char** argv)
     flea3 = ++flea2;
     flea4 = flea3++;
 
+    bool res1 = flea4 == flea2;
+
     InFest inFest = InFest(8, 8, 8, 10);
     inFest = inFest + flea2;
 

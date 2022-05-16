@@ -118,6 +118,36 @@ GridFlea GridFlea::operator--(int)
     return tmp;
 }
 
+bool GridFlea::operator==(const GridFlea& other) const
+{
+    return this->value() == other.value();
+}
+
+bool GridFlea::operator<(const GridFlea& other) const
+{
+    return this->value() < other.value();
+}
+
+bool GridFlea::operator!=(const GridFlea& other) const
+{
+    return !(*this == other);
+}
+
+bool GridFlea::operator>(const GridFlea& other) const
+{
+    return other.value() < this->value();
+}
+
+bool GridFlea::operator<=(const GridFlea& other) const
+{
+    return !(*this > other);
+}
+
+bool GridFlea::operator>=(const GridFlea& other) const
+{
+    return !(*this < other);
+}
+
 /**
  * Pre-conditions:
  *
@@ -154,7 +184,7 @@ void GridFlea::move(int p)
  *
  * The GridFlea must be active
  */
-int GridFlea::value()
+int GridFlea::value() const
 {
     if (!this->_active)
         return -1;
