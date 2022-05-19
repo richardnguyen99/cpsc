@@ -116,9 +116,10 @@ public:
     bool operator<=(const GridFlea& other) const;
 
     void move(int p);
-    int value() const;
     void revive();
     void reset();
+
+    int value() const;
 };
 
 #endif // __GRIDFLEA_H

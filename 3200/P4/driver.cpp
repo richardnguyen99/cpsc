@@ -12,6 +12,8 @@ using std::cout;
 using std::endl;
 using InFestPtr = std::unique_ptr<InFest>;
 using InFestCollection = std::vector<InFestPtr>;
+using GridFleaPtr = std::unique_ptr<GridFlea>;
+using GridFleaCollection = std::vector<GridFleaPtr>;
 
 #define SAMPLE 10
 
@@ -37,6 +39,18 @@ void initialialize_args(std::size_t initialialize_args[][10])
     }
 }
 
+GridFlea* find_nearest_active_gridflea(GridFleaCollection& gridflea_ptrs)
+{
+    for (GridFleaPtr& ptr : gridflea_ptrs)
+    {
+        if (ptr->value() != -1)
+            return ptr.get();
+    }
+
+    return nullptr;
+}
+
+// void test_initialize(std::vector<std::unique_ptr<InFest>>& infest_ptrs, std::size_t initial_args[][10])
 void test_initialize(InFestCollection &infest_ptrs, std::size_t initial_args[][10])
 {
     cout << "\nTesting InFest initialization" << endl;
@@ -178,10 +192,6 @@ void test_move_copy_assignment(InFestCollection &src, InFestCollection &dest)
     cout << "Tested InFest::operator=(&&)\t\t\t\t" << format_msg(status) << endl;
 }
 
-void _thread_helper(int thread_id, std::shared_ptr<InFest> ptr)
-{
-}
-
 void test_shared_ptr()
 {
     cout << "\nTesting shared_ptr\n";
@@ -264,7 +274,7 @@ void test_shared_ptr_with_reset()
             cout << "- Shared InFest ID " << (i + 1) << ":\n"
                  << "\tActual object address: " << shares[i].get() << "\n"
                  << "\tReference count: " << shares[i].use_count() << "\n";
-                shares[i].reset();
+            shares[i].reset();
         }
 
         cout << "\n- Exited sharing section\n";
@@ -277,6 +287,360 @@ void test_shared_ptr_with_reset()
     cout << "Tested shared InFest pointer\t\t\t\t" << format_msg(status) << endl;
 }
 
+void test_initialize_gridfleas(GridFleaCollection &gridflea_ptrs, std::size_t initial_args[][10])
+{
+    cout << "\nTest initializing of grid fleas\n";
+
+    bool status = true;
+    for (int i = 0; i < SAMPLE; i++)
+    {
+        std::size_t x = initial_args[0][i];
+        std::size_t y = initial_args[1][i];
+        std::size_t size = initial_args[2][i];
+
+        cout << "\tInitialize GridFlea(" << x << ", " << y << ", " << size << ")" << endl;
+        gridflea_ptrs[i] = std::make_unique<GridFlea>(x, y, size);
+    }
+
+    cout << "Tested initializing of grid fleas\t\t\t" << format_msg(status) << endl;
+}
+
+void test_gridfleas_ltoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator<()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr < rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") < test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator<()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_eqoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator==()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr == rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") == test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator==()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_neoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator!=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr != rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") != test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator!=()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_gtoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator>()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr > rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") > test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator>()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_geoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator>=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr >= rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") >= test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator>=()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_leoperator(GridFleaCollection &gridflea_ptrs, const GridFlea &rhs)
+{
+    cout << "\nTest GridFlea::operator<=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest GridFlea Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (GridFleaPtr &gridflea_ptr : gridflea_ptrs)
+    {
+        std::string result = *gridflea_ptr <= rhs ? "true" : "false";
+        int actual_value = gridflea_ptr->value();
+
+        cout
+            << "\tGridFlea[" << i << "] (value = " << actual_value << ") <= test GridFlea?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested GridFlea::operator<=()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_nonassigned_plusop(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator+(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 5);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove GridFlea objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*gridflea_ptrs[i]) + step;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator+(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_nonassigned_minusop(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator-(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 5);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove GridFlea objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*gridflea_ptrs[i]) - step;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator-(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_assigned_minusop(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator-=(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 5);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove GridFlea objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*gridflea_ptrs[i]) -= step;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator-=(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_assigned_plusop(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator+=(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 5);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove GridFlea objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*gridflea_ptrs[i]) += step;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator+=(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_postincrement(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator++(int p)\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before post-increment: " << old_value << "\n";
+
+        GridFlea tmp = (*gridflea_ptrs[i])++;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after post-increment: " << new_value << "\n";
+        cout << "New temp gridflea after post-increment: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator++(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_preincrement(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator++()\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before pre-increment: " << old_value << "\n";
+
+        GridFlea tmp = ++(*gridflea_ptrs[i]);
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after pre-increment: " << new_value << "\n";
+        cout << "New temp gridflea after pre-increment: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator++()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_postdecrement(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator--(int p)\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before post-decrement: " << old_value << "\n";
+
+        GridFlea tmp = (*gridflea_ptrs[i])--;
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after post-decrement: " << new_value << "\n";
+        cout << "New temp gridflea after post-decrement: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator--(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_gridfleas_predecrement(GridFleaCollection &gridflea_ptrs)
+{
+    cout << "\nTest GridFlea::operator--()\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < gridflea_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] before pre-decrement: " << old_value << "\n";
+
+        GridFlea tmp = --(*gridflea_ptrs[i]);
+
+        int new_value = gridflea_ptrs[i]->value();
+        cout << "GridFlea["<< i <<"] after pre-decrement: " << new_value << "\n";
+        cout << "New temp gridflea after pre-decrement: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd GridFlea::operator--()\t\t\t" << format_msg(status) << "\n";
+}
+
 int main(int argc, char **argv)
 {
 
@@ -284,6 +648,7 @@ int main(int argc, char **argv)
     initialialize_args(initial_args);
 
     InFestCollection infest_ptrs(SAMPLE);
+    // std::vector<std::unique_ptr<InFest>> infest_ptrs(SAMPLE);
 
     test_initialize(infest_ptrs, initial_args);
     test_min(infest_ptrs);
@@ -321,6 +686,43 @@ int main(int argc, char **argv)
 
     test_shared_ptr();
     test_shared_ptr_with_reset();
+
+    GridFleaCollection gridfleas(SAMPLE);
+
+    test_initialize_gridfleas(gridfleas, initial_args);
+
+    // Before moving
+    test_gridfleas_eqoperator(gridfleas, *gridfleas[0]);
+    test_gridfleas_neoperator(gridfleas, *gridfleas[0]);
+    test_gridfleas_gtoperator(gridfleas, *gridfleas[0]);
+    test_gridfleas_geoperator(gridfleas, *gridfleas[0]);
+    test_gridfleas_ltoperator(gridfleas, *(gridfleas[0]));
+    test_gridfleas_leoperator(gridfleas, *gridfleas[0]);
+
+    test_gridfleas_nonassigned_plusop(gridfleas);
+    test_gridfleas_assigned_plusop(gridfleas);
+    test_gridfleas_nonassigned_minusop(gridfleas);
+    test_gridfleas_assigned_minusop(gridfleas);
+    test_gridfleas_postincrement(gridfleas);
+    test_gridfleas_preincrement(gridfleas);
+    test_gridfleas_postdecrement(gridfleas);
+    test_gridfleas_predecrement(gridfleas);
+
+    // After moving
+    GridFlea *activeGridFlea = find_nearest_active_gridflea(gridfleas);
+
+    if (activeGridFlea != nullptr)
+    {
+        test_gridfleas_eqoperator(gridfleas, *activeGridFlea);
+        test_gridfleas_neoperator(gridfleas, *activeGridFlea);
+        test_gridfleas_gtoperator(gridfleas, *activeGridFlea);
+        test_gridfleas_geoperator(gridfleas, *activeGridFlea);
+        test_gridfleas_ltoperator(gridfleas, *activeGridFlea);
+        test_gridfleas_leoperator(gridfleas, *activeGridFlea);
+    }
+    else
+        cout << "Re-run to check GridFlea comparison operators since all objects are inactive\n";
+
 
     return 0;
 }

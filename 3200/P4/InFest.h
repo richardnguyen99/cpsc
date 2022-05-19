@@ -84,6 +84,16 @@ public:
     InFest(InFest &&inFest);
     ~InFest();
 
+    InFest operator+(int p);
+    InFest& operator+=(int p);
+    InFest operator-(int p);
+    InFest& operator-=(int p);
+    InFest& operator++();
+    InFest operator++(int);
+    InFest& operator--();
+    InFest operator--(int);
+
+
     InFest &operator=(const InFest &inFest);
     InFest &operator=(InFest &&inFest);
     InFest operator+(const GridFlea& gridFlea);
@@ -97,7 +107,10 @@ public:
     bool operator<=(const InFest& other) const;
 
     void move(int p);
+
     int min() const;
+    int value() const;
+    int size() const;
     int max() const;
 };
 

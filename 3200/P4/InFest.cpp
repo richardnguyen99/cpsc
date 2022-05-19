@@ -144,6 +144,58 @@ InFest &InFest::operator=(InFest &&inFest)
     return *this;
 }
 
+InFest InFest::operator+(int p)
+{
+    InFest tmp = *this;
+    tmp.move(p);
+    return tmp;
+}
+
+InFest& InFest::operator+=(int p)
+{
+    this->move(p);
+    return *this;
+}
+
+InFest InFest::operator-(int p)
+{
+    InFest tmp = *this;
+    tmp.move(-p);
+    return tmp;
+}
+
+InFest& InFest::operator-=(int p)
+{
+    this->move(-p);
+    return *this;
+}
+
+InFest& InFest::operator++()
+{
+    this->move(1);
+    return *this;
+}
+
+InFest InFest::operator++(int)
+{
+    InFest tmp = *this;
+    this->move(1);
+    return tmp;
+}
+
+InFest& InFest::operator--()
+{
+    this->move(-1);
+    return *this;
+}
+
+InFest InFest::operator--(int)
+{
+    InFest tmp = *this;
+    this->move(-1);
+    return tmp;
+}
+
 InFest InFest::operator+(const GridFlea& gridFlea)
 {
     InFest newInFest = InFest(*this);
@@ -265,4 +317,27 @@ int InFest::max() const
     }
 
     return max;
+}
+
+int InFest::value() const
+{
+    if (this->_num == 0 || !this->_gridfleas)
+        return -2;
+
+    if (this->_num == 1)
+        return this->_gridfleas[0].value();
+
+    int sum = 0;
+    for (size_type i = 0; i < this->_num; i++)
+    {
+        if (this->_gridfleas[i].value() != -1)
+            sum += this->_gridfleas[i].value();
+    }
+
+    return sum;
+}
+
+int InFest::size() const
+{
+    return this->_num;
 }
