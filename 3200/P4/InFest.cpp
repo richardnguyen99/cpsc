@@ -36,6 +36,16 @@
  *
  *      Every assignment operator returns the current instance (i.e. *this)
  *
+ *  3. operator+=(const GridFlea& gridflea)
+ *     Allow appending a new GridFlea object. Since InFest supports assign and
+ *     plus operator to append a new gridflea and return a new InFest, this is
+ *     a shortcut to compact them without copying.
+ *
+ *  4. operator+=(int p)
+ *     Allow moving the InFest. Since InFest supports assign and plus operator
+ *     to move and create a new InFest, this is a shortcut to compact them
+ *     without copying
+ *
  * - move(int p):
  *      p should follow what p in GridFlea::move(p) does. To make InFest respond
  *      consistently, after GridFlea::move() is called, check GridFlea::value()
@@ -204,6 +214,9 @@ InFest InFest::operator+(const GridFlea& gridFlea)
     newInFest._gridfleas = (GridFlea *)realloc(newInFest._gridfleas, sizeof(GridFlea) * newInFest._num);
     newInFest._gridfleas[newInFest._num-1] = gridFlea;
 
+    if (gridFlea.value() != -1)
+        newInFest._inactive_num++;
+
     return newInFest;
 }
 
@@ -212,6 +225,9 @@ InFest& InFest::operator+=(const GridFlea& gridFlea)
     this->_num++;
     this->_gridfleas = (GridFlea *)realloc(this->_gridfleas, sizeof(GridFlea) * this->_num);
     this->_gridfleas[this->_num-1] = gridFlea;
+
+    if (gridFlea.value() == -1)
+        this->_inactive_num++;
 
     return *this;
 }

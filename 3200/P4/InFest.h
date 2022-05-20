@@ -44,6 +44,64 @@
  *                       the other InFest using move semantics
  *                       (i.e. the data in other is transfered
  *                       to this InFest).
+ *  3. Plus assignment +=(int p):
+ *     Trigger the entire GridFlea::move(p). Additionally, InFest keeps
+ *     track of how many inactive GridFlea objects after this operator
+ *     is called. If half of them is inactive, GridFlea::revive() might
+ *     be called. Then, it returns the updated InFest
+
+ *  4. Plus assignment +=(const GridFlea& gridFlea):
+ *     Append the given gridFlea to the InFest and update its associated
+ *     fields for other functions such as size(). Then, it returns the
+ *     updated InFest
+ *
+ *  5. Minus assignment -=(int p):
+ *     Trigger the entire GridFlea::move(-p). Additionally, InFest keeps
+ *     track of how many inactive GridFlea objects after this operator
+ *     is called. If half of them is inactive, GridFlea::revive() might
+ *     be called. Then, it returns the updated InFest
+ *
+ * - Overloaded operator:
+ *  1. operator+(int p):
+ *     Create a new InFest and trigger the entire GridFlea::move(p).
+ *     Additionally, InFest keeps track of how many inactive GridFlea
+ *     objects after this operator is called. If half of them is
+ *     inactive, GridFlea::revive() might be called. Then, it returns
+ *     the newly-created-updated InFest.
+ *
+ *  2. operator-(int p):
+ *     Create a new InFest and trigger the entire GridFlea::move(-p).
+ *     Additionally, InFest keeps track of how many inactive GridFlea
+ *     objects after this operator is called. If half of them is
+ *     inactive, GridFlea::revive() might be called. Then, it returns
+ *     the newly-created-updated InFest.
+ *
+ *  3. operator++(int): Post-increment
+ *     Create a new InFest and trigger the entire GridFlea::move(1).
+ *     Additionally, InFest keeps track of how many inactive GridFlea
+ *     objects after this operator is called. If half of them is
+ *     inactive, GridFlea::revive() might be called. Then, it returns
+ *     the newly-created-updated InFest.
+ *
+ *  4. operator--(int): Post-decrement
+ *     Create a new InFest and trigger the entire GridFlea::move(-1).
+ *     Additionally, InFest keeps track of how many inactive GridFlea
+ *     objects after this operator is called. If half of them is
+ *     inactive, GridFlea::revive() might be called. Then, it returns
+ *     the newly-created-updated InFest.
+ *
+ *  5. operator++(): Pre-increment
+ *     Trigger the entire GridFlea::move(1). Additionally, InFest keeps
+ *     track of how many inactive GridFlea objects after this operator
+ *     is called. If half of them is inactive, GridFlea::revive() might
+ *     be called. Then, it returns the updated InFest.
+ *
+ *  6. operator--(): Pre-decrement
+ *     Trigger the entire GridFlea::move(-1). Additionally, InFest keeps
+ *     track of how many inactive GridFlea objects after this operator
+ *     is called. If half of them is inactive, GridFlea::revive() might
+ *     be called. Then, it returns the updated InFest.
+ *
  *
  * - move(int p): triggers the entire GridFlea::move(p). Additionally,
  *                InFest also keeps tracks of how many inactive objects
@@ -55,8 +113,10 @@
  *
  * - max(): returns the maximum value in the GridFlea array based on
  *          GridFlea::value(), or -2 if the InFest is invalid
-
- * - size(): return the number of GridFlea objects in InFest
+ *
+ * - size(): returns the number of GridFlea objects in InFest
+ *
+ * - value(): returns the accumulative value from each GridFlea object in InFest
  */
 
 #ifndef __INFEST_H
