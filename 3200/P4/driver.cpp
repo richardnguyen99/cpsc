@@ -641,6 +641,409 @@ void test_gridfleas_predecrement(GridFleaCollection &gridflea_ptrs)
     cout << "\nTestd GridFlea::operator--()\t\t\t" << format_msg(status) << "\n";
 }
 
+void test_infests_ltoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator<()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr < rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") < test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator<()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_leoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator<=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr <= rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") <= test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator<=()\t\t\t" << format_msg(status) << "\n";
+}
+void test_infests_gtoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator>()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr > rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") > test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator>()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_geoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator>=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr >= rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") >= test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator>=()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_eqoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator==()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr == rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") == test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator==()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_neoperator(InFestCollection &infest_ptrs, const InFest &rhs)
+{
+    cout << "\nTest InFest::operator!=()\n";
+
+    int test_value = rhs.value();
+    cout << "\nTest InFest Object with value: " << test_value << "\n\n";
+
+    bool status = true;
+    int i = 0;
+    for (InFestPtr &infest_ptr : infest_ptrs)
+    {
+        std::string result = *infest_ptr != rhs ? "true" : "false";
+        int actual_value = infest_ptr->value();
+
+        cout
+            << "\tInFest[" << i << "] (value = " << actual_value << ") != test InFest?: " << result << "\n";
+        i++;
+    }
+
+    cout << "\nTested InFest::operator!=()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_nonassigned_plusop(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator+(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 3);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove infest objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*infest_ptrs[i]) + step;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator+(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_nonassigned_minusop(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator-(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 3);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove infest objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*infest_ptrs[i]) - step;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator-(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_assigned_minusop(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator-=(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 3);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove infest objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*infest_ptrs[i]) -= step;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator-=(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_assigned_plusop(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator+=(int p)\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> step_range(1, 3);
+
+    std::size_t step = step_range(generator);
+
+    cout << "\nMove infest objects step: " << step << "\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] before moving value: " << old_value << "\n";
+
+        (*infest_ptrs[i]) += step;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "infest["<< i <<"] after moving value: " << new_value << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator+=(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_postincrement(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator++(int p)\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] before post-increment: " << old_value << "\n";
+
+        InFest tmp = (*infest_ptrs[i])++;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] after post-increment: " << new_value << "\n";
+        cout << "New temp infest after post-increment: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator++(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_preincrement(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator++()\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] before pre-increment: " << old_value << "\n";
+
+        InFest tmp = ++(*infest_ptrs[i]);
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] after pre-increment: " << new_value << "\n";
+        cout << "New temp infest after pre-increment: " << tmp.value() << "\n";
+    }
+
+    cout << "\nTestd InFest::operator++()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_postdecrement(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator--(int p)\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] before post-decrement: " << old_value << "\n";
+
+        InFest tmp = (*infest_ptrs[i])--;
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] after post-decrement: " << new_value << "\n";
+        cout << "New temp infest after post-decrement: " << tmp.value() << "\n";
+    }
+
+
+    cout << "\nTestd InFest::operator--(int p)\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_predecrement(InFestCollection &infest_ptrs)
+{
+    cout << "\nTest InFest::operator--()\n";
+
+    bool status = true;
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] before pre-decrement: " << old_value << "\n";
+
+        InFest tmp = --(*infest_ptrs[i]);
+
+        int new_value = infest_ptrs[i]->value();
+        cout << "InFest["<< i <<"] after pre-decrement: " << new_value << "\n";
+        cout << "New temp infest after pre-decrement: " << tmp.value() << "\n";
+    }
+
+    cout << "\nTestd InFest::operator--()\t\t\t" << format_msg(status) << "\n";
+}
+
+void test_infests_nonassign_add_gridflea(InFestCollection& infest_ptrs, GridFleaCollection& gridflea_ptrs)
+{
+    cout << "\nTest InFest::operator+(const GridFlea& gridFlea)\n";
+
+    GridFlea *activeGridFlea = find_nearest_active_gridflea(gridflea_ptrs);
+
+    if (activeGridFlea == nullptr)
+    {
+        cout << "Re-run to perform test_infests_nonassign_add_gridflea() since there is no active gridflea object\n";
+        cout << "\nTested InFest::operator+(const GridFlea& gridFlea)\t\t\t" << format_msg(false) << "\n";
+        return;
+    }
+
+    cout << "\nAdd GridFlea with value: " << activeGridFlea->value() << "\n";
+
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        int old_size = infest_ptrs[i]->size();
+        cout << "InFest["<< i <<"] value before adding GridFlea: " << old_value << "\n";
+        cout << "InFest["<< i <<"] size before adding GridFlea: " << old_size << "\n";
+
+        InFest tmp = (*infest_ptrs[i]) + *activeGridFlea;
+
+        int new_value = infest_ptrs[i]->value();
+        int new_size = infest_ptrs[i]->size();
+        cout << "\nInFest["<< i <<"] value after adding GridFlea: " << new_value << "\n";
+        cout << "InFest["<< i <<"] size after adding GridFlea: " << new_size << "\n";
+        cout << "New temp infest after adding GridFlea: " << tmp.value() << "\n";
+        cout << "New temp infest after adding GridFlea: " << tmp.size() << "\n";
+    }
+
+    cout << "\nTested InFest::operator+(const GridFlea& gridFlea)\t" << format_msg(true) << "\n";
+}
+
+void test_infests_assign_add_gridflea(InFestCollection& infest_ptrs, GridFleaCollection& gridflea_ptrs)
+{
+    cout << "\nTest InFest::operator+=(const GridFlea& gridFlea)\n";
+
+    GridFlea *activeGridFlea = find_nearest_active_gridflea(gridflea_ptrs);
+
+    if (activeGridFlea == nullptr)
+    {
+        cout << "Re-run to perform test_infests_assign_add_gridflea() since there is no active gridflea object\n";
+        cout << "\nTested InFest::operator+(const GridFlea& gridFlea)\t\t\t" << format_msg(false) << "\n";
+        return;
+    }
+
+    cout << "\nAdd GridFlea with value: " << activeGridFlea->value() << "\n";
+
+    for (std::size_t i = 0; i < infest_ptrs.size(); i++)
+    {
+        cout << "======================\n";
+        int old_value = infest_ptrs[i]->value();
+        int old_size = infest_ptrs[i]->size();
+        cout << "InFest["<< i <<"] value before adding GridFlea: " << old_value << "\n";
+        cout << "InFest["<< i <<"] size before adding GridFlea: " << old_size << "\n";
+
+        *(infest_ptrs[i]) += *activeGridFlea;
+
+        int new_value = infest_ptrs[i]->value();
+        int new_size = infest_ptrs[i]->size();
+        cout << "\nInFest["<< i <<"] value after adding GridFlea: " << new_value << "\n";
+        cout << "InFest["<< i <<"] size after adding GridFlea: " << new_size << "\n";
+    }
+
+    cout << "\nTested InFest::operator+=(const GridFlea& gridFlea)\t" << format_msg(true) << "\n";
+}
+
 int main(int argc, char **argv)
 {
 
@@ -723,6 +1126,36 @@ int main(int argc, char **argv)
     else
         cout << "Re-run to check GridFlea comparison operators since all objects are inactive\n";
 
+    //InFestCollection infests(SAMPLE);
+    //test_initialize(infests, initial_args);
+
+    // Before moving
+    test_infests_eqoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_neoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_gtoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_geoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_ltoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_leoperator(infest_ptrs, *infest_ptrs[0]);
+
+    test_infests_nonassigned_plusop(infest_ptrs);
+    test_infests_assigned_plusop(infest_ptrs);
+    test_infests_nonassigned_minusop(infest_ptrs);
+    test_infests_assigned_minusop(infest_ptrs);
+    test_infests_postincrement(infest_ptrs);
+    test_infests_preincrement(infest_ptrs);
+    test_infests_postdecrement(infest_ptrs);
+    test_infests_predecrement(infest_ptrs);
+
+    // After moving
+    test_infests_eqoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_neoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_gtoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_geoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_ltoperator(infest_ptrs, *infest_ptrs[0]);
+    test_infests_leoperator(infest_ptrs, *infest_ptrs[0]);
+
+    test_infests_nonassign_add_gridflea(infest_ptrs, gridfleas);
+    test_infests_assign_add_gridflea(infest_ptrs, gridfleas);
 
     return 0;
 }
