@@ -29,7 +29,7 @@ Testing to show the data structures:
 
 """
 
-from __future__ import annotations
+# from __future__ import annotations
 from typing import Deque, Dict, List
 from collections import deque, namedtuple
 __author__ = "Richard Nguyen"
@@ -132,7 +132,7 @@ class Event():
         return ', '.join(filter(None, [self.birth(), self.marriage(), self.death()]))
 
     @staticmethod
-    def getEvent(personRef: str) -> Event:
+    def getEvent(personRef: str):
         """
         Get an Event for a person from global list of events
         """
@@ -350,7 +350,7 @@ class Person():
         return Event.getEvent(self._id).__str__()
 
     @staticmethod
-    def getPerson(personRef: str) -> Person:
+    def getPerson(personRef: str):
         """
         Return a Person in the global record of Person's
         """
