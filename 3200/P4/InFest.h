@@ -15,9 +15,16 @@
  * InFest will start with initial state GridFlea objects,
  * which means each is active and energetic at first.
  *
+ * Comparison operators are handled as the symbols said. They
+ * guarantee to not modify both InFest objects.
+ *
  * move() and value(), as mentioned above, will the trigger
  * move() and value() in every GridFlea, because you know,
  * it's infested.
+ *
+ * Addition and subtraction operators with integer are associated
+ * with moving the InFest object, like move(). Addtion operators
+ * with a GridFlea object will allow appending it to the InFest.
  *
  * Because GridFlea is a dangerous species, whenever less than
  * half of them is inactive and still inside the grid, InFest
@@ -102,6 +109,9 @@
  *     is called. If half of them is inactive, GridFlea::revive() might
  *     be called. Then, it returns the updated InFest.
  *
+ *  7. Comparison operators:
+ *     All overloaded comparison operators perform the associated logic.
+ *     The compared object must be passed as const reference.
  *
  * - move(int p): triggers the entire GridFlea::move(p). Additionally,
  *                InFest also keeps tracks of how many inactive objects
@@ -114,9 +124,11 @@
  * - max(): returns the maximum value in the GridFlea array based on
  *          GridFlea::value(), or -2 if the InFest is invalid
  *
- * - size(): returns the number of GridFlea objects in InFest
+ * - size(): returns the number of GridFlea objects in InFest.
  *
- * - value(): returns the accumulative value from each GridFlea object in InFest
+ * - value(): returns the accumulative value from each GridFlea object
+ *          in InFest on success. On error -2 is returned when there
+ *          is no gridflea at all.
  */
 
 #ifndef __INFEST_H
@@ -137,16 +149,18 @@ private:
     size_type _inactive_num;
     GridFlea *_gridfleas;
 
+    InFest(size_type num);
+
 public:
     InFest();
-    InFest(size_type x, size_t y, size_t gridflea_size, size_t gridflea_num);
+    InFest(size_type x, size_type y, size_type gridflea_size, size_type gridflea_num);
     InFest(const InFest &inFest);
     InFest(InFest &&inFest);
     ~InFest();
 
-    InFest operator+(int p);
+    InFest operator+(int p) const;
     InFest& operator+=(int p);
-    InFest operator-(int p);
+    InFest operator-(int p) const;
     InFest& operator-=(int p);
     InFest& operator++();
     InFest operator++(int);

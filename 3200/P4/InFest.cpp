@@ -24,12 +24,12 @@
  *      Move constructor. Other InFest will transfer the ownership of
  *      its _gridfeals array to the new one. So that, no new allocation or
  *      deallocation is needed. Other private properties will be copied as well.
-
  *
  * - Assignment operator
  *  1. operator=(const InFest &inFest)
  *      Same as copy constructor. Additionally, it checks if both are the same
  *      and, deallocates an existing array of GridFleas before do the copying.
+ *
  *  2. operator=(InFest &&inFest)
  *      Same as move constructor. Additionally, it checks if both are the same
  *      and, deallocates an existing array of GridFleas before do the moving.
@@ -46,6 +46,32 @@
  *     to move and create a new InFest, this is a shortcut to compact them
  *     without copying
  *
+ * - Addition & subtraction overloaded operators:
+ *  1. Unary incrementation and decrementaion: operator++(), operator--()
+ *      Allow simplified move with one step. Postfix unary operations will return
+ *      a copy of the old (before-moved) InFest without compromising the original
+ *      one while the prefix ones will directly return the original InFest. In
+ *      both scenarios, the original one will get modified by calling InFest::move()
+ *
+ *  2. Binary addition and subtraction: operator+(), operator-()
+ *      Allow simplied move with `p` steps. These operations simply call InFest::move()
+ *      to move the InFest and return a copy of it before moving. Since they guarantee
+ *      there is no modification on the original InFest, they are marked as const.
+ *
+ * 3. Binary addition with GridFlea: operator+(const GridFlea& gridflea)
+ *      Allow appending a new GridFlea to the InFest. A private constructor will be
+ *      called to copy the new size and allocate heap blocks according to this size.
+ *      Then, it simply copy the old InFest to the new one as well as append the new
+ *      GridFlea to it. Basically, it's a deep copying with a twist so that it doesn't
+ *      incur copying and reallocating at different times.
+ *
+ * - Comparison operators:
+ *      Overloaded comparison operators are marked with const and take const reference
+ *      object to ensure that first, they don't change both InFest objects used in these
+ *      operations and second, they avoid deep copying on non-modification methods.
+ *
+ *      Only operator==, operator< incur value(). Other are associating with these two.
+ *
  * - move(int p):
  *      p should follow what p in GridFlea::move(p) does. To make InFest respond
  *      consistently, after GridFlea::move() is called, check GridFlea::value()
@@ -53,6 +79,14 @@
  *      If half of them are inactive, call revive() immediately to revive all
  *      inactive fleas. Noted that revive() only succeeds if the gridFlea is
  *      valid, which means still inside the grid
+ *
+ * - value():
+ *      value should only add up the values that can be computed successfully from
+ *      GridFlea::value(), aka active grid flea. So if the return value from this
+ *      function decreases, it means there is at least one grid flea going inactive.
+ *      If an InFest has no GridFlea object, it returns -2. If an InFest has GridFlea
+ *      objects that are all inactive, it returns -1. It's because of distinguishing
+ *      between active gridfleas that has not yet moved and inactive ones.
  *
  * - min() and max():
  *      min() and max() should return -2 when there is no elements or _gridflea
@@ -66,7 +100,7 @@
 
 #include "InFest.h"
 
-InFest::InFest(size_type x, size_t y, size_t gridflea_size, size_t gridflea_num) : _num(gridflea_num), _inactive_num(0)
+InFest::InFest(size_type x, size_type y, size_type gridflea_size, size_type gridflea_num) : _num(gridflea_num), _inactive_num(0)
 {
     this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
 
@@ -75,6 +109,11 @@ InFest::InFest(size_type x, size_t y, size_t gridflea_size, size_t gridflea_num)
     {
         this->_gridfleas[i] = GridFlea(x, y + step, gridflea_size);
     }
+}
+
+InFest::InFest(size_type num) : _num(num), _inactive_num(0)
+{
+    this->_gridfleas = (GridFlea *)malloc(sizeof(GridFlea) * this->_num);
 }
 
 InFest::InFest(const InFest &inFest) : _num(inFest._num), _inactive_num(inFest._inactive_num)
@@ -132,7 +171,7 @@ InFest &InFest::operator=(const InFest &inFest)
  *
  * Post-conditions:
  *
- * The contents in _gridfeals' might be changed
+ * The contents in _gridfleas' might be changed
  */
 InFest &InFest::operator=(InFest &&inFest)
 {
@@ -154,38 +193,74 @@ InFest &InFest::operator=(InFest &&inFest)
     return *this;
 }
 
-InFest InFest::operator+(int p)
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
+InFest InFest::operator+(int p) const
 {
     InFest tmp = *this;
     tmp.move(p);
     return tmp;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest& InFest::operator+=(int p)
 {
     this->move(p);
     return *this;
 }
 
-InFest InFest::operator-(int p)
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
+InFest InFest::operator-(int p) const
 {
     InFest tmp = *this;
     tmp.move(-p);
     return tmp;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest& InFest::operator-=(int p)
 {
     this->move(-p);
     return *this;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest& InFest::operator++()
 {
     this->move(1);
     return *this;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest InFest::operator++(int)
 {
     InFest tmp = *this;
@@ -193,12 +268,24 @@ InFest InFest::operator++(int)
     return tmp;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest& InFest::operator--()
 {
     this->move(-1);
     return *this;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest InFest::operator--(int)
 {
     InFest tmp = *this;
@@ -206,14 +293,22 @@ InFest InFest::operator--(int)
     return tmp;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 InFest InFest::operator+(const GridFlea& gridFlea)
 {
-    InFest newInFest = InFest(*this);
-    newInFest._num++;
+    InFest newInFest(this->_num + 1);
 
-    newInFest._gridfleas = (GridFlea *)realloc(newInFest._gridfleas, sizeof(GridFlea) * newInFest._num);
-    newInFest._gridfleas[newInFest._num-1] = gridFlea;
+    newInFest._inactive_num = this->_inactive_num;
 
+    for (size_type i = 0; i < this->_num; i++)
+        newInFest._gridfleas[i] = this->_gridfleas[i];
+
+    newInFest._gridfleas[this->_num] = gridFlea;
     if (gridFlea.value() != -1)
         newInFest._inactive_num++;
 
@@ -234,12 +329,12 @@ InFest& InFest::operator+=(const GridFlea& gridFlea)
 
 bool InFest::operator==(const InFest& other) const
 {
-    return this->max() == other.max();
+    return this->value() == other.value();
 }
 
 bool InFest::operator<(const InFest& other) const
 {
-    return this->max() < other.max();
+    return this->value() < other.value();
 }
 
 bool InFest::operator!=(const InFest& other) const
@@ -277,7 +372,6 @@ InFest::~InFest()
  *
  * Infest must be non-empty
  *
- *
  */
 void InFest::move(int p)
 {
@@ -299,6 +393,12 @@ void InFest::move(int p)
     }
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 int InFest::min() const
 {
     if (this->_num == 0 || !this->_gridfleas)
@@ -317,6 +417,12 @@ int InFest::min() const
     return min;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 int InFest::max() const
 {
     if (this->_num == 0 || !this->_gridfleas)
@@ -335,13 +441,16 @@ int InFest::max() const
     return max;
 }
 
+/**
+ * Pre-conditions:
+ *
+ * Infest must be non-empty
+ *
+ */
 int InFest::value() const
 {
     if (this->_num == 0 || !this->_gridfleas)
         return -2;
-
-    if (this->_num == 1)
-        return this->_gridfleas[0].value();
 
     int sum = 0;
     for (size_type i = 0; i < this->_num; i++)

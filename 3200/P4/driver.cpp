@@ -1044,6 +1044,89 @@ void test_infests_assign_add_gridflea(InFestCollection& infest_ptrs, GridFleaCol
     cout << "\nTested InFest::operator+=(const GridFlea& gridFlea)\t" << format_msg(true) << "\n";
 }
 
+void test_gridfleas_jump_outside_inbound()
+{
+    cout << "\nTest GridFleas permittedly jump outside\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> grid_range(318, 320);
+    std::uniform_int_distribution<std::size_t> size_range(2, 5);
+    std::uniform_int_distribution<std::size_t> step_range(1, 8);
+
+    GridFleaCollection fleas(SAMPLE);
+    std::size_t step = step_range(generator);
+
+    for (std::size_t i  = 0; i < fleas.size(); i++)
+    {
+        std::size_t x = grid_range(generator);
+        std::size_t y = grid_range(generator);
+        std::size_t size = size_range(generator);
+
+        cout << "GridFlea(" << x << ", " << y << ", " << size << "):\n";
+
+        fleas[i] = std::make_unique<GridFlea>(x,y,size);
+        fleas[i]->move(step);
+
+        std::string direction = (step % 2 == 0) ? "X" : "Y";
+        std::size_t actual_step = (step % 2 == 0) ? step / 2 : step;
+
+        cout << "\tFirst moved out of bound on "<< direction << ": " << actual_step << " steps\n";
+        cout << "\tValue: " << fleas[i]->value() << "\n";
+
+        fleas[i]->move(step);
+        cout << "\tSecond moved out of bound on "<< direction << ": " << actual_step << " steps\n";
+        cout << "\tValue: " << fleas[i]->value() << "\n";
+    }
+
+    cout << "\nTested GridFleas permittedly jump outside\t\t" << format_msg(true) << endl;
+}
+
+void test_gridfleas_jump_outside_inbound_with_reset()
+{
+    cout << "\nTest GridFleas permittedly jump outside with reset\n";
+
+    std::random_device dev;
+    std::mt19937 generator{dev()};
+    std::uniform_int_distribution<std::size_t> grid_range(318, 320);
+    std::uniform_int_distribution<std::size_t> size_range(2, 5);
+    std::uniform_int_distribution<std::size_t> step_range(1, 8);
+
+    GridFleaCollection fleas(SAMPLE);
+    std::size_t step = step_range(generator);
+
+    for (std::size_t i  = 0; i < fleas.size(); i++)
+    {
+        std::size_t x = grid_range(generator);
+        std::size_t y = grid_range(generator);
+        std::size_t size = size_range(generator);
+
+        cout << "GridFlea(" << x << ", " << y << ", " << size << "):\n";
+
+        fleas[i] = std::make_unique<GridFlea>(x,y,size);
+        fleas[i]->move(step);
+
+        std::string direction = (step % 2 == 0) ? "X" : "Y";
+        int actual_step = (int)((step % 2 == 0) ? step / 2 : step);
+
+        cout << "\tFirst moved out of bound on "<< direction << ": " << (actual_step) << " steps\n";
+        cout << "\tValue: " << fleas[i]->value() << "\n";
+
+        fleas[i]->move(-step);
+        cout << "\tSecond moved out of bound on "<< direction << ": " << (-actual_step) << " steps\n";
+        cout << "\tValue: " << fleas[i]->value() << "\n";
+
+        fleas[i]->revive();
+        cout << "\tValue after reset: " << fleas[i]->value() << "\n";
+
+        fleas[i]->move(-step);
+        cout << "\tThird moved out of bound on "<< direction << ": " << (-actual_step) << " steps\n";
+        cout << "\tValue: " << fleas[i]->value() << "\n";
+
+    }
+
+    cout << "\nTested GridFleas permittedly jump outside with reset\t\t" << format_msg(true) << endl;
+}
 int main(int argc, char **argv)
 {
 
@@ -1156,6 +1239,9 @@ int main(int argc, char **argv)
 
     test_infests_nonassign_add_gridflea(infest_ptrs, gridfleas);
     test_infests_assign_add_gridflea(infest_ptrs, gridfleas);
+
+    test_gridfleas_jump_outside_inbound();
+    test_gridfleas_jump_outside_inbound_with_reset();
 
     return 0;
 }
