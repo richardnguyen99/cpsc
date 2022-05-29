@@ -1,4 +1,5 @@
 \documentclass[12pt]{article}
+\usepackage{tikz}
 
 \title{CPSC 3400 - Homework 6 \\
 DFAs, Regular Expressions and Turing machines}
@@ -10,5 +11,266 @@ DFAs, Regular Expressions and Turing machines}
 \begin{document}
 
 \maketitle
+
+\section*{Part I. DFAs}
+
+Draw DFAs for the following language specifications.
+
+\begin{enumerate}
+    \item All strings on $\sum = \{A,B,C\}$ that contain each letter ($A$, $B$, and $C$) at least once.
+
+          \centering{\textbf{Solution}}
+          \begin{center}
+              \begin{tikzpicture}[scale=0.2]
+                  \tikzstyle{every node}+=[inner sep=0pt]
+                  \draw [black] (7.5,-32.3) circle (3);
+                  \draw [black] (19,-44.4) circle (3);
+                  \draw (19,-44.4) node {$A$};
+                  \draw [black] (19,-32.3) circle (3);
+                  \draw (19,-32.3) node {$B$};
+                  \draw [black] (19,-20.4) circle (3);
+                  \draw (19,-20.4) node {$C$};
+                  \draw [black] (31.1,-38.2) circle (3);
+                  \draw (31.1,-38.2) node {$C$};
+                  \draw [black] (31.1,-26.4) circle (3);
+                  \draw (31.1,-26.4) node {$A$};
+                  \draw [black] (43.2,-32.3) circle (3);
+                  \draw [black] (43.2,-32.3) circle (2.4);
+                  \draw [black] (10.5,-32.3) -- (16,-32.3);
+                  \fill [black] (16,-32.3) -- (15.2,-31.8) -- (15.2,-32.8);
+                  \draw (13.25,-32.8) node [below] {$B$};
+                  \draw [black] (9.57,-34.47) -- (16.93,-42.23);
+                  \fill [black] (16.93,-42.23) -- (16.74,-41.3) -- (16.02,-41.99);
+                  \draw (12.72,-39.82) node [left] {$A$};
+                  \draw [black] (9.58,-30.14) -- (16.92,-22.56);
+                  \fill [black] (16.92,-22.56) -- (16,-22.79) -- (16.72,-23.48);
+                  \draw (13.78,-27.82) node [right] {$C$};
+                  \draw [black] (21.69,-21.73) -- (28.41,-25.07);
+                  \fill [black] (28.41,-25.07) -- (27.92,-24.26) -- (27.47,-25.16);
+                  \draw (23.84,-23.91) node [below] {$A$};
+                  \draw [black] (33.8,-27.71) -- (40.5,-30.99);
+                  \fill [black] (40.5,-30.99) -- (40,-30.19) -- (39.57,-31.08);
+                  \draw (35.93,-29.86) node [below] {$B$};
+                  \draw [black] (33.8,-36.89) -- (40.5,-33.61);
+                  \fill [black] (40.5,-33.61) -- (39.57,-33.52) -- (40,-34.41);
+                  \draw (38.37,-35.76) node [below] {$B$};
+                  \draw [black] (21.67,-43.03) -- (28.43,-39.57);
+                  \fill [black] (28.43,-39.57) -- (27.49,-39.49) -- (27.95,-40.38);
+                  \draw (26.31,-41.8) node [below] {$C$};
+                  \draw [black] (19,-29.3) -- (19,-23.4);
+                  \fill [black] (19,-23.4) -- (18.5,-24.2) -- (19.5,-24.2);
+                  \draw (19.5,-26.35) node [right] {$C$};
+                  \draw [black] (19,-35.3) -- (19,-41.4);
+                  \fill [black] (19,-41.4) -- (19.5,-40.6) -- (18.5,-40.6);
+                  \draw (18.5,-38.35) node [left] {$A$};
+                  \draw [black] (17.677,-17.72) arc (234:-54:2.25);
+                  \draw (19,-13.15) node [above] {$C$};
+                  \fill [black] (20.32,-17.72) -- (21.2,-17.37) -- (20.39,-16.78);
+                  \draw [black] (21.68,-30.977) arc (144:-144:2.25);
+                  \draw (26.25,-32.3) node [right] {$B$};
+                  \fill [black] (21.68,-33.62) -- (22.03,-34.5) -- (22.62,-33.69);
+                  \draw [black] (20.323,-47.08) arc (54:-234:2.25);
+                  \draw (19,-51.65) node [below] {$A$};
+                  \fill [black] (17.68,-47.08) -- (16.8,-47.43) -- (17.61,-48.02);
+                  \draw [black] (32.224,-23.631) arc (185.63354:-102.36646:2.25);
+                  \draw (36.69,-20.46) node [right] {$A$};
+                  \fill [black] (33.98,-25.61) -- (34.83,-26.03) -- (34.73,-25.03);
+                  \draw [black] (33.793,-39.495) arc (92.04704:-195.95296:2.25);
+                  \draw (36.53,-44.01) node [below] {$C$};
+                  \fill [black] (31.71,-41.13) -- (31.24,-41.94) -- (32.24,-41.91);
+                  \draw [black] (0.4,-32.3) -- (4.5,-32.3);
+                  \fill [black] (4.5,-32.3) -- (3.7,-31.8) -- (3.7,-32.8);
+              \end{tikzpicture}
+          \end{center}
+    \item All strings on $\sum = \{X,Y,Z\}$ that contain two secutive $X$s or three consecutive $Z$s (or both).
+
+          \centering{\textbf{Solution}}
+          \begin{center}
+              \begin{tikzpicture}[scale=0.2]
+                  \tikzstyle{every node}+=[inner sep=0pt]
+                  \draw [black] (9.3,-30.1) circle (3);
+                  \draw [black] (20.8,-30) circle (3);
+                  \draw (20.8,-30) node {$Y$};
+                  \draw [black] (20.8,-48.3) circle (3);
+                  \draw (20.8,-48.3) node {$Z$};
+                  \draw [black] (20.8,-11.8) circle (3);
+                  \draw (20.8,-11.8) node {$X$};
+                  \draw [black] (38.9,-48.3) circle (3);
+                  \draw (38.9,-48.3) node {$Z$};
+                  \draw [black] (56.9,-30) circle (3);
+                  \draw [black] (56.9,-30) circle (2.4);
+                  \draw [black] (0.9,-30.1) -- (6.3,-30.1);
+                  \fill [black] (6.3,-30.1) -- (5.5,-29.6) -- (5.5,-30.6);
+                  \draw [black] (12.3,-30.07) -- (17.8,-30.03);
+                  \fill [black] (17.8,-30.03) -- (17,-29.53) -- (17,-30.53);
+                  \draw [black] (22.561,-14.221) arc (29.66651:-29.66651:13.494);
+                  \fill [black] (22.56,-14.22) -- (22.52,-15.16) -- (23.39,-14.67);
+                  \draw (24.83,-20.9) node [right] {$X$};
+                  \draw [black] (18.799,-46.075) arc (-145.13229:-214.86771:12.113);
+                  \fill [black] (18.8,-46.07) -- (18.75,-45.13) -- (17.93,-45.7);
+                  \draw (16.12,-39.15) node [left] {$Z$};
+                  \draw [black] (17.835,-47.889) arc (-104.55016:-190.87487:12.913);
+                  \fill [black] (17.84,-47.89) -- (17.19,-47.2) -- (16.94,-48.17);
+                  \draw (9.54,-43.59) node [left] {$Z$};
+                  \draw [black] (8.436,-27.234) arc (-169.77019:-254.52158:13.116);
+                  \fill [black] (17.84,-12.26) -- (16.94,-12) -- (17.21,-12.96);
+                  \draw (9.61,-16.63) node [left] {$X$};
+                  \draw [black] (23.639,-10.835) arc (105.58324:20.90638:26.895);
+                  \fill [black] (55.99,-27.14) -- (56.17,-26.22) -- (55.24,-26.57);
+                  \draw (44.17,-12.22) node [above] {$X$};
+                  \draw [black] (23.8,-48.3) -- (35.9,-48.3);
+                  \fill [black] (35.9,-48.3) -- (35.1,-47.8) -- (35.1,-48.8);
+                  \draw (29.85,-48.8) node [below] {$Z$};
+                  \draw [black] (56.163,-32.906) arc (-17.98372:-71.06927:22.928);
+                  \fill [black] (56.16,-32.91) -- (55.44,-33.51) -- (56.39,-33.82);
+                  \draw (51.23,-43.38) node [right] {$Z$};
+                  \draw [black] (23.798,-11.816) arc (85.7954:-33.04266:22.098);
+                  \fill [black] (23.8,-11.82) -- (24.56,-12.37) -- (24.63,-11.38);
+                  \draw (42.67,-22.94) node [right] {$X$};
+                  \draw [black] (23.762,-12.251) arc (76.64348:-76.64348:18.294);
+                  \fill [black] (23.76,-12.25) -- (24.43,-12.92) -- (24.66,-11.95);
+                  \draw (38.33,-30.05) node [right] {$X$};
+                  \draw [black] (18.712,-27.858) arc (-143.13976:-216.86024:11.599);
+                  \fill [black] (18.71,-27.86) -- (18.63,-26.92) -- (17.83,-27.52);
+                  \draw (15.89,-20.9) node [left] {$Y$};
+                  \draw [black] (22.502,-32.463) arc (28.5082:-28.5082:14.01);
+                  \fill [black] (22.5,-32.46) -- (22.44,-33.41) -- (23.32,-32.93);
+                  \draw (24.7,-39.15) node [right] {$Y$};
+                  \draw [black] (23.562,-12.963) arc (62.69242:-62.69242:19.23);
+                  \fill [black] (23.56,-47.14) -- (24.5,-47.21) -- (24.04,-46.33);
+                  \draw (34.47,-30.05) node [right] {$Z$};
+                  \draw [black] (36.79,-46.17) -- (22.91,-32.13);
+                  \fill [black] (22.91,-32.13) -- (23.12,-33.05) -- (23.83,-32.35);
+                  \draw (30.37,-37.68) node [right] {$Y$};
+                  \draw [black] (23.48,-28.677) arc (144:-144:2.25);
+                  \draw (28.05,-30) node [right] {$Y$};
+                  \fill [black] (23.48,-31.32) -- (23.83,-32.2) -- (24.42,-31.39);
+              \end{tikzpicture}
+          \end{center}
+
+    \item All strings on $\sum = \{A,B,C,D\}$ that match the Python regular expression \texttt{\^}\texttt{~(A?(B|CD)*A+D)\$}
+
+          \centering{\textbf{Solution}}
+
+          \begin{center}
+              \begin{tikzpicture}[scale=0.2]
+                  \tikzstyle{every node}+=[inner sep=0pt]
+                  \draw [black] (9.3,-30.1) circle (3);
+                  \draw [black] (21.7,-30.1) circle (3);
+                  \draw (21.7,-30.1) node {$A$};
+                  \draw [black] (33.5,-42.3) circle (3);
+                  \draw (33.5,-42.3) node {$C$};
+                  \draw [black] (33.5,-18.1) circle (3);
+                  \draw (33.5,-18.1) node {$B$};
+                  \draw [black] (45.5,-42.3) circle (3);
+                  \draw (45.5,-42.3) node {$D$};
+                  \draw [black] (45.5,-30.1) circle (3);
+                  \draw (45.5,-30.1) node {$A$};
+                  \draw [black] (58,-30.1) circle (3);
+                  \draw [black] (58,-30.1) circle (2.4);
+                  \draw [black] (0.9,-30.1) -- (6.3,-30.1);
+                  \fill [black] (6.3,-30.1) -- (5.5,-29.6) -- (5.5,-30.6);
+                  \draw [black] (12.3,-30.1) -- (18.7,-30.1);
+                  \fill [black] (18.7,-30.1) -- (17.9,-29.6) -- (17.9,-30.6);
+                  \draw (15.5,-30.6) node [below] {$A$};
+                  \draw [black] (22.7,-27.276) arc (155.3767:115.58623:16.75);
+                  \fill [black] (30.69,-19.15) -- (29.76,-19.04) -- (30.19,-19.94);
+                  \draw (25.46,-21.04) node [left] {$B$};
+                  \draw [black] (30.573,-41.671) arc (-108.69605:-163.21363:13.099);
+                  \fill [black] (30.57,-41.67) -- (29.98,-40.94) -- (29.66,-41.89);
+                  \draw (24.83,-39.84) node [left] {$C$};
+                  \draw [black] (36.5,-42.3) -- (42.5,-42.3);
+                  \fill [black] (42.5,-42.3) -- (41.7,-41.8) -- (41.7,-42.8);
+                  \draw (39.5,-42.8) node [below] {$D$};
+                  \draw [black] (35.62,-20.22) -- (43.38,-27.98);
+                  \fill [black] (43.38,-27.98) -- (43.17,-27.06) -- (42.46,-27.77);
+                  \draw (38.25,-24.58) node [below] {$A$};
+                  \draw [black] (45.5,-39.3) -- (45.5,-33.1);
+                  \fill [black] (45.5,-33.1) -- (45,-33.9) -- (46,-33.9);
+                  \draw [black] (48.5,-30.1) -- (55,-30.1);
+                  \fill [black] (55,-30.1) -- (54.2,-29.6) -- (54.2,-30.6);
+                  \draw (51.75,-30.6) node [below] {$D$};
+                  \draw [black] (42.82,-31.423) arc (-36:-324:2.25);
+                  \draw (38.25,-30.1) node [left] {$A$};
+                  \fill [black] (42.82,-28.78) -- (42.47,-27.9) -- (41.88,-28.71);
+                  \draw [black] (9.858,-27.157) arc (163.84262:68.90804:15.875);
+                  \fill [black] (30.82,-16.76) -- (30.25,-16.01) -- (29.89,-16.94);
+                  \draw (16.83,-16.85) node [above] {$B$};
+                  \draw [black] (30.852,-43.701) arc (-67.61995:-165.88834:15.626);
+                  \fill [black] (30.85,-43.7) -- (29.92,-43.54) -- (30.3,-44.47);
+                  \draw [black] (31.463,-40.103) arc (-142.45462:-217.54538:16.251);
+                  \fill [black] (31.46,-40.1) -- (31.37,-39.16) -- (30.58,-39.77);
+                  \draw (27.6,-30.2) node [left] {$C$};
+                  \draw [black] (42.757,-41.092) arc (-118.20852:-189.04082:19.336);
+                  \fill [black] (32.8,-21.01) -- (32.18,-21.73) -- (33.17,-21.88);
+                  \draw (33.87,-33.74) node [left] {$B$};
+              \end{tikzpicture}
+          \end{center}
+\end{enumerate}
+
+\section*{Part II. Regular Expressions}
+
+For each item, write a \textbf{\textit{single}} regular expression that mathces that item. Note that in ALL cases, the entire string must match without additional characters.
+
+\begin{enumerate}
+    \item A string of digits that contains only digits and contains exactly two fives. Examples of acceptable strings include: "15445", "55", "05563"
+
+          The string should be rejected if it contains anything other than a digits.
+
+          \centerline{\textbf{Solution}}
+
+          \begin{itemize}
+              \item Answer: \texttt{\^}\texttt{[0-4,6-9]*5[0-4,6-9]*5[0-4,6-9]*\$}
+              \item Explanation:
+
+                    \begin{itemize}
+                        \item \texttt{[0,4,6-9]*}: Accept all strings that contain digits in range from 0 to 9 except 5. It also accept empty strings. (1)
+                        \item \texttt{5\{1\}}: Accept only a digit-5 string. (2)
+                    \end{itemize}
+          \end{itemize}
+
+    \item A regular expression that matches a time expressed in the form "1:45 PM".
+
+          The hours part must be a number from 1 to 12, the minutes range from 00 to 59, and the time must indicate either AM or PM (uppercase only and preceded by exactly one space).
+
+          \centerline{\textbf{Solution}}
+
+          \begin{itemize}
+              \item Answer: \texttt{\^}\texttt{((1[0-2]|[1-9]))(:)([0-5][0-9]) ([AP]M)\$}
+              \item Explanation:
+
+                    \begin{itemize}
+                        \item \texttt{(1[0-2]|[1-9])}: Accept all digit strings that are either in range from 10 to 12 or in range from 0 to 9 without leading zeroes.
+                        \item \texttt{(:)}: Accept the separator, "\texttt{:}", between hours and minutes.
+                        \item \texttt{([0-5][0-9])}: Accept all digit strings from 00 to 59 (with leading zeroes).
+                        \item \texttt{([AP]M)}: Accept "AM" or "PM" with one preceding space to indicate the time meridiem.
+                    \end{itemize}
+          \end{itemize}
+
+    \item A regular expression that matches a string representing a comma separated list of variable names such as: \texttt{hello, get\_max, sum3}
+
+          \begin{itemize}
+              \item A variable name consists of letters, digits, and underscores but cannot start with a digit.
+              \item There is exactly one space after every comma. No other spaces are allowed.
+              \item Commas and spaces are not allowed before the first name and after the last name.
+              \item An empty string is considered a match.
+          \end{itemize}
+
+        \centerline{\textbf{Solution}}
+
+        \begin{itemize}
+            \item Answer: \texttt{\^}\texttt{\$|}\texttt{\^}\texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*([a-zA-Z\_]\textbackslash w*)\$}
+            \item Explanation:
+
+            \begin{itemize}
+                \item \texttt{\^}\texttt{\$}: Accept empty string.
+                \item \texttt{([a-zA-Z\_]\textbackslash w*)}: Accept variable names that match with the requirements. \texttt{\textbackslash w} is equivalent to \texttt{[a-zA-Z0-9\_]}.
+                \item \texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*}: As the previous one, but addtionally accept previous variable names followed by exactly one comma and one space, if there are more than one variable name.
+            \end{itemize}
+        \end{itemize}
+
+
+
+\end{enumerate}
 
 \end{document}
