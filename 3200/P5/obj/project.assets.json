@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/home/riki208/.nuget/packages/": {}
+    "/home/riki/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/riki208/cpsc/3200/P5/P5.csproj",
+      "projectUniqueName": "/home/riki/github/cpsc/3200/P5/P5.csproj",
       "projectName": "P5",
-      "projectPath": "/home/riki208/cpsc/3200/P5/P5.csproj",
-      "packagesPath": "/home/riki208/.nuget/packages/",
-      "outputPath": "/home/riki208/cpsc/3200/P5/obj/",
+      "projectPath": "/home/riki/github/cpsc/3200/P5/P5.csproj",
+      "packagesPath": "/home/riki/.nuget/packages/",
+      "outputPath": "/home/riki/github/cpsc/3200/P5/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/riki208/.nuget/NuGet/NuGet.Config"
+        "/home/riki/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
