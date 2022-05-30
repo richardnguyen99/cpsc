@@ -19,74 +19,112 @@ Draw DFAs for the following language specifications.
 \begin{enumerate}
     \item All strings on $\sum = \{A,B,C\}$ that contain each letter ($A$, $B$, and $C$) at least once.
 
-          \centering{\textbf{Solution}}
           \begin{center}
-              \begin{tikzpicture}[scale=0.2]
+              \begin{tikzpicture}[scale=0.15]
                   \tikzstyle{every node}+=[inner sep=0pt]
-                  \draw [black] (7.5,-32.3) circle (3);
-                  \draw [black] (19,-44.4) circle (3);
-                  \draw (19,-44.4) node {$A$};
-                  \draw [black] (19,-32.3) circle (3);
-                  \draw (19,-32.3) node {$B$};
-                  \draw [black] (19,-20.4) circle (3);
-                  \draw (19,-20.4) node {$C$};
-                  \draw [black] (31.1,-38.2) circle (3);
-                  \draw (31.1,-38.2) node {$C$};
-                  \draw [black] (31.1,-26.4) circle (3);
-                  \draw (31.1,-26.4) node {$A$};
-                  \draw [black] (43.2,-32.3) circle (3);
-                  \draw [black] (43.2,-32.3) circle (2.4);
-                  \draw [black] (10.5,-32.3) -- (16,-32.3);
-                  \fill [black] (16,-32.3) -- (15.2,-31.8) -- (15.2,-32.8);
-                  \draw (13.25,-32.8) node [below] {$B$};
-                  \draw [black] (9.57,-34.47) -- (16.93,-42.23);
-                  \fill [black] (16.93,-42.23) -- (16.74,-41.3) -- (16.02,-41.99);
-                  \draw (12.72,-39.82) node [left] {$A$};
-                  \draw [black] (9.58,-30.14) -- (16.92,-22.56);
-                  \fill [black] (16.92,-22.56) -- (16,-22.79) -- (16.72,-23.48);
-                  \draw (13.78,-27.82) node [right] {$C$};
-                  \draw [black] (21.69,-21.73) -- (28.41,-25.07);
-                  \fill [black] (28.41,-25.07) -- (27.92,-24.26) -- (27.47,-25.16);
-                  \draw (23.84,-23.91) node [below] {$A$};
-                  \draw [black] (33.8,-27.71) -- (40.5,-30.99);
-                  \fill [black] (40.5,-30.99) -- (40,-30.19) -- (39.57,-31.08);
-                  \draw (35.93,-29.86) node [below] {$B$};
-                  \draw [black] (33.8,-36.89) -- (40.5,-33.61);
-                  \fill [black] (40.5,-33.61) -- (39.57,-33.52) -- (40,-34.41);
-                  \draw (38.37,-35.76) node [below] {$B$};
-                  \draw [black] (21.67,-43.03) -- (28.43,-39.57);
-                  \fill [black] (28.43,-39.57) -- (27.49,-39.49) -- (27.95,-40.38);
-                  \draw (26.31,-41.8) node [below] {$C$};
-                  \draw [black] (19,-29.3) -- (19,-23.4);
-                  \fill [black] (19,-23.4) -- (18.5,-24.2) -- (19.5,-24.2);
-                  \draw (19.5,-26.35) node [right] {$C$};
-                  \draw [black] (19,-35.3) -- (19,-41.4);
-                  \fill [black] (19,-41.4) -- (19.5,-40.6) -- (18.5,-40.6);
-                  \draw (18.5,-38.35) node [left] {$A$};
-                  \draw [black] (17.677,-17.72) arc (234:-54:2.25);
-                  \draw (19,-13.15) node [above] {$C$};
-                  \fill [black] (20.32,-17.72) -- (21.2,-17.37) -- (20.39,-16.78);
-                  \draw [black] (21.68,-30.977) arc (144:-144:2.25);
-                  \draw (26.25,-32.3) node [right] {$B$};
-                  \fill [black] (21.68,-33.62) -- (22.03,-34.5) -- (22.62,-33.69);
-                  \draw [black] (20.323,-47.08) arc (54:-234:2.25);
-                  \draw (19,-51.65) node [below] {$A$};
-                  \fill [black] (17.68,-47.08) -- (16.8,-47.43) -- (17.61,-48.02);
-                  \draw [black] (32.224,-23.631) arc (185.63354:-102.36646:2.25);
-                  \draw (36.69,-20.46) node [right] {$A$};
-                  \fill [black] (33.98,-25.61) -- (34.83,-26.03) -- (34.73,-25.03);
-                  \draw [black] (33.793,-39.495) arc (92.04704:-195.95296:2.25);
-                  \draw (36.53,-44.01) node [below] {$C$};
-                  \fill [black] (31.71,-41.13) -- (31.24,-41.94) -- (32.24,-41.91);
-                  \draw [black] (0.4,-32.3) -- (4.5,-32.3);
-                  \fill [black] (4.5,-32.3) -- (3.7,-31.8) -- (3.7,-32.8);
+                  \draw [black] (8.9,-30.1) circle (3);
+                  \draw [black] (20.9,-12.2) circle (3);
+                  \draw (20.9,-12.2) node {$A$};
+                  \draw [black] (20.9,-30.1) circle (3);
+                  \draw (20.9,-30.1) node {$B$};
+                  \draw [black] (20.9,-46.1) circle (3);
+                  \draw (20.9,-46.1) node {$C$};
+                  \draw [black] (32.9,-24.1) circle (3);
+                  \draw (32.9,-24.1) node {$C$};
+                  \draw [black] (32.9,-18.1) circle (3);
+                  \draw (32.9,-18.1) node {$C$};
+                  \draw [black] (32.9,-36.1) circle (3);
+                  \draw (32.9,-36.1) node {$A$};
+                  \draw [black] (32.9,-51.6) circle (3);
+                  \draw (32.9,-51.6) node {$B$};
+                  \draw [black] (32.9,-6.2) circle (3);
+                  \draw (32.9,-6.2) node {$B$};
+                  \draw [black] (32.9,-42.1) circle (3);
+                  \draw (32.9,-42.1) node {$A$};
+                  \draw [black] (51.1,-29.8) circle (3);
+                  \draw [black] (51.1,-29.8) circle (2.4);
+                  \draw [black] (0.5,-30.1) -- (5.9,-30.1);
+                  \fill [black] (5.9,-30.1) -- (5.1,-29.6) -- (5.1,-30.6);
+                  \draw [black] (11.9,-30.1) -- (17.9,-30.1);
+                  \fill [black] (17.9,-30.1) -- (17.1,-29.6) -- (17.1,-30.6);
+                  \draw (14.9,-30.6) node [below] {$B$};
+                  \draw [black] (10.57,-27.61) -- (19.23,-14.69);
+                  \fill [black] (19.23,-14.69) -- (18.37,-15.08) -- (19.2,-15.63);
+                  \draw (14.29,-19.81) node [left] {$A$};
+                  \draw [black] (10.7,-32.5) -- (19.1,-43.7);
+                  \fill [black] (19.1,-43.7) -- (19.02,-42.76) -- (18.22,-43.36);
+                  \draw (14.32,-39.5) node [left] {$C$};
+                  \draw [black] (23.59,-13.52) -- (30.21,-16.78);
+                  \fill [black] (30.21,-16.78) -- (29.71,-15.97) -- (29.27,-16.87);
+                  \draw (25.65,-15.66) node [below] {$C$};
+                  \draw [black] (23.58,-10.86) -- (30.22,-7.54);
+                  \fill [black] (30.22,-7.54) -- (29.28,-7.45) -- (29.72,-8.35);
+                  \draw (25.68,-8.69) node [above] {$B$};
+                  \draw [black] (23.58,-28.76) -- (30.22,-25.44);
+                  \fill [black] (30.22,-25.44) -- (29.28,-25.35) -- (29.72,-26.25);
+                  \draw (28.15,-27.61) node [below] {$C$};
+                  \draw [black] (23.58,-31.44) -- (30.22,-34.76);
+                  \fill [black] (30.22,-34.76) -- (29.72,-33.95) -- (29.28,-34.85);
+                  \draw (25.69,-33.61) node [below] {$A$};
+                  \draw [black] (21.994,-43.33) arc (146.45435:70.41554:7.162);
+                  \fill [black] (30.36,-40.54) -- (29.78,-39.8) -- (29.44,-40.74);
+                  \draw (24.61,-39.95) node [above] {$A$};
+                  \draw [black] (29.997,-52.297) arc (-86.14129:-143.10584:8.915);
+                  \fill [black] (30,-52.3) -- (29.16,-51.85) -- (29.23,-52.85);
+                  \draw (24.47,-52.02) node [below] {$B$};
+                  \draw [black] (34.73,-8.58) -- (49.27,-27.42);
+                  \fill [black] (49.27,-27.42) -- (49.18,-26.49) -- (48.38,-27.1);
+                  \draw (42.57,-16.59) node [right] {$C$};
+                  \draw [black] (35.42,-19.72) -- (48.58,-28.18);
+                  \fill [black] (48.58,-28.18) -- (48.17,-27.32) -- (47.63,-28.17);
+                  \draw (40.76,-24.45) node [below] {$B$};
+                  \draw [black] (35.76,-25) -- (48.24,-28.9);
+                  \fill [black] (48.24,-28.9) -- (47.62,-28.19) -- (47.32,-29.14);
+                  \draw (40.95,-27.5) node [below] {$A$};
+                  \draw [black] (35.73,-35.12) -- (48.27,-30.78);
+                  \fill [black] (48.27,-30.78) -- (47.35,-30.57) -- (47.67,-31.52);
+                  \draw (40.85,-32.41) node [above] {$C$};
+                  \draw [black] (35.39,-40.42) -- (48.61,-31.48);
+                  \fill [black] (48.61,-31.48) -- (47.67,-31.51) -- (48.23,-32.34);
+                  \draw (43.24,-36.45) node [below] {$B$};
+                  \draw [black] (34.82,-49.3) -- (49.18,-32.1);
+                  \fill [black] (49.18,-32.1) -- (48.28,-32.4) -- (49.05,-33.04);
+                  \draw (42.55,-42.14) node [right] {$A$};
+                  \draw [black] (18.22,-13.523) arc (-36:-324:2.25);
+                  \draw (13.65,-12.2) node [left] {$A$};
+                  \fill [black] (18.22,-10.88) -- (17.87,-10) -- (17.28,-10.81);
+                  \draw [black] (35.407,-4.574) arc (150.70469:-137.29531:2.25);
+                  \draw (40.27,-5.29) node [right] {$C$};
+                  \fill [black] (35.72,-7.2) -- (36.17,-8.03) -- (36.66,-7.16);
+                  \draw [black] (30.668,-16.113) arc (256.05831:-31.94169:2.25);
+                  \draw (29.15,-11.32) node [above] {$C$};
+                  \fill [black] (33.12,-15.12) -- (33.8,-14.46) -- (32.83,-14.22);
+                  \draw [black] (29.967,-24.671) arc (308.74488:20.74488:2.25);
+                  \draw (25.62,-21.8) node [left] {$C$};
+                  \fill [black] (30.66,-22.12) -- (30.55,-21.18) -- (29.77,-21.81);
+                  \draw [black] (32.168,-33.203) arc (221.90524:-66.09476:2.25);
+                  \draw (35.06,-28.9) node [above] {$A$};
+                  \fill [black] (34.75,-33.76) -- (35.68,-33.59) -- (35.02,-32.85);
+                  \draw [black] (31.546,-44.764) arc (0.79457:-287.20543:2.25);
+                  \draw (26.92,-47.54) node [left] {$A$};
+                  \fill [black] (29.96,-42.65) -- (29.16,-42.16) -- (29.17,-43.16);
+                  \draw [black] (35.58,-50.277) arc (144:-144:2.25);
+                  \draw (40.15,-51.6) node [right] {$B$};
+                  \fill [black] (35.58,-52.92) -- (35.93,-53.8) -- (36.52,-52.99);
+                  \draw [black] (18.22,-47.423) arc (324:36:2.25);
+                  \draw (13.65,-46.1) node [left] {$C$};
+                  \fill [black] (18.22,-44.78) -- (17.87,-43.9) -- (17.28,-44.71);
+                  \draw [black] (19.577,-27.42) arc (234:-54:2.25);
+                  \draw (20.9,-22.85) node [above] {$B$};
+                  \fill [black] (22.22,-27.42) -- (23.1,-27.07) -- (22.29,-26.48);
               \end{tikzpicture}
           \end{center}
+
     \item All strings on $\sum = \{X,Y,Z\}$ that contain two secutive $X$s or three consecutive $Z$s (or both).
 
           \centering{\textbf{Solution}}
           \begin{center}
-              \begin{tikzpicture}[scale=0.2]
+              \begin{tikzpicture}[scale=0.15]
                   \tikzstyle{every node}+=[inner sep=0pt]
                   \draw [black] (9.3,-30.1) circle (3);
                   \draw [black] (20.8,-30) circle (3);
@@ -148,64 +186,73 @@ Draw DFAs for the following language specifications.
               \end{tikzpicture}
           \end{center}
 
-    \item All strings on $\sum = \{A,B,C,D\}$ that match the Python regular expression \texttt{\^}\texttt{~(A?(B|CD)*A+D)\$}
+    \item All strings on $\sum = \{A,B,C,D\}$ that match the Python regular expression \texttt{\^}\texttt{(A?(B|CD)*A+D)\$}
 
           \centering{\textbf{Solution}}
 
           \begin{center}
-              \begin{tikzpicture}[scale=0.2]
+              \begin{tikzpicture}[scale=0.15]
                   \tikzstyle{every node}+=[inner sep=0pt]
-                  \draw [black] (9.3,-30.1) circle (3);
-                  \draw [black] (21.7,-30.1) circle (3);
-                  \draw (21.7,-30.1) node {$A$};
-                  \draw [black] (33.5,-42.3) circle (3);
-                  \draw (33.5,-42.3) node {$C$};
-                  \draw [black] (33.5,-18.1) circle (3);
-                  \draw (33.5,-18.1) node {$B$};
-                  \draw [black] (45.5,-42.3) circle (3);
-                  \draw (45.5,-42.3) node {$D$};
-                  \draw [black] (45.5,-30.1) circle (3);
-                  \draw (45.5,-30.1) node {$A$};
-                  \draw [black] (58,-30.1) circle (3);
-                  \draw [black] (58,-30.1) circle (2.4);
-                  \draw [black] (0.9,-30.1) -- (6.3,-30.1);
-                  \fill [black] (6.3,-30.1) -- (5.5,-29.6) -- (5.5,-30.6);
-                  \draw [black] (12.3,-30.1) -- (18.7,-30.1);
-                  \fill [black] (18.7,-30.1) -- (17.9,-29.6) -- (17.9,-30.6);
-                  \draw (15.5,-30.6) node [below] {$A$};
-                  \draw [black] (22.7,-27.276) arc (155.3767:115.58623:16.75);
-                  \fill [black] (30.69,-19.15) -- (29.76,-19.04) -- (30.19,-19.94);
-                  \draw (25.46,-21.04) node [left] {$B$};
-                  \draw [black] (30.573,-41.671) arc (-108.69605:-163.21363:13.099);
-                  \fill [black] (30.57,-41.67) -- (29.98,-40.94) -- (29.66,-41.89);
-                  \draw (24.83,-39.84) node [left] {$C$};
-                  \draw [black] (36.5,-42.3) -- (42.5,-42.3);
-                  \fill [black] (42.5,-42.3) -- (41.7,-41.8) -- (41.7,-42.8);
-                  \draw (39.5,-42.8) node [below] {$D$};
-                  \draw [black] (35.62,-20.22) -- (43.38,-27.98);
-                  \fill [black] (43.38,-27.98) -- (43.17,-27.06) -- (42.46,-27.77);
-                  \draw (38.25,-24.58) node [below] {$A$};
-                  \draw [black] (45.5,-39.3) -- (45.5,-33.1);
-                  \fill [black] (45.5,-33.1) -- (45,-33.9) -- (46,-33.9);
-                  \draw [black] (48.5,-30.1) -- (55,-30.1);
-                  \fill [black] (55,-30.1) -- (54.2,-29.6) -- (54.2,-30.6);
-                  \draw (51.75,-30.6) node [below] {$D$};
-                  \draw [black] (42.82,-31.423) arc (-36:-324:2.25);
-                  \draw (38.25,-30.1) node [left] {$A$};
-                  \fill [black] (42.82,-28.78) -- (42.47,-27.9) -- (41.88,-28.71);
-                  \draw [black] (9.858,-27.157) arc (163.84262:68.90804:15.875);
-                  \fill [black] (30.82,-16.76) -- (30.25,-16.01) -- (29.89,-16.94);
-                  \draw (16.83,-16.85) node [above] {$B$};
-                  \draw [black] (30.852,-43.701) arc (-67.61995:-165.88834:15.626);
-                  \fill [black] (30.85,-43.7) -- (29.92,-43.54) -- (30.3,-44.47);
-                  \draw [black] (31.463,-40.103) arc (-142.45462:-217.54538:16.251);
-                  \fill [black] (31.46,-40.1) -- (31.37,-39.16) -- (30.58,-39.77);
-                  \draw (27.6,-30.2) node [left] {$C$};
-                  \draw [black] (42.757,-41.092) arc (-118.20852:-189.04082:19.336);
-                  \fill [black] (32.8,-21.01) -- (32.18,-21.73) -- (33.17,-21.88);
-                  \draw (33.87,-33.74) node [left] {$B$};
+                  \draw [black] (8.9,-30.1) circle (3);
+                  \draw [black] (32.2,-30.1) circle (3);
+                  \draw (32.2,-30.1) node {$A$};
+                  \draw [black] (45.2,-30.1) circle (3);
+                  \draw [black] (45.2,-30.1) circle (2.4);
+                  \draw [black] (20.5,-30.1) circle (3);
+                  \draw (20.5,-30.1) node {$A$};
+                  \draw [black] (8.9,-17.9) circle (3);
+                  \draw (8.9,-17.9) node {$B$};
+                  \draw [black] (8.9,-42.2) circle (3);
+                  \draw (8.9,-42.2) node {$C$};
+                  \draw [black] (51.2,-42.2) circle (3);
+                  \draw (51.2,-42.2) node {$D$};
+                  \draw [black] (0.5,-30.1) -- (5.9,-30.1);
+                  \fill [black] (5.9,-30.1) -- (5.1,-29.6) -- (5.1,-30.6);
+                  \draw [black] (35.2,-30.1) -- (42.2,-30.1);
+                  \fill [black] (42.2,-30.1) -- (41.4,-29.6) -- (41.4,-30.6);
+                  \draw (38.7,-30.6) node [below] {$D$};
+                  \draw [black] (30.877,-27.42) arc (234:-54:2.25);
+                  \draw (32.2,-22.85) node [above] {$A$};
+                  \fill [black] (33.52,-27.42) -- (34.4,-27.07) -- (33.59,-26.48);
+                  \draw [black] (11.9,-30.1) -- (17.5,-30.1);
+                  \fill [black] (17.5,-30.1) -- (16.7,-29.6) -- (16.7,-30.6);
+                  \draw (14.7,-30.6) node [below] {$A$};
+                  \draw [black] (23.5,-30.1) -- (29.2,-30.1);
+                  \fill [black] (29.2,-30.1) -- (28.4,-29.6) -- (28.4,-30.6);
+                  \draw (26.35,-30.6) node [below] {$A$};
+                  \draw [black] (43.123,-32.258) arc (-49.34933:-130.65067:15.769);
+                  \fill [black] (43.12,-32.26) -- (42.19,-32.4) -- (42.84,-33.16);
+                  \draw (32.85,-36.56) node [below] {$D$};
+                  \draw [black] (8.9,-27.1) -- (8.9,-20.9);
+                  \fill [black] (8.9,-20.9) -- (8.4,-21.7) -- (9.4,-21.7);
+                  \draw (9.4,-24) node [right] {$B$};
+                  \draw [black] (18.43,-27.93) -- (10.97,-20.07);
+                  \fill [black] (10.97,-20.07) -- (11.16,-21) -- (11.88,-20.31);
+                  \draw (15.23,-22.53) node [right] {$B$};
+                  \draw [black] (11.895,-18.036) arc (84.32293:40.40349:27.901);
+                  \fill [black] (30.38,-27.72) -- (30.24,-26.78) -- (29.48,-27.43);
+                  \draw (23.29,-20.58) node [above] {$A$};
+                  \draw [black] (7.577,-15.22) arc (234:-54:2.25);
+                  \draw (8.9,-10.65) node [above] {$B$};
+                  \fill [black] (10.22,-15.22) -- (11.1,-14.87) -- (10.29,-14.28);
+                  \draw [black] (8.9,-33.1) -- (8.9,-39.2);
+                  \fill [black] (8.9,-39.2) -- (9.4,-38.4) -- (8.4,-38.4);
+                  \draw (8.4,-36.15) node [left] {$C$};
+                  \draw [black] (11.9,-42.2) -- (48.2,-42.2);
+                  \fill [black] (48.2,-42.2) -- (47.4,-41.7) -- (47.4,-42.7);
+                  \draw (30.05,-41.7) node [above] {$D$};
+                  \draw [black] (48.366,-43.183) arc (-72.29431:-107.70569:60.225);
+                  \fill [black] (11.73,-43.18) -- (12.34,-43.9) -- (12.65,-42.95);
+                  \draw (30.05,-46.54) node [below] {$C$};
+                  \draw [black] (18.42,-32.27) -- (10.98,-40.03);
+                  \fill [black] (10.98,-40.03) -- (11.89,-39.8) -- (11.17,-39.11);
+                  \draw (14.17,-34.68) node [left] {$C$};
+                  \draw [black] (33.92,-27.653) arc (137.30189:-22.28329:11.306);
+                  \fill [black] (33.92,-27.65) -- (34.83,-27.4) -- (34.09,-26.73);
+                  \draw (49.52,-25.28) node [above] {$A$};
               \end{tikzpicture}
           \end{center}
+
 \end{enumerate}
 
 \section*{Part II. Regular Expressions}
@@ -283,65 +330,54 @@ Design a Turing machine on the input alphabet \texttt{\{x,y,z\}} that removes al
 
 \centerline{\textbf{Solution}}
 
+
 \begin{center}
     \begin{tikzpicture}[scale=0.2]
         \tikzstyle{every node}+=[inner sep=0pt]
-        \draw [black] (10.4,-24.1) circle (3);
-        \draw (10.4,-24.1) node {$Q_0$};
-        \draw [black] (28.7,-24.1) circle (3);
-        \draw (28.7,-24.1) node {$Q_1$};
-        \draw [black] (47,-11.3) circle (3);
-        \draw (47,-11.3) node {$Q_2$};
-        \draw [black] (47,-36.2) circle (3);
-        \draw (47,-36.2) node {$Q_3$};
-        \draw [black] (10.4,-36.2) circle (3);
-        \draw (10.4,-36.2) node {$Q_5$};
-        \draw [black] (10.4,-11.3) circle (3);
-        \draw (10.4,-11.3) node {$Q_4$};
-        \draw [black] (2,-24.1) -- (7.4,-24.1);
-        \fill [black] (7.4,-24.1) -- (6.6,-23.6) -- (6.6,-24.6);
-        \draw [black] (11.502,-21.322) arc (186.09325:-101.90675:2.25);
-        \draw (15.95,-18.12) node [right] {$x/x,\mbox{ }R,\mbox{ }y/y,R,z/A,R$};
-        \fill [black] (13.28,-23.29) -- (14.12,-23.7) -- (14.02,-22.7);
-        \draw [black] (13.4,-24.1) -- (25.7,-24.1);
-        \fill [black] (25.7,-24.1) -- (24.9,-23.6) -- (24.9,-24.6);
-        \draw (19.55,-24.6) node [below] {$B/B,L$};
-        \draw [black] (28.604,-27.087) arc (25.88679:-262.11321:2.25);
-        \draw (22.26,-30.56) node [below] {$A/B,L$};
-        \fill [black] (26.27,-25.84) -- (25.33,-25.74) -- (25.77,-26.64);
-        \draw [black] (31.16,-22.38) -- (44.54,-13.02);
-        \fill [black] (44.54,-13.02) -- (43.6,-13.07) -- (44.17,-13.89);
-        \draw (34.58,-17.2) node [above] {$x/x,\mbox{ }L$};
-        \draw [black] (31.2,-25.75) -- (44.5,-34.55);
-        \fill [black] (44.5,-34.55) -- (44.11,-33.69) -- (43.55,-34.52);
-        \draw (34.72,-30.65) node [below] {$y/y,\mbox{ }L$};
-        \draw [black] (45.677,-8.62) arc (234:-54:2.25);
-        \draw (47,-4.05) node [above] {$x/x,\mbox{ }L$};
-        \fill [black] (48.32,-8.62) -- (49.2,-8.27) -- (48.39,-7.68);
-        \draw [black] (48.323,-38.88) arc (54:-234:2.25);
-        \draw (47,-43.45) node [below] {$y/y,\mbox{ }L$};
-        \fill [black] (45.68,-38.88) -- (44.8,-39.23) -- (45.61,-39.82);
-        \draw [black] (48.291,-14.006) arc (22.17218:-22.17218:25.819);
-        \fill [black] (48.29,-33.49) -- (49.06,-32.94) -- (48.13,-32.56);
-        \draw (50.7,-23.75) node [right] {$y/x,L$};
-        \draw [black] (45.476,-33.618) arc (-153.35825:-206.64175:22.007);
-        \fill [black] (45.48,-13.88) -- (44.67,-14.37) -- (45.56,-14.82);
-        \draw (42.64,-23.75) node [left] {$x/y,L$};
-        \draw [black] (44,-36.2) -- (13.4,-36.2);
-        \fill [black] (13.4,-36.2) -- (14.2,-36.7) -- (14.2,-35.7);
-        \draw (28.7,-35.7) node [above] {$A/y,\mbox{ }R$};
-        \draw [black] (10.4,-33.2) -- (10.4,-27.1);
-        \fill [black] (10.4,-27.1) -- (9.9,-27.9) -- (10.9,-27.9);
-        \draw (9.9,-30.15) node [left] {$y/A,R$};
-        \draw [black] (44,-11.3) -- (13.4,-11.3);
-        \fill [black] (13.4,-11.3) -- (14.2,-11.8) -- (14.2,-10.8);
-        \draw (28.7,-10.8) node [above] {$A/x,\mbox{ }R$};
-        \draw [black] (10.4,-14.3) -- (10.4,-21.1);
-        \fill [black] (10.4,-21.1) -- (10.9,-20.3) -- (9.9,-20.3);
-        \draw (9.9,-17.7) node [left] {$x/A,\mbox{ }R$};
+        \draw [black] (8.9,-30.1) circle (3);
+        \draw (8.9,-30.1) node {$Q_0$};
+        \draw [black] (44.5,-30.1) circle (3);
+        \draw (44.5,-30.1) node {$Q_1$};
+        \draw [black] (26.3,-48.3) circle (3);
+        \draw (26.3,-48.3) node {$Q_2$};
+        \draw [black] (26.3,-8.9) circle (3);
+        \draw (26.3,-8.9) node {$Q_3$};
+        \draw [black] (26.3,-38.7) circle (3);
+        \draw (26.3,-38.7) node {$Q_5$};
+        \draw [black] (26.3,-21.1) circle (3);
+        \draw (26.3,-21.1) node {$h_a$};
+        \draw [black] (26.3,-21.1) circle (2.4);
+        \draw [black] (0.5,-30.1) -- (5.9,-30.1);
+        \fill [black] (5.9,-30.1) -- (5.1,-29.6) -- (5.1,-30.6);
+        \draw [black] (8.315,-27.17) arc (219.02894:-68.97106:2.25);
+        \draw (15.78,-22.66) node [above] {$x/x,\mbox{ }R,\mbox{ }y/y,\mbox{ }R$};
+        \fill [black] (10.87,-27.85) -- (11.81,-27.74) -- (11.18,-26.96);
+        \draw [black] (11.9,-30.1) -- (41.5,-30.1);
+        \fill [black] (41.5,-30.1) -- (40.7,-29.6) -- (40.7,-30.6);
+        \draw (26.7,-30.6) node [below] {$z/z,\mbox{ }L$};
+        \draw [black] (29.244,-8.349) arc (94.99805:-13.70649:15.346);
+        \fill [black] (29.24,-8.35) -- (30.08,-8.78) -- (30,-7.78);
+        \draw (42.77,-12.2) node [right] {$x/z,\mbox{ }R$};
+        \draw [black] (7.769,-27.327) arc (-163.59485:-275.16035:14.859);
+        \fill [black] (7.77,-27.33) -- (8.02,-26.42) -- (7.06,-26.7);
+        \draw (9.98,-12.27) node [left] {$z/x,\mbox{ }L$};
+        \draw [black] (45.161,-33.021) arc (6.76892:-96.76892:14.349);
+        \fill [black] (29.22,-48.96) -- (29.96,-49.55) -- (30.07,-48.56);
+        \draw (41.58,-46.34) node [right] {$y/z,\mbox{ }R$};
+        \draw [black] (23.381,-48.966) arc (-83.35953:-189.21513:13.854);
+        \fill [black] (8.1,-32.99) -- (7.48,-33.7) -- (8.47,-33.86);
+        \draw (11.24,-46.25) node [left] {$z/y,\mbox{ }L$};
+        \draw [black] (43.423,-32.893) arc (-27.64299:-101.77297:13.104);
+        \fill [black] (29.14,-39.64) -- (29.82,-40.29) -- (30.03,-39.32);
+        \draw (41.05,-39.19) node [below] {$B/B,\mbox{ }R$};
+        \draw [black] (23.547,-39.871) arc (-74.37047:-158.23156:11.606);
+        \fill [black] (9.64,-33) -- (9.47,-33.93) -- (10.4,-33.56);
+        \draw (11.83,-39.62) node [below] {$z/B,\mbox{ }R$};
+        \draw [black] (24.241,-23.279) arc (-46.75604:-78.54421:25.432);
+        \fill [black] (24.24,-23.28) -- (23.32,-23.46) -- (24,-24.19);
+        \draw (22.17,-27.86) node [below] {$B/B,\mbox{ }R$};
     \end{tikzpicture}
 \end{center}
-
 
 
 \end{document}
