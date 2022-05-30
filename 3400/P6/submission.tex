@@ -256,21 +256,92 @@ For each item, write a \textbf{\textit{single}} regular expression that mathces 
               \item An empty string is considered a match.
           \end{itemize}
 
-        \centerline{\textbf{Solution}}
+          \centerline{\textbf{Solution}}
 
-        \begin{itemize}
-            \item Answer: \texttt{\^}\texttt{\$|}\texttt{\^}\texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*([a-zA-Z\_]\textbackslash w*)\$}
-            \item Explanation:
+          \begin{itemize}
+              \item Answer: \texttt{\^}\texttt{\$|}\texttt{\^}\texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*([a-zA-Z\_]\textbackslash w*)\$}
+              \item Explanation:
 
-            \begin{itemize}
-                \item \texttt{\^}\texttt{\$}: Accept empty string.
-                \item \texttt{([a-zA-Z\_]\textbackslash w*)}: Accept variable names that match with the requirements. \texttt{\textbackslash w} is equivalent to \texttt{[a-zA-Z0-9\_]}.
-                \item \texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*}: As the previous one, but addtionally accept previous variable names followed by exactly one comma and one space, if there are more than one variable name.
-            \end{itemize}
-        \end{itemize}
-
-
+                    \begin{itemize}
+                        \item \texttt{\^}\texttt{\$}: Accept empty string.
+                        \item \texttt{([a-zA-Z\_]\textbackslash w*)}: Accept variable names that match with the requirements. \texttt{\textbackslash w} is equivalent to \texttt{[a-zA-Z0-9\_]}.
+                        \item \texttt{(([a-zA-Z\_]\textbackslash w*)(, ))*}: As the previous one, but addtionally accept previous variable names followed by exactly one comma and one space, if there are more than one variable name.
+                    \end{itemize}
+          \end{itemize}
 
 \end{enumerate}
+
+\newpage
+
+\section*{Part III. Turing Machines}
+
+Design a Turing machine on the input alphabet \texttt{\{x,y,z\}} that removes all \texttt{z} characters from the input such there are no gaps. If the input string is \texttt{xzzyxzy}, the output should be \texttt{xyxy}.
+
+\begin{itemize}
+    \item Hint: The final string does not need to reside on the same part of the tape where it started.
+\end{itemize}
+
+\centerline{\textbf{Solution}}
+
+\begin{center}
+    \begin{tikzpicture}[scale=0.2]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black] (10.4,-24.1) circle (3);
+        \draw (10.4,-24.1) node {$Q_0$};
+        \draw [black] (28.7,-24.1) circle (3);
+        \draw (28.7,-24.1) node {$Q_1$};
+        \draw [black] (47,-11.3) circle (3);
+        \draw (47,-11.3) node {$Q_2$};
+        \draw [black] (47,-36.2) circle (3);
+        \draw (47,-36.2) node {$Q_3$};
+        \draw [black] (10.4,-36.2) circle (3);
+        \draw (10.4,-36.2) node {$Q_5$};
+        \draw [black] (10.4,-11.3) circle (3);
+        \draw (10.4,-11.3) node {$Q_4$};
+        \draw [black] (2,-24.1) -- (7.4,-24.1);
+        \fill [black] (7.4,-24.1) -- (6.6,-23.6) -- (6.6,-24.6);
+        \draw [black] (11.502,-21.322) arc (186.09325:-101.90675:2.25);
+        \draw (15.95,-18.12) node [right] {$x/x,\mbox{ }R,\mbox{ }y/y,R,z/A,R$};
+        \fill [black] (13.28,-23.29) -- (14.12,-23.7) -- (14.02,-22.7);
+        \draw [black] (13.4,-24.1) -- (25.7,-24.1);
+        \fill [black] (25.7,-24.1) -- (24.9,-23.6) -- (24.9,-24.6);
+        \draw (19.55,-24.6) node [below] {$B/B,L$};
+        \draw [black] (28.604,-27.087) arc (25.88679:-262.11321:2.25);
+        \draw (22.26,-30.56) node [below] {$A/B,L$};
+        \fill [black] (26.27,-25.84) -- (25.33,-25.74) -- (25.77,-26.64);
+        \draw [black] (31.16,-22.38) -- (44.54,-13.02);
+        \fill [black] (44.54,-13.02) -- (43.6,-13.07) -- (44.17,-13.89);
+        \draw (34.58,-17.2) node [above] {$x/x,\mbox{ }L$};
+        \draw [black] (31.2,-25.75) -- (44.5,-34.55);
+        \fill [black] (44.5,-34.55) -- (44.11,-33.69) -- (43.55,-34.52);
+        \draw (34.72,-30.65) node [below] {$y/y,\mbox{ }L$};
+        \draw [black] (45.677,-8.62) arc (234:-54:2.25);
+        \draw (47,-4.05) node [above] {$x/x,\mbox{ }L$};
+        \fill [black] (48.32,-8.62) -- (49.2,-8.27) -- (48.39,-7.68);
+        \draw [black] (48.323,-38.88) arc (54:-234:2.25);
+        \draw (47,-43.45) node [below] {$y/y,\mbox{ }L$};
+        \fill [black] (45.68,-38.88) -- (44.8,-39.23) -- (45.61,-39.82);
+        \draw [black] (48.291,-14.006) arc (22.17218:-22.17218:25.819);
+        \fill [black] (48.29,-33.49) -- (49.06,-32.94) -- (48.13,-32.56);
+        \draw (50.7,-23.75) node [right] {$y/x,L$};
+        \draw [black] (45.476,-33.618) arc (-153.35825:-206.64175:22.007);
+        \fill [black] (45.48,-13.88) -- (44.67,-14.37) -- (45.56,-14.82);
+        \draw (42.64,-23.75) node [left] {$x/y,L$};
+        \draw [black] (44,-36.2) -- (13.4,-36.2);
+        \fill [black] (13.4,-36.2) -- (14.2,-36.7) -- (14.2,-35.7);
+        \draw (28.7,-35.7) node [above] {$A/y,\mbox{ }R$};
+        \draw [black] (10.4,-33.2) -- (10.4,-27.1);
+        \fill [black] (10.4,-27.1) -- (9.9,-27.9) -- (10.9,-27.9);
+        \draw (9.9,-30.15) node [left] {$y/A,R$};
+        \draw [black] (44,-11.3) -- (13.4,-11.3);
+        \fill [black] (13.4,-11.3) -- (14.2,-11.8) -- (14.2,-10.8);
+        \draw (28.7,-10.8) node [above] {$A/x,\mbox{ }R$};
+        \draw [black] (10.4,-14.3) -- (10.4,-21.1);
+        \fill [black] (10.4,-21.1) -- (10.9,-20.3) -- (9.9,-20.3);
+        \draw (9.9,-17.7) node [left] {$x/A,\mbox{ }R$};
+    \end{tikzpicture}
+\end{center}
+
+
 
 \end{document}
