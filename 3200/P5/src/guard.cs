@@ -23,9 +23,11 @@ namespace CPSC3200PA5
             this.mode = mode;
         }
 
-        public int Value(int x)
+        public virtual int Value(int x)
         {
             int result = this.mode ? GetSmallestPrimeGreaterThan(x) : GetLargestPrimeLessThan(x);
+
+            if (result == -1) this.mode = !this.mode;
 
             return result;
         }
@@ -58,11 +60,11 @@ namespace CPSC3200PA5
 
         private bool IsPrime(int x)
         {
-            if (x == 0 || x == 1) return false;
+            if (x <= 1) return false;
 
             if (x == 2) return true;
 
-            for (int i = 3; i < Math.Sqrt(x) + 1; i++)
+            for (int i = 2; i < (Math.Sqrt(x) + 1); i++)
                 if (x % i == 0) return false;
 
             return true;

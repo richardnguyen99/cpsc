@@ -249,6 +249,10 @@ namespace CPSC3200PA5
 
             guard g = new guard(new int[]{3,5,1,2,-3, 0, 9, 10, 4, 7,8 ,6, 11}, false);
             Console.WriteLine(g.Value(4));
+
+            skipGuard sg = new skipGuard(new int[] {2,3,5,7,11,13,17,19,23,29,31,37,43,47}, false, 4);
+            Console.WriteLine(sg.Value(10));
+            Console.WriteLine(sg.Value(10));
         }
     }
 }
