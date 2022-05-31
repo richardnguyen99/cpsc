@@ -267,12 +267,12 @@ For each item, write a \textbf{\textit{single}} regular expression that mathces 
           \centerline{\textbf{Solution}}
 
           \begin{itemize}
-              \item Answer: \texttt{\^}\texttt{[0-4,6-9]*5[0-4,6-9]*5[0-4,6-9]*\$}
+              \item Answer: \texttt{\^}\texttt{([0-4,6-9])*(5)([0-4,6-9])*(5)([0-4,6-9])*\$}
               \item Explanation:
 
                     \begin{itemize}
-                        \item \texttt{[0,4,6-9]*}: Accept all strings that contain digits in range from 0 to 9 except 5. It also accept empty strings. (1)
-                        \item \texttt{5\{1\}}: Accept only a digit-5 string. (2)
+                        \item \texttt{([0,4,6-9])*}: Accept all strings that contain digits in range from 0 to 9 except 5. It also accept empty strings. (1)
+                        \item \texttt{(5)}: Accept only a digit-5 string. (2)
                     \end{itemize}
           \end{itemize}
 
