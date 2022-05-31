@@ -74,8 +74,8 @@ namespace CPSC3200PA5
 
         public dataExtractor(uint boundX, uint boundY, int[] array)
         {
-            this.MIN_XLENGTH = boundX;
-            this.MIN_YLENGTH = boundY;
+            this.MIN_XLENGTH = (uint)GetLastOddFrom(array);
+            this.MIN_YLENGTH = (uint)(this.MIN_XLENGTH + 2);
 
             InitializeData(array);
         }
@@ -221,6 +221,21 @@ namespace CPSC3200PA5
             }
             return false;
         }
+
+        private int GetLastOddFrom(int[] array)
+        {
+            int returnedVal = array[array.Length - 1];
+
+            for (int i = array.Length - 1; i <= 0; i++)
+            {
+                returnedVal = array[i];
+
+                if (returnedVal % 2 == 1) return returnedVal;
+            }
+
+            return returnedVal;
+        }
+
         private void MonitorMode()
         {
             this.mode = this.invalidRequestCounter < (this.MIN_XLENGTH + this.MIN_YLENGTH);

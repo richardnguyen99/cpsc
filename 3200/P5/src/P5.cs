@@ -243,9 +243,12 @@ namespace CPSC3200PA5
             Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
             Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
             Console.WriteLine();
-            TestHeterogeneousCollections();
-            TestModeChanges();
-            TestVariousInstantions();
+            //TestHeterogeneousCollections();
+            //TestModeChanges();
+            //TestVariousInstantions();
+
+            guard g = new guard(new int[]{3,5,1,2,-3, 0, 9, 10, 4, 7,8 ,6, 11}, false);
+            Console.WriteLine(g.Value(4));
         }
     }
 }
