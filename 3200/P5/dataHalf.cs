@@ -39,9 +39,11 @@ namespace CPSC3200PA5
     {
         private bool activated = true;
         private readonly uint MAX_INVALID_REQUEST;
-        public dataHalf(uint x, uint y, uint max) : base(x, y)
+        public dataHalf(uint x, uint y, uint max, int[] array) : base(x, y)
         {
             this.MAX_INVALID_REQUEST = max;
+
+            this.InitializeData(array);
         }
         /// <summary>
         ///
@@ -49,7 +51,7 @@ namespace CPSC3200PA5
         /// - Array must have no duplicates, not enough values or no odd value.
         ///
         /// </summary>
-        public override void InitializeData(int[] array)
+        protected override void InitializeData(int[] array)
         {
             if (ContainsOdd(array))
             {

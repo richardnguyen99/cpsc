@@ -37,9 +37,11 @@ namespace CPSC3200PA5
     public class dataPlus : dataExtractor
     {
         private readonly uint REQUEST_FREQ;
-        public dataPlus(uint x, uint y, uint kth) : base(x, y)
+        public dataPlus(uint x, uint y, uint kth, int[] array) : base(x, y)
         {
             this.REQUEST_FREQ = kth;
+
+            this.InitializeData(array);
         }
         /// <summary>
         ///
@@ -47,7 +49,7 @@ namespace CPSC3200PA5
         /// - Array must have no duplicates or not enough values
         ///
         /// </summary>
-        public override void InitializeData(int[] array)
+        protected override void InitializeData(int[] array)
         {
             int[] srcArray = new int[array.Length];
             array.CopyTo(srcArray, 0);

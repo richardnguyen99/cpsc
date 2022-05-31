@@ -65,10 +65,19 @@ namespace CPSC3200PA5
         protected int[] y;
         protected uint requestCounter;
         protected uint invalidRequestCounter;
+
+        protected dataExtractor(uint boundX, uint boundY)
+        {
+            this.MIN_XLENGTH = boundX;
+            this.MIN_YLENGTH = boundY;
+        }
+
         public dataExtractor(uint boundX, uint boundY, int[] array)
         {
             this.MIN_XLENGTH = boundX;
             this.MIN_YLENGTH = boundY;
+
+            InitializeData(array);
         }
         /// <summary>
         ///
@@ -76,11 +85,14 @@ namespace CPSC3200PA5
         /// - Array must have no duplicates or not enough values
         ///
         /// </summary>
-        public virtual void InitializeData(int[] array)
+        protected virtual void InitializeData(int[] array)
         {
+            if (array == null || array.Length == 0)
+                throw new ArgumentException("Passed-in array cannot be empty");
+
             if (ContainsDuplicates(array))
             {
-                throw new ArgumentException("Passed-in array cannot containduplicates", nameof(array));
+                throw new ArgumentException("Passed-in array cannot contain duplicates", nameof(array));
             }
             if (array.Length < this.MIN_XLENGTH)
             {
