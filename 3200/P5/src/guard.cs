@@ -4,8 +4,8 @@ namespace CPSC3200PA5
 {
     public class guard : IGuard
     {
-        private int[] s;
-        private bool mode;
+        protected int[] s;
+        protected bool mode;
 
         public guard(int[] seq, bool mode)
         {
