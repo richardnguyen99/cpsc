@@ -1,14 +1,18 @@
 namespace CPSC3200PA5
 {
-    public class dataExtractorGuard : AGuardData
+    public class dataExtractorSkipGuard : AGuardData
     {
         private dataExtractor _extractor;
-        private guard _guard;
-
-        public dataExtractorGuard(int[] seq, bool mode)
+        private skipGuard _skip;
+        public dataExtractorSkipGuard(int[] seq, bool mode, int k)
         {
-            _guard = new guard(seq, mode);
             _extractor = new dataExtractor(seq);
+            _skip = new skipGuard(seq, mode, k);
+        }
+
+        public override int Value(int x)
+        {
+            return _skip.Value(x);
         }
 
         public override int[] Any()
@@ -26,9 +30,5 @@ namespace CPSC3200PA5
             return _extractor.Sum(z);
         }
 
-        public override int Value(int x)
-        {
-            return _guard.Value(x);
-        }
     }
 }

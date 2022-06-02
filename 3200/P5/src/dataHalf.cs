@@ -39,10 +39,9 @@ namespace CPSC3200PA5
     {
         private bool activated = true;
         private readonly uint MAX_INVALID_REQUEST;
-        public dataHalf(uint x, uint y, uint max, int[] array) : base(x, y)
+        public dataHalf(uint max, int[] array) : base(array)
         {
             this.MAX_INVALID_REQUEST = max;
-
             this.InitializeData(array);
         }
         /// <summary>
@@ -58,7 +57,6 @@ namespace CPSC3200PA5
                 throw new ArgumentException("Passed-in array cannot contain odd values", nameof(array));
             }
             this.activated = true;
-            base.InitializeData(array);
         }
         /// <summary>
         ///

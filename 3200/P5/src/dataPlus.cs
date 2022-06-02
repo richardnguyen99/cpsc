@@ -37,7 +37,7 @@ namespace CPSC3200PA5
     public class dataPlus : dataExtractor
     {
         private readonly uint REQUEST_FREQ;
-        public dataPlus(uint x, uint y, uint kth, int[] array) : base(x, y)
+        public dataPlus(uint kth, int[] array) : base(array)
         {
             this.REQUEST_FREQ = kth;
 

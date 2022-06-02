@@ -72,7 +72,7 @@ namespace CPSC3200PA5
             this.MIN_YLENGTH = boundY;
         }
 
-        public dataExtractor(uint boundX, uint boundY, int[] array)
+        public dataExtractor(int[] array)
         {
             this.MIN_XLENGTH = (uint)GetLastOddFrom(array);
             this.MIN_YLENGTH = (uint)(this.MIN_XLENGTH + 2);

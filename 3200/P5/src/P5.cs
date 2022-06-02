@@ -60,9 +60,9 @@ namespace CPSC3200PA5
             int[] testArray1 = GenerateRandomArray(8);
             int[] testArray2 = GenerateMockYArray(8, testArray1[1]);
             int[] testEvenArray = GenerateRandomEvenArray(16);
-            collection[0] = new dataExtractor(minX, minY, testArray1);
-            collection[1] = new dataHalf(minX, minY, maxInvalidReq, testEvenArray);
-            collection[2] = new dataPlus(minX, minY, kthReq, testArray1);
+            collection[0] = new dataExtractor(testArray1);
+            collection[1] = new dataHalf(maxInvalidReq, testEvenArray);
+            collection[2] = new dataPlus(kthReq, testArray1);
 
             Console.WriteLine("dataExtractor: ==");
             for (int i = 0; i < 8 * minY; i++)
@@ -97,7 +97,7 @@ namespace CPSC3200PA5
                 uint minY = (uint)RandomNumberIn(8, 16);
                 int[] array1 = GenerateRandomArray(minX);
                 int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataExtractor extractor = new dataExtractor(minX, minY, array1);
+                dataExtractor extractor = new dataExtractor(array1);
                 //extractor.InitializeData(array1);
                 for (int i = 0; i < 33; i++)
                 {
@@ -120,7 +120,7 @@ namespace CPSC3200PA5
                 uint maxInvalidRequest = (uint)RandomNumberIn(50, 80);
                 int[] array1 = GenerateRandomEvenArray(minX);
                 int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataHalf half = new dataHalf(minX, minY, maxInvalidRequest, array1);
+                dataHalf half = new dataHalf(maxInvalidRequest, array1);
                 for (int i = 0; i < 33; i++)
                 {
                     half.Target(100);
@@ -142,7 +142,7 @@ namespace CPSC3200PA5
                 uint kthRequest = (uint)RandomNumberIn(50, 80);
                 int[] array1 = GenerateRandomArray(minX);
                 int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataPlus plus = new dataPlus(minX, minY, kthRequest, array1);
+                dataPlus plus = new dataPlus(kthRequest, array1);
                 int[] target = plus.Target((uint)RandomNumberIn(4, 6));
                 Console.Write("Array X: ");
                 ArrayFormat(array1);
@@ -167,7 +167,7 @@ namespace CPSC3200PA5
 
                 dataExtractor[] extractors = new dataExtractor[number];
                 for (int i = 0; i < number; i++)
-                    extractors[i] = new dataExtractor(minX, minY, array2D[i]);
+                    extractors[i] = new dataExtractor(array2D[i]);
 
                 for (int i = 0; i < number; i++)
                 {
@@ -195,7 +195,7 @@ namespace CPSC3200PA5
 
                 dataHalf[] halves = new dataHalf[number];
                 for (int i = 0; i < number; i++)
-                    halves[i] = new dataHalf(minX, minY, maxRequests, array2D[i]);
+                    halves[i] = new dataHalf(maxRequests, array2D[i]);
 
                 for (int i = 0; i < number; i++)
                 {
@@ -223,7 +223,7 @@ namespace CPSC3200PA5
 
                 dataPlus[] plusses = new dataPlus[number];
                 for (int i = 0; i < number; i++)
-                    plusses[i] = new dataPlus(minX, minY, kthRequest, array2D[i]);
+                    plusses[i] = new dataPlus(kthRequest, array2D[i]);
 
                 for (int i = 0; i < number; i++)
                 {
@@ -257,7 +257,7 @@ namespace CPSC3200PA5
             int[] array = new int[] { 2, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 43, 47, 3 };
             int length = array.Length;
 
-            dataExtractor extractor = new dataExtractor((uint)length, (uint)length, array);
+            dataExtractor extractor = new dataExtractor(array);
             guard g = new guard(array, true);
             dataExtractorGuard dataExtractorGuard = new dataExtractorGuard(array, true);
 
