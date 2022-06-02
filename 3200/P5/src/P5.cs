@@ -240,19 +240,32 @@ namespace CPSC3200PA5
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
-            Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
-            Console.WriteLine();
+            //Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
+            //Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
+            //Console.WriteLine();
             //TestHeterogeneousCollections();
             //TestModeChanges();
             //TestVariousInstantions();
 
-            guard g = new guard(new int[]{3,5,1,2,-3, 0, 9, 10, 4, 7,8 ,6, 11}, false);
-            Console.WriteLine(g.Value(4));
+            //guard g = new guard(new int[]{3,5,1,2,-3, 0, 9, 10, 4, 7,8 ,6, 11}, false);
+            //Console.WriteLine(g.Value(4));
 
-            skipGuard sg = new skipGuard(new int[] {2,3,5,7,11,13,17,19,23,29,31,37,43,47}, false, 4);
-            Console.WriteLine(sg.Value(10));
-            Console.WriteLine(sg.Value(10));
+            //skipGuard sg = new skipGuard(new int[] {2,3,5,7,11,13,17,19,23,29,31,37,43,47}, false, 4);
+            //Console.WriteLine(sg.Value(10));
+            //Console.WriteLine(sg.Value(10));
+
+            int[] array = new int[] { 2, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 43, 47, 3 };
+            int length = array.Length;
+
+            dataExtractor extractor = new dataExtractor((uint)length, (uint)length, array);
+            guard g = new guard(array, true);
+            dataExtractorGuard dataExtractorGuard = new dataExtractorGuard(array, true);
+
+            Console.WriteLine(extractor.Sum(10));
+            Console.WriteLine(dataExtractorGuard.Sum(10));
+
+            Console.WriteLine(g.Value(10));
+            Console.WriteLine(dataExtractorGuard.Value(10));
         }
     }
 }

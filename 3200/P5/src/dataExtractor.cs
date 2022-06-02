@@ -56,7 +56,7 @@ using System;
 /// </summary>
 namespace CPSC3200PA5
 {
-    public class dataExtractor
+    public class dataExtractor : IData
     {
         private readonly uint MIN_XLENGTH;
         private readonly uint MIN_YLENGTH;
