@@ -18,7 +18,11 @@ namespace CPSC3200PA5
                 return -2;
 
             int result = base.Value(x);
-            if (result == -1) this.modeSwitchCount++;
+            if (result == -1)
+            {
+                this.modeSwitchCount++;
+                return -1;
+            }
 
             int idx = Array.IndexOf(base.s, result);
             base.s[idx] += base.mode ? result : base.s.Length * 2;

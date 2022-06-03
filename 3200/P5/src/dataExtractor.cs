@@ -66,18 +66,12 @@ namespace CPSC3200PA5
         protected uint requestCounter;
         protected uint invalidRequestCounter;
 
-        protected dataExtractor(uint boundX, uint boundY)
-        {
-            this.MIN_XLENGTH = boundX;
-            this.MIN_YLENGTH = boundY;
-        }
-
         public dataExtractor(int[] array)
         {
-            this.MIN_XLENGTH = (uint)GetLastOddFrom(array);
+            this.MIN_XLENGTH = (uint)(GetLastOddFrom(array) / array.Length);
             this.MIN_YLENGTH = (uint)(this.MIN_XLENGTH + 2);
 
-            InitializeData(array);
+            this.InitializeData(array);
         }
         /// <summary>
         ///
@@ -232,6 +226,8 @@ namespace CPSC3200PA5
 
                 if (returnedVal % 2 == 1) return returnedVal;
             }
+
+            returnedVal = array.Length % 2 == 0 ? array.Length + 1 : array.Length;
 
             return returnedVal;
         }

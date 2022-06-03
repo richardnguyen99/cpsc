@@ -56,6 +56,8 @@ namespace CPSC3200PA5
             {
                 throw new ArgumentException("Passed-in array cannot contain odd values", nameof(array));
             }
+
+            base.InitializeData(array);
             this.activated = true;
         }
         /// <summary>

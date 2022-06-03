@@ -1,9 +1,8 @@
 ﻿using System;
-using CPSC3200PA5;
 
 namespace CPSC3200PA5
 {
-    class P3
+    class P5
     {
         static void ArrayFormat(int[] array)
         {
@@ -21,6 +20,21 @@ namespace CPSC3200PA5
             Random random = new Random();
             return random.Next(lower, upper);
         }
+
+        static int RandomOddNumberIn(int lower, int upper)
+        {
+            Random random = new Random();
+            int next = 0;
+
+            do
+            {
+                next = random.Next(lower, upper);
+            } while (next % 2 == 0);
+
+            return next;
+
+        }
+
         static int[] GenerateRandomArray(uint count)
         {
             int[] testArray = new int[count];
@@ -48,224 +62,150 @@ namespace CPSC3200PA5
             }
             return y;
         }
+        static bool IsPrime(int x)
+        {
+            if (x <= 1) return false;
+
+            if (x == 2) return true;
+
+            for (int i = 2; i < (Math.Sqrt(x) + 1); i++)
+                if (x % i == 0) return false;
+
+            return true;
+        }
+
+        static bool BinaryRandom(int num)
+        {
+            return num % 2 == 0;
+        }
+
+        static int[] GeneratePrimeArray(uint count)
+        {
+            int[] tmpPrimes = new int[count];
+            int primeCount = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (IsPrime(i))
+                    tmpPrimes[primeCount++] = i;
+            }
+
+            int[] primes = new int[primeCount];
+            Array.Copy(tmpPrimes, 0, primes, 0, primeCount);
+
+            return primes;
+        }
+
         static void TestHeterogeneousCollections()
         {
             Console.WriteLine();
-            Console.WriteLine("Test Heterogeneous Collections:");
-            dataExtractor[] collection = new dataExtractor[3];
-            uint minX = (uint)RandomNumberIn(4, 8);
-            uint minY = (uint)RandomNumberIn(4, 8);
-            uint maxInvalidReq = (uint)RandomNumberIn(10, 16);
-            uint kthReq = (uint)RandomNumberIn(6, 8);
-            int[] testArray1 = GenerateRandomArray(8);
-            int[] testArray2 = GenerateMockYArray(8, testArray1[1]);
-            int[] testEvenArray = GenerateRandomEvenArray(16);
-            collection[0] = new dataExtractor(testArray1);
-            collection[1] = new dataHalf(maxInvalidReq, testEvenArray);
-            collection[2] = new dataPlus(kthReq, testArray1);
+            Console.WriteLine("Test Heterogeneous Collections: ");
+            Console.WriteLine("================================");
+            Console.WriteLine();
 
-            Console.WriteLine("dataExtractor: ==");
-            for (int i = 0; i < 8 * minY; i++)
+
+            int arrayRange = RandomNumberIn(3, 50);
+            int[] testPrimeArray = GeneratePrimeArray((uint)arrayRange);
+            int arrayLength = testPrimeArray.Length;
+            int[] testEvenArray = GenerateRandomEvenArray((uint)arrayLength);
+            bool mode = BinaryRandom(arrayLength);
+
+            Console.Write("Prime array: ");
+            ArrayFormat(testPrimeArray);
+            Console.Write("Even array: ");
+            ArrayFormat(testEvenArray);
+            Console.WriteLine("Length: " + arrayLength);
+            Console.WriteLine("Mode: " + (mode ? "Up" : "Down"));
+
+            AGuardData[] collection = new AGuardData[9];
+
+
+            collection[0] = new dataExtractorGuard(testPrimeArray, mode);
+            collection[1] = new dataExtractorSkipGuard(testPrimeArray, mode, arrayLength);
+            collection[2] = new dataExtractorQuirkyGuard(testPrimeArray, mode, arrayLength);
+
+            collection[3] = new dataHalfGuard(testEvenArray, mode, arrayLength);
+            collection[4] = new dataHalfSkipGuard(testEvenArray, mode, arrayLength);
+            collection[5] = new dataHalfQuirkyGuard(testEvenArray, mode, arrayLength);
+
+            collection[6] = new dataPlusGuard(testPrimeArray, mode, arrayLength);
+            collection[7] = new dataPlusSkipGuard(testPrimeArray, mode, arrayLength);
+            collection[8] = new dataPlusQuirkyGuard(testPrimeArray, mode, arrayLength);
+
+            Console.WriteLine();
+
+            Console.WriteLine("dataExtractor::Any()");
+            Console.WriteLine("=========================");
+            for (int i = 0; i < arrayLength; i++)
             {
-                int[] any = collection[0].Any();
-                Console.WriteLine("(" + any[0] + ", " + any[1] + ")");
+                int[] any1 = collection[0].Any();
+                int[] any2 = collection[1].Any();
+                int[] any3 = collection[2].Any();
+                int[] any4 = collection[3].Any();
+                int[] any5 = collection[4].Any();
+                int[] any6 = collection[5].Any();
+                int[] any7 = collection[6].Any();
+                int[] any8 = collection[7].Any();
+                int[] any9 = collection[8].Any();
+
+                Console.WriteLine("dataExtractorGuard::Any()\t-> (" + any1[0] + ", " + any1[1] + ")");
+                Console.WriteLine("dataExtractorSkipGuard::Any()\t-> (" + any2[0] + ", " + any2[1] + ")");
+                Console.WriteLine("dataExtractorQuirkyGuard::Any()\t-> (" + any3[0] + ", " + any3[1] + ")");
+                Console.WriteLine();
+
+                Console.WriteLine("dataHalfGuard::Any()\t\t-> (" + any4[0] + ", " + any4[1] + ")");
+                Console.WriteLine("dataHalfSkipGuard::Any()\t-> (" + any5[0] + ", " + any5[1] + ")");
+                Console.WriteLine("dataHalfQuirkyGuard::Any()\t-> (" + any6[0] + ", " + any6[1] + ")");
+                Console.WriteLine();
+
+                Console.WriteLine("dataPlusGuard::Any()\t\t-> (" + any7[0] + ", " + any7[1] + ")");
+                Console.WriteLine("dataPlusSkipGuard::Any()\t-> (" + any8[0] + ", " + any8[1] + ")");
+                Console.WriteLine("dataPlusQuirkyGuard::Any()\t-> (" + any9[0] + ", " + any9[1] + ")");
+                Console.WriteLine();
             }
-            Console.WriteLine("");
-            Console.WriteLine("dataHalf: ==");
-            for (int i = 0; i < 8 * minY * 2; i++)
+
+            Console.WriteLine("guard::Value(z)");
+            Console.WriteLine("===============");
+            for (int i = 0; i < arrayLength; i++)
             {
-                int[] any = collection[1].Any();
-                Console.WriteLine("(" + any[0] + ", " + any[1] + ")");
-            }
-            Console.WriteLine("");
-            Console.WriteLine("dataPlus: ==");
-            uint totalRequests = 8 * (minY + 1);
-            uint extraValues = totalRequests / kthReq;
-            totalRequests = 8 * (minY + extraValues + 1);
-            for (int i = 0; i < totalRequests; i++)
-            {
-                int[] any = collection[2].Any();
-                Console.WriteLine("(" + any[0] + ", " + any[1] + ")");
+                int testValue = RandomNumberIn(3, 30);
+
+                int value1 = collection[0].Value(testValue);
+                int value2 = collection[1].Value(testValue);
+                int value3 = collection[2].Value(testValue);
+                int value4 = collection[3].Value(testValue);
+                int value5 = collection[4].Value(testValue);
+                int value6 = collection[5].Value(testValue);
+                int value7 = collection[6].Value(testValue);
+                int value8 = collection[7].Value(testValue);
+                int value9 = collection[8].Value(testValue);
+
+                Console.WriteLine("dataExtractorGuard::Value(" + testValue + ")\t\t= " + value1);
+                Console.WriteLine("dataHalfGuard::Value(" + testValue + ")\t\t= " + value4);
+                Console.WriteLine("dataPlusGuard::Value(" + testValue + ")\t\t= " + value7);
+                Console.WriteLine();
+
+                Console.WriteLine("dataExtractorSkipGuard::Value(" + testValue + ")\t= " + value2);
+                Console.WriteLine("dataHalfSkipGuard::Value(" + testValue + ")\t\t= " + value5);
+                Console.WriteLine("dataPlusSkipGuard::Value(" + testValue + ")\t\t= " + value8);
+                Console.WriteLine();
+
+                Console.WriteLine("dataExtractorQuirkyGuard::Value(" + testValue + ")\t= " + value3);
+                Console.WriteLine("dataHalfQuirkyGuard::Value(" + testValue + ")\t\t= " + value6);
+                Console.WriteLine("dataPlusQuirkyGuard::Value(" + testValue + ")\t\t= " + value9);
+                Console.WriteLine();
             }
         }
-        static void TestModeChanges()
-        {
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Mode Changes (dataExtractor):");
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                int[] array1 = GenerateRandomArray(minX);
-                int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataExtractor extractor = new dataExtractor(array1);
-                //extractor.InitializeData(array1);
-                for (int i = 0; i < 33; i++)
-                {
-                    extractor.Target(100);
-                }
-                Console.WriteLine("Triggered Mode Change");
-                int[] target = extractor.Target((uint)RandomNumberIn(4, 6));
-                Console.Write("Array X: ");
-                ArrayFormat(array1);
-                Console.Write("Array Y: ");
-                ArrayFormat(array2);
-                Console.WriteLine("Extractor:");
-                Console.WriteLine("(" + target[0] + ", " + target[1] + ")");
-            }
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Mode Changes (dataHalf):");
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                uint maxInvalidRequest = (uint)RandomNumberIn(50, 80);
-                int[] array1 = GenerateRandomEvenArray(minX);
-                int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataHalf half = new dataHalf(maxInvalidRequest, array1);
-                for (int i = 0; i < 33; i++)
-                {
-                    half.Target(100);
-                }
-                Console.WriteLine("Triggered Mode Change");
-                int[] target = half.Target((uint)RandomNumberIn(4, 6));
-                Console.Write("Array X: ");
-                ArrayFormat(array1);
-                Console.Write("Array Y: ");
-                ArrayFormat(array2);
-                Console.WriteLine("Half:");
-                Console.WriteLine("(" + target[0] + ", " + target[1] + ")");
-            }
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Mode Changes (dataPlus):");
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                uint kthRequest = (uint)RandomNumberIn(50, 80);
-                int[] array1 = GenerateRandomArray(minX);
-                int[] array2 = GenerateMockYArray(minY, array1[0]);
-                dataPlus plus = new dataPlus(kthRequest, array1);
-                int[] target = plus.Target((uint)RandomNumberIn(4, 6));
-                Console.Write("Array X: ");
-                ArrayFormat(array1);
-                Console.Write("Array Y: ");
-                ArrayFormat(array2);
-                Console.WriteLine("Plus:");
-                Console.WriteLine("(" + target[0] + ", " + target[1] + ", " + target[2] + ", " + target[3] + ", " + target[4] + ", " + target[5] + ")");
-            }
-        }
-        static void TestVariousInstantions()
-        {
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Various Instantiation (dataExtractor):");
-                uint number = (uint)RandomNumberIn(7, 8);
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                int[][] array2D = new int[number][];
 
-                for (int i = 0; i < number; i++)
-                    array2D[i] = GenerateRandomArray(minX);
-
-                dataExtractor[] extractors = new dataExtractor[number];
-                for (int i = 0; i < number; i++)
-                    extractors[i] = new dataExtractor(array2D[i]);
-
-                for (int i = 0; i < number; i++)
-                {
-                    Console.Write("Array X: ");
-                    ArrayFormat(array2D[i]);
-                    Console.Write("Array Y: ");
-                    int[] mockArrayY = GenerateMockYArray(minY, array2D[i][0]);
-                    ArrayFormat(mockArrayY);
-                    uint sum = (uint)RandomNumberIn(4, 6);
-                    Console.WriteLine("Sum(" + sum + "): " + extractors[i].Sum(sum));
-                    Console.WriteLine();
-                }
-            }
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Various Instantiation (dataHalf):");
-                uint number = (uint)RandomNumberIn(7, 8);
-                uint maxRequests = (uint)RandomNumberIn(4, 8);
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                int[][] array2D = new int[number][];
-
-                for (int i = 0; i < number; i++)
-                    array2D[i] = GenerateRandomEvenArray(minX);
-
-                dataHalf[] halves = new dataHalf[number];
-                for (int i = 0; i < number; i++)
-                    halves[i] = new dataHalf(maxRequests, array2D[i]);
-
-                for (int i = 0; i < number; i++)
-                {
-                    Console.Write("Array X: ");
-                    ArrayFormat(array2D[i]);
-                    Console.Write("Array Y: ");
-                    int[] mockArrayY = GenerateMockYArray(minY, array2D[i][0]);
-                    ArrayFormat(mockArrayY);
-                    uint sum = (uint)RandomNumberIn(4, 6);
-                    Console.WriteLine("Sum(" + sum + "): " + halves[i].Sum(sum));
-                    Console.WriteLine();
-                }
-            }
-            {
-                Console.WriteLine();
-                Console.WriteLine("Test Various Instantiation (dataPlus):");
-                uint number = (uint)RandomNumberIn(7, 8);
-                uint kthRequest = (uint)RandomNumberIn(4, 8);
-                uint minX = (uint)RandomNumberIn(8, 16);
-                uint minY = (uint)RandomNumberIn(8, 16);
-                int[][] array2D = new int[number][];
-
-                for (int i = 0; i < number; i++)
-                    array2D[i] = GenerateRandomArray(minX);
-
-                dataPlus[] plusses = new dataPlus[number];
-                for (int i = 0; i < number; i++)
-                    plusses[i] = new dataPlus(kthRequest, array2D[i]);
-
-                for (int i = 0; i < number; i++)
-                {
-                    Console.Write("Array X: ");
-                    ArrayFormat(array2D[i]);
-                    Console.Write("Array Y: ");
-                    int[] mockArrayY = GenerateMockYArray(minY, array2D[i][0]);
-                    ArrayFormat(mockArrayY);
-                    uint sum = (uint)RandomNumberIn(4, 6);
-                    Console.WriteLine("Sum(" + sum + "): " + plusses[i].Sum(sum));
-                    Console.WriteLine();
-                }
-            }
-        }
         static void Main(string[] args)
         {
-            //Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
-            //Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
-            //Console.WriteLine();
-            //TestHeterogeneousCollections();
+            Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
+            Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
+            Console.WriteLine();
+            TestHeterogeneousCollections();
+            //TestModeChanges()
             //TestModeChanges();
             //TestVariousInstantions();
-
-            //guard g = new guard(new int[]{3,5,1,2,-3, 0, 9, 10, 4, 7,8 ,6, 11}, false);
-            //Console.WriteLine(g.Value(4));
-
-            //skipGuard sg = new skipGuard(new int[] {2,3,5,7,11,13,17,19,23,29,31,37,43,47}, false, 4);
-            //Console.WriteLine(sg.Value(10));
-            //Console.WriteLine(sg.Value(10));
-
-            int[] array = new int[] { 2, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 43, 47, 3 };
-            int length = array.Length;
-
-            dataExtractor extractor = new dataExtractor(array);
-            guard g = new guard(array, true);
-            dataExtractorGuard dataExtractorGuard = new dataExtractorGuard(array, true);
-
-            Console.WriteLine(extractor.Sum(10));
-            Console.WriteLine(dataExtractorGuard.Sum(10));
-
-            Console.WriteLine(g.Value(10));
-            Console.WriteLine(dataExtractorGuard.Value(10));
         }
     }
 }
