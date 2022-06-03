@@ -43,14 +43,14 @@ using System;
 ///   the coresponding array. Returned items are only either odd or even depending
 ///   on z.
 ///   An invalid request is increased when z is either less than the boundaries or
-///   greater than the length of at least one array.Data must be initialized before
+///   greater than the length of at least one array. Data must be initialized before
 ///   calling.
 ///
 /// - Sum(uint z):
 ///   Request function. Sum(z) will return a sum of z items selected from the
 ///   coresponding Target(z).
 ///   An invalid request is increased when z is either less than the boundaries or
-///   greater than the length of at least one array.Data must be initialized before
+///   greater than the length of at least one array. Data must be initialized before
 ///   calling.
 ///
 /// </summary>
@@ -96,8 +96,8 @@ namespace CPSC3200PA5
             this.invalidRequestCounter = 0;
             this.x = new int[array.Length];
             array.CopyTo(this.x, 0);
-            this.y = new int[MIN_YLENGTH];
-            for (int i = 0; i < MIN_YLENGTH; i++)
+            this.y = new int[array.Length];
+            for (int i = 0; i < array.Length; i++)
             {
                 this.y[i] = this.x[0] + (i * 3);
             }

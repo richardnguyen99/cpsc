@@ -79,6 +79,22 @@ namespace CPSC3200PA5
             return num % 2 == 0;
         }
 
+        static int GetLastOddFrom(int[] array)
+        {
+            int returnedVal = array[array.Length - 1];
+
+            for (int i = array.Length - 1; i <= 0; i++)
+            {
+                returnedVal = array[i];
+
+                if (returnedVal % 2 == 1) return returnedVal;
+            }
+
+            returnedVal = array.Length % 2 == 0 ? array.Length + 1 : array.Length;
+
+            return returnedVal;
+        }
+
         static int[] GeneratePrimeArray(uint count)
         {
             int[] tmpPrimes = new int[count];
@@ -197,15 +213,77 @@ namespace CPSC3200PA5
             }
         }
 
+        static void TestDataExtractorModeChange()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Test Datta Extractor Mode change: ");
+            Console.WriteLine("==================================");
+            Console.WriteLine();
+
+            uint rangeX = (uint)RandomNumberIn(8, 16);
+            uint rangeY = (uint)RandomNumberIn(8, 16);
+
+            int[] array1 = GenerateRandomArray(rangeX);
+            int[] array2 = GenerateMockYArray(rangeX, array1[0]);
+
+            AGuardData[] polyExtractors = new AGuardData[3];
+
+            polyExtractors[0] = new dataExtractorGuard(array1, true);
+            polyExtractors[1] = new dataExtractorSkipGuard(array1, true, array1.Length);
+            polyExtractors[2] = new dataExtractorSkipGuard(array1, true, array1.Length);
+
+            for (int i = 0; i < 100; i++)
+            {
+                polyExtractors[0].Target(100);
+            }
+            Console.WriteLine("Triggered Mode Change");
+
+            int[] target1 = polyExtractors[0].Target(2);
+
+
+
+            Console.WriteLine("Mock Y array:");
+            int startIdx = array2[0] % 2 == 0 ? 0 : 1;
+            Console.WriteLine("(" + array2[startIdx] + ", " + array2[startIdx + 2] + ")");
+            Console.WriteLine();
+            Console.WriteLine("Extractor:");
+            Console.WriteLine("(" + target1[0] + ", " + target1[1] + ")");
+        }
+
+        static void TestGuardModeChange()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Test Guard Mode change: ");
+            Console.WriteLine("========================");
+            Console.WriteLine();
+
+            AGuardData[] polyGuards = new AGuardData[3];
+
+            int[] testPrimeArray = GeneratePrimeArray((uint)RandomNumberIn(50, 100));
+
+            polyGuards[0] = new dataExtractorGuard(testPrimeArray, true);
+
+            int biggestPrime = testPrimeArray[testPrimeArray.Length - 1];
+            Console.WriteLine("Biggest prime in testPrimeArray: " + biggestPrime);
+
+            int first = polyGuards[0].Value(biggestPrime);
+            Console.WriteLine("guard::Value(" + biggestPrime + ") = \t" + first);
+
+            if (first == -1)
+                Console.WriteLine("Mode has changed");
+
+            int second = polyGuards[0].Value(biggestPrime);
+            Console.WriteLine("guard::Value(" + biggestPrime + ") = \t" + second);
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("-------------------------------- CPSC 3200 P5--------------------------------");
             Console.WriteLine("---------------------------- By Minh-Hieu Nguyen-----------------------------\n");
             Console.WriteLine();
             TestHeterogeneousCollections();
-            //TestModeChanges()
-            //TestModeChanges();
-            //TestVariousInstantions();
+            TestDataExtractorModeChange();
+            TestGuardModeChange();
         }
     }
 }
