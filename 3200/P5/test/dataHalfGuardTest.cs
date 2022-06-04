@@ -131,15 +131,15 @@ namespace CPSC3200PA5Unittest
         public void Any()
         {
             int[] array = new int[] { 2, 4, 6, 8, 10, 12, 14, 16 };
-            dataHalfGuard half = new dataHalfGuard(array, true, 1);
+            dataHalfGuard halfGuard = new dataHalfGuard(array, true, 1);
 
-            int[] any = half.Any();
+            int[] any = halfGuard.Any();
 
             Assert.AreEqual(2, any.Length);
             Assert.AreEqual(2, any[0]);
             Assert.AreEqual(2, any[1]);
 
-            any = half.Any();
+            any = halfGuard.Any();
 
             Assert.AreEqual(2, any.Length);
             Assert.AreEqual(2, any[0]);
@@ -151,9 +151,9 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
-            dataHalfGuard half = new dataHalfGuard(array, true, 1);
+            dataHalfGuard halfGuard = new dataHalfGuard(array, true, 1);
 
-            int[] target = half.Target(4);
+            int[] target = halfGuard.Target(4);
 
             Assert.AreEqual(10, target[0]);
             Assert.AreEqual(20, target[1]);
@@ -167,14 +167,14 @@ namespace CPSC3200PA5Unittest
             int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataHalfGuard half = new dataHalfGuard(arrayX, true, 20);
+            dataHalfGuard halfGuard = new dataHalfGuard(arrayX, true, 20);
 
             for (int i = 0; i < 17; i++)
             {
-                half.Target(100);
+                halfGuard.Target(100);
             }
 
-            int[] target = half.Target(3);
+            int[] target = halfGuard.Target(3);
 
             Assert.AreEqual(arrayY[1], target[0]);
             Assert.AreEqual(arrayY[3], target[1]);
@@ -186,9 +186,9 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
-            dataHalfGuard half = new dataHalfGuard(array, true, 1);
+            dataHalfGuard halfGuard = new dataHalfGuard(array, true, 1);
 
-            int sum = half.Sum(4);
+            int sum = halfGuard.Sum(4);
             int expected = 100;
 
             Assert.AreEqual(expected, sum);
@@ -200,14 +200,14 @@ namespace CPSC3200PA5Unittest
             int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataHalfGuard half = new dataHalfGuard(arrayX, true, 20);
+            dataHalfGuard halfGuard = new dataHalfGuard(arrayX, true, 20);
 
             for (int i = 0; i < 17; i++)
             {
-                half.Target(100);
+                halfGuard.Target(100);
             }
 
-            int sum = half.Sum(3);
+            int sum = halfGuard.Sum(3);
             int expected = arrayY[1] + arrayY[3] + arrayY[5];
 
             Assert.AreEqual(expected, sum);
@@ -218,17 +218,17 @@ namespace CPSC3200PA5Unittest
         {
             int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
-            dataHalfGuard half = new dataHalfGuard(arrayX, true, 5);
+            dataHalfGuard halfGuard = new dataHalfGuard(arrayX, true, 5);
 
             for (int i = 0; i < 5; i++)
             {
-                half.Target(100);
+                halfGuard.Target(100);
             }
 
             bool flag = false;
             try
             {
-                half.Target(4);
+                halfGuard.Target(4);
             }
             catch (Exception e)
             {

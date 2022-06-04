@@ -102,7 +102,7 @@ namespace CPSC3200PA5Unittest
 
             try
             {
-                dataExtractorSkipGuard extractor = new dataExtractorSkipGuard(array, true, 0);
+                dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(array, true, 0);
             }
             catch (ArgumentException e)
             {
@@ -117,14 +117,14 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 1, 7, 5, 3, 4, 6, 2, 8, 11 };
 
-            dataExtractorSkipGuard extractor = new dataExtractorSkipGuard(array, true, 1);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(array, true, 1);
 
-            int value = extractor.Value(6);
+            int value = extractorSkipGuard.Value(6);
             Assert.AreEqual(11, value);
 
-            extractor.Value(15);
+            extractorSkipGuard.Value(15);
 
-            value = extractor.Value(6);
+            value = extractorSkipGuard.Value(6);
             Assert.AreEqual(3, value);
         }
 
@@ -133,15 +133,15 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-            dataExtractorSkipGuard extractor = new dataExtractorSkipGuard(array, true, 3);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(array, true, 3);
 
-            int[] any = extractor.Any();
+            int[] any = extractorSkipGuard.Any();
 
             Assert.AreEqual(2, any.Length);
             Assert.AreEqual(1, any[0]);
             Assert.AreEqual(1, any[1]);
 
-            any = extractor.Any();
+            any = extractorSkipGuard.Any();
 
             Assert.AreEqual(2, any.Length);
             Assert.AreEqual(2, any[0]);
@@ -153,9 +153,9 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
-            dataExtractor extractor = new dataExtractor(array);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(array, true, 3);
 
-            int[] target = extractor.Target(3);
+            int[] target = extractorSkipGuard.Target(3);
 
             Assert.AreEqual(5, target[0]);
             Assert.AreEqual(15, target[1]);
@@ -168,14 +168,14 @@ namespace CPSC3200PA5Unittest
             int[] arrayX = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataExtractor extractor = new dataExtractor(arrayX);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(arrayX, true, 3);
 
             for (int i = 0; i < 17; i++)
             {
-                extractor.Target(100);
+                extractorSkipGuard.Target(100);
             }
 
-            int[] target = extractor.Target(3);
+            int[] target = extractorSkipGuard.Target(3);
 
             Assert.AreEqual(arrayY[0], target[0]);
             Assert.AreEqual(arrayY[2], target[1]);
@@ -187,9 +187,9 @@ namespace CPSC3200PA5Unittest
         {
             int[] array = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
-            dataExtractor extractor = new dataExtractor(array);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(array, true, 1);
 
-            int sum = extractor.Sum(3);
+            int sum = extractorSkipGuard.Sum(3);
             int expected = 45;
 
             Assert.AreEqual(expected, sum);
@@ -201,14 +201,14 @@ namespace CPSC3200PA5Unittest
             int[] arrayX = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataExtractor extractor = new dataExtractor(arrayX);
+            dataExtractorSkipGuard extractorSkipGuard = new dataExtractorSkipGuard(arrayX, true, 1);
 
             for (int i = 0; i < 17; i++)
             {
-                extractor.Target(100);
+                extractorSkipGuard.Target(100);
             }
 
-            int sum = extractor.Sum(3);
+            int sum = extractorSkipGuard.Sum(3);
             int expected = arrayY[0] + arrayY[2] + arrayY[4];
 
             Assert.AreEqual(expected, sum);
