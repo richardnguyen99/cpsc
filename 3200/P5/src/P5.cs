@@ -235,10 +235,14 @@ namespace CPSC3200PA5
             for (int i = 0; i < 100; i++)
             {
                 polyExtractors[0].Target(100);
+                polyExtractors[1].Target(100);
+                polyExtractors[2].Target(100);
             }
             Console.WriteLine("Triggered Mode Change");
 
             int[] target1 = polyExtractors[0].Target(2);
+            int[] target2 = polyExtractors[1].Target(2);
+            int[] target3 = polyExtractors[2].Target(2);
 
 
 
@@ -246,8 +250,12 @@ namespace CPSC3200PA5
             int startIdx = array2[0] % 2 == 0 ? 0 : 1;
             Console.WriteLine("(" + array2[startIdx] + ", " + array2[startIdx + 2] + ")");
             Console.WriteLine();
-            Console.WriteLine("Extractor:");
+            Console.WriteLine("Extractor1:");
             Console.WriteLine("(" + target1[0] + ", " + target1[1] + ")");
+            Console.WriteLine("Extractor2:");
+            Console.WriteLine("(" + target2[0] + ", " + target2[1] + ")");
+            Console.WriteLine("Extractor3:");
+            Console.WriteLine("(" + target3[0] + ", " + target3[1] + ")");
         }
 
         static void TestGuardModeChange()
@@ -261,9 +269,13 @@ namespace CPSC3200PA5
 
             int[] testPrimeArray = GeneratePrimeArray((uint)RandomNumberIn(50, 100));
 
+            int kth = RandomNumberIn(1, testPrimeArray.Length);
             polyGuards[0] = new dataExtractorGuard(testPrimeArray, true);
+            polyGuards[1] = new dataExtractorSkipGuard(testPrimeArray, true, kth);
+            polyGuards[2] = new dataExtractorQuirkyGuard(testPrimeArray, true, testPrimeArray.Length);
 
             int biggestPrime = testPrimeArray[testPrimeArray.Length - 1];
+            int nthBiggestPrime = testPrimeArray[testPrimeArray.Length - kth - 1];
             Console.WriteLine("Biggest prime in testPrimeArray: " + biggestPrime);
 
             int first = polyGuards[0].Value(biggestPrime);
@@ -274,6 +286,27 @@ namespace CPSC3200PA5
 
             int second = polyGuards[0].Value(biggestPrime);
             Console.WriteLine("guard::Value(" + biggestPrime + ") = \t" + second);
+            Console.WriteLine();
+
+            first = polyGuards[1].Value(biggestPrime);
+            Console.WriteLine("Kth: " + kth);
+            Console.WriteLine("skipGuard::Value(" + biggestPrime + ") = \t" + first);
+
+            if (first == -1)
+                Console.WriteLine("Mode has changed");
+
+            second = polyGuards[1].Value(biggestPrime);
+            Console.WriteLine("skipGuard::Value(" + biggestPrime + ") = \t" + second);
+            Console.WriteLine();
+
+            first = polyGuards[2].Value(biggestPrime);
+            Console.WriteLine("quirkyGuard::Value(" + biggestPrime + ") = \t" + first);
+
+            if (first == -1)
+                Console.WriteLine("Mode has changed");
+
+            second = polyGuards[2].Value(biggestPrime);
+            Console.WriteLine("quirkyGuard::Value(" + biggestPrime + ") = \t" + second);
         }
 
         static void Main(string[] args)
@@ -284,8 +317,6 @@ namespace CPSC3200PA5
             TestHeterogeneousCollections();
             TestDataExtractorModeChange();
             TestGuardModeChange();
-
-            dataExtractorGuard eg = new dataExtractorGuard(new int[] { 1, 7 }, true);
         }
     }
 }

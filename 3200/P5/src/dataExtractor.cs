@@ -12,8 +12,8 @@ using System;
 /// Initially, array x will be used mainly in every request. However, array y
 /// will be used instead if client has sent enough invalid requests.
 ///
-/// Client must set the boundaries that X and Y can hold values at minimum, then
-/// initialize the two arrays by dependency injection (initializeData)
+/// The boundary of x and y will be handled internally based on the last odd
+/// value from the array that client has passed in.
 ///
 /// dataExtractor keeps track of how many request, including invalid one, that
 /// client has sent internally. As mentioned above, it will used to determine
@@ -26,32 +26,24 @@ using System;
 /// Interface invariants - How to use methods correctly
 ///
 /// - Constructor:
-///   Constructs a dataExtractor with boundaries for two arrays
-///
-/// - InitializeData(int[] array):
-///   Load data from client, and must be used before any other request function.
-///   The array must not contain any duplicate. Otherwise, an exception will be
-///   thrown.
+///   Constructs a dataExtractor with a dependency injection.
 ///
 /// - Any():
 ///   Request function. Any() will return an item computed from Cartesian product
 ///   of x and y.
-///   Data must be initialized before calling.
 ///
 /// - Target(uint z):
 ///   Request function. Target(z) will return an array of z items selected from
 ///   the coresponding array. Returned items are only either odd or even depending
 ///   on z.
 ///   An invalid request is increased when z is either less than the boundaries or
-///   greater than the length of at least one array. Data must be initialized before
-///   calling.
+///   greater than the length of at least one array.
 ///
 /// - Sum(uint z):
 ///   Request function. Sum(z) will return a sum of z items selected from the
 ///   coresponding Target(z).
 ///   An invalid request is increased when z is either less than the boundaries or
-///   greater than the length of at least one array. Data must be initialized before
-///   calling.
+///   greater than the length of at least one array.
 ///
 /// </summary>
 namespace CPSC3200PA5
@@ -68,8 +60,21 @@ namespace CPSC3200PA5
 
         public dataExtractor(int[] array)
         {
+            if (array == null || array.Length == 0)
+                throw new ArgumentException("Passed-in array cannot be empty");
+
+            if (ContainsDuplicates(array))
+            {
+                throw new ArgumentException("Passed-in array cannot contain duplicates", nameof(array));
+            }
+
             this.MIN_XLENGTH = (uint)(GetLastOddFrom(array) / array.Length);
             this.MIN_YLENGTH = (uint)(this.MIN_XLENGTH + 2);
+
+            if (array.Length < this.MIN_XLENGTH)
+            {
+                throw new ArgumentException("Passed-in array does not match with the defined minimum size", nameof(array.Length));
+            }
 
             this.InitializeData(array);
         }
@@ -81,17 +86,6 @@ namespace CPSC3200PA5
         /// </summary>
         protected virtual void InitializeData(int[] array)
         {
-            if (array == null || array.Length == 0)
-                throw new ArgumentException("Passed-in array cannot be empty");
-
-            if (ContainsDuplicates(array))
-            {
-                throw new ArgumentException("Passed-in array cannot contain duplicates", nameof(array));
-            }
-            if (array.Length < this.MIN_XLENGTH)
-            {
-                throw new ArgumentException("Passed-in array does not match with the defined minimum size", nameof(array.Length));
-            }
             this.requestCounter = 0;
             this.invalidRequestCounter = 0;
             this.x = new int[array.Length];
@@ -293,6 +287,11 @@ namespace CPSC3200PA5
 ///   It use int.MaxValue to indicate positions that are not qualified. Then,
 ///   a shrinking operation is necessary to get the array with the correctly-
 ///   selected items without extra space.
+///
+/// - GetLastOddFrom()
+///   This function will try to get the last odd value from the array in order to
+///   set boundary for X. If there is no odd value in the array, the return value
+///   is dependent on the array length.
 ///
 /// - MonitorRequest()
 ///   Whenever a request lower than at least one of the boundaries or at least
