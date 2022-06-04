@@ -284,6 +284,8 @@ namespace CPSC3200PA5
             TestHeterogeneousCollections();
             TestDataExtractorModeChange();
             TestGuardModeChange();
+
+            dataExtractorGuard eg = new dataExtractorGuard(new int[] { 1, 7 }, true);
         }
     }
 }

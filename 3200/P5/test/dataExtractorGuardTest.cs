@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CPSC3200PA5;
 
 namespace CPSC3200PA5Unittest
 {
     [TestClass]
-    public class dataHalfTest
+    public class dataExtractorGuardTest
     {
         private int RandomNumberIn(int lower, int upper)
         {
@@ -49,9 +49,28 @@ namespace CPSC3200PA5Unittest
         [TestMethod]
         public void CorrectInitialization()
         {
-            dataHalf half = new dataHalf(8, 8, 8, new int[] { 2, 4, 6, 8, 10, 12, 14, 16 });
+            dataExtractorGuard extractorGuard = new dataExtractorGuard(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, true);
 
-            Assert.AreEqual(half.Sum(0), 0);
+            Assert.AreEqual(extractorGuard.Sum(0), 0);
+            Assert.AreEqual(extractorGuard.Value(5), 7);
+        }
+
+        [TestMethod]
+        public void NullArrayInitialization()
+        {
+            int[] array = new int[] { };
+            bool flag = false;
+
+            try
+            {
+                dataExtractorGuard extractorGuard = new dataExtractorGuard(array, true);
+            }
+            catch (ArgumentException e)
+            {
+                flag = true;
+            }
+
+            Assert.AreEqual(flag, true);
         }
 
         [TestMethod]
@@ -60,7 +79,7 @@ namespace CPSC3200PA5Unittest
             bool flag = false;
             try
             {
-                dataHalf half = new dataHalf(8, 8, 8, new int[] { 2, 4, 6, 8, 10, 12, 14, 16, 2 });
+                dataExtractorGuard extractorGuard = new dataExtractorGuard(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 8 }, true);
             }
             catch (ArgumentException e)
             {
@@ -72,11 +91,14 @@ namespace CPSC3200PA5Unittest
 
         [TestMethod]
         public void NotBigEnoughInitialization()
+
         {
+            int[] array = new int[] { 1, 7 };
             bool flag = false;
+
             try
             {
-                dataHalf half = new dataHalf(8, 8, 8, new int[] { 2, 4 });
+                dataExtractorGuard extractor = new dataExtractorGuard(array, true);
             }
             catch (ArgumentException e)
             {
@@ -87,83 +109,84 @@ namespace CPSC3200PA5Unittest
         }
 
         [TestMethod]
-        public void ContainOddInitialization()
+        public void Value()
         {
-            bool flag = false;
-            try
-            {
-                dataHalf half = new dataHalf(8, 8, 8, new int[] { 2, 4, 6, 8, 10, 12, 14, 16, 1 });
-            }
-            catch (ArgumentException e)
-            {
-                flag = true;
-            }
+            int[] array = new int[] { 1, 7, 5, 3, 4, 6, 2, 8 };
 
-            Assert.AreEqual(flag, true);
+            dataExtractorGuard extractor = new dataExtractorGuard(array, true);
+
+            int value = extractor.Value(6);
+            Assert.AreEqual(7, value);
+
+            extractor.Value(10);
+
+            value = extractor.Value(6);
+            Assert.AreEqual(5, value);
         }
 
         [TestMethod]
         public void Any()
         {
-            dataHalf half = new dataHalf(8, 8, 8, new int[] { 2, 4, 6, 8, 10, 12, 14, 16 });
+            int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-            int[] any = half.Any();
+            dataExtractorGuard extractor = new dataExtractorGuard(array, true);
+
+            int[] any = extractor.Any();
+
+            Assert.AreEqual(2, any.Length);
+            Assert.AreEqual(1, any[0]);
+            Assert.AreEqual(1, any[1]);
+
+            any = extractor.Any();
 
             Assert.AreEqual(2, any.Length);
             Assert.AreEqual(2, any[0]);
-            Assert.AreEqual(2, any[1]);
-
-            any = half.Any();
-
-            Assert.AreEqual(2, any.Length);
-            Assert.AreEqual(2, any[0]);
-            Assert.AreEqual(2, any[1]);
+            Assert.AreEqual(1, any[1]);
         }
 
         [TestMethod]
         public void TargetOnX()
         {
-            int[] array = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            int[] array = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
-            dataHalf half = new dataHalf(8, 8, 8, array);
+            dataExtractor extractor = new dataExtractor(array);
 
-            int[] target = half.Target(4);
+            int[] target = extractor.Target(3);
 
-            Assert.AreEqual(10, target[0]);
-            Assert.AreEqual(20, target[1]);
-            Assert.AreEqual(30, target[2]);
-            Assert.AreEqual(40, target[3]);
+            Assert.AreEqual(5, target[0]);
+            Assert.AreEqual(15, target[1]);
+            Assert.AreEqual(25, target[2]);
         }
 
         [TestMethod]
         public void TargetOnY()
         {
-            int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            int[] arrayX = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataHalf half = new dataHalf(8, 8, 20, arrayX);
+            dataExtractor extractor = new dataExtractor(arrayX);
 
             for (int i = 0; i < 17; i++)
             {
-                half.Target(100);
+                extractor.Target(100);
             }
 
-            int[] target = half.Target(3);
+            int[] target = extractor.Target(3);
 
-            Assert.AreEqual(arrayY[1], target[0]);
-            Assert.AreEqual(arrayY[3], target[1]);
-            Assert.AreEqual(arrayY[5], target[2]);
+            Assert.AreEqual(arrayY[0], target[0]);
+            Assert.AreEqual(arrayY[2], target[1]);
+            Assert.AreEqual(arrayY[4], target[2]);
         }
 
         [TestMethod]
         public void SumOnX()
         {
-            int[] array = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            int[] array = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
-            dataHalf half = new dataHalf(8, 8, 8, array);
+            dataExtractor extractor = new dataExtractor(array);
 
-            int sum = half.Sum(4);
-            int expected = 100;
+            int sum = extractor.Sum(3);
+            int expected = 45;
 
             Assert.AreEqual(expected, sum);
         }
@@ -171,45 +194,20 @@ namespace CPSC3200PA5Unittest
         [TestMethod]
         public void SumOnY()
         {
-            int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            int[] arrayX = new int[] { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
             int[] arrayY = GenerateMockYArray(8, arrayX[0]);
 
-            dataHalf half = new dataHalf(8, 8, 20, arrayX);
+            dataExtractor extractor = new dataExtractor(arrayX);
 
             for (int i = 0; i < 17; i++)
             {
-                half.Target(100);
+                extractor.Target(100);
             }
 
-            int sum = half.Sum(3);
-            int expected = arrayY[1] + arrayY[3] + arrayY[5];
+            int sum = extractor.Sum(3);
+            int expected = arrayY[0] + arrayY[2] + arrayY[4];
 
             Assert.AreEqual(expected, sum);
-        }
-
-        [TestMethod]
-        public void Deactivated()
-        {
-            int[] arrayX = new int[] { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
-
-            dataHalf half = new dataHalf(8, 8, 5, arrayX);
-
-            for (int i = 0; i < 5; i++)
-            {
-                half.Target(100);
-            }
-
-            bool flag = false;
-            try
-            {
-                half.Target(4);
-            }
-            catch (Exception e)
-            {
-                flag = true;
-            }
-
-            Assert.AreEqual(true, flag);
         }
     }
 }

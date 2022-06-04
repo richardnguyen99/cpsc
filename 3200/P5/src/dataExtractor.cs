@@ -220,7 +220,7 @@ namespace CPSC3200PA5
         {
             int returnedVal = array[array.Length - 1];
 
-            for (int i = array.Length - 1; i <= 0; i++)
+            for (int i = array.Length - 1; i >= 0; i--)
             {
                 returnedVal = array[i];
 
